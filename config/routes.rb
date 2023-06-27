@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  # route to test your configuration
-  get '/hello', to: 'application#hello_world'
+  # route to test your configuration, not used anymore
+  # get '/hello', to: 'application#hello_world'
 end

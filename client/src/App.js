@@ -1,17 +1,23 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
+import { Routes, Route } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import "./App.css";
+import MyCalendar from "./componates/MyCalendar";
+import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
+  //allow navigation
+  const navigate = useNavigate();
 
   return (
     <div className="App">
-      <h1>Page Count: {count}</h1>
+      <img className="mainLogo" src={myImage} alt="Reliable Design Logo"/>
+      <Routes>
+          <Route
+            path="/calendar"
+            element={<MyCalendar />}
+          />
+        </Routes>
     </div>
   );
 }
