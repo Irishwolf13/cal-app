@@ -48,6 +48,13 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:job_id, :start, :end, :hours_per_day, :hours_remaining, :color)
+      params.require(:event).permit(
+        :job_id,
+        :start,
+        :end,
+        :hours_per_day,
+        :hours_remaining,
+        :color
+      )
     end
 end
