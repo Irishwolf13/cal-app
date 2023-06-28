@@ -25,7 +25,7 @@ class JobsController < ApplicationController
     current_date = @job.start_time
 
     while hours_remaining > 0
-      if !current_date.saturday? || !current_date.sunday?
+      if !current_date.saturday? && !current_date.sunday?
         if hours_remaining - @job.hours_per_day < 0
           @job.hours_per_day = hours_remaining
         end

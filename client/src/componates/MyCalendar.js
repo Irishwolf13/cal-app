@@ -12,6 +12,30 @@ export default function MyCalendar() {
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
 
+  useEffect(() => {
+    fetch('/events')
+      .then(response => response.json())
+      .then(data => {
+        const tempArray = data.map(event => {
+          console.log(event)
+          const tempObject = {
+            title: `${event.job.job_name} -- ${event.hours_per_day} / ${event.hours_remaining}`,
+            job_id: event.job_id,
+            start: event.start_time,
+            end: event.end_time,
+            color: event.color,
+            myID: event.id
+          }
+          return tempObject
+        })
+        console.log(tempArray)
+        setAllEvents(tempArray)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const handleEventClicked = (event) => {
     console.log(event)
   }
