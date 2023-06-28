@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_28_005720) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_28_123816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "events", force: :cascade do |t|
     t.integer "job_id"
-    t.date "start"
-    t.date "end"
+    t.date "start_time"
+    t.date "end_time"
     t.integer "hours_per_day"
     t.integer "hours_remaining"
     t.string "color"
@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_28_005720) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "start"
+    t.date "start_time"
   end
 
 end

@@ -17,28 +17,36 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
-    puts "************ HERE ******************"
+    @job.save
+
     hours_remaining = @job.inital_hours
-    current_date = @job.start
+    current_date = @job.start_time
+
     while hours_remaining > 0
       if current_date.saturday? || current_date.sunday?
         puts "WEEKEND"
-        puts "@job.start: #{current_date}"
       else
         puts "WEEK DAY"
-        puts "@job.start: #{current_date}"
+        puts current_date
+        my_object = {
+          job_id: @job.id,
+          start_time: current_date,
+          end_time: current_date,
+          hours_per_day: @job.hours_per_day,
+          hours_remaining: hours_remaining,
+          color: @job.color
+        }
+        Event.create(my_object)
+        hours_remaining -= @job.hours_per_day
       end
       current_date += 1
-      hours_remaining -= @job.hours_per_day
     end
-
-    # puts job_params
-
-    # if @job.save
-    #   render :show, status: :created, location: @job
-    # else
-    #   render json: @job.errors, status: :unprocessable_entity
-    # end
+  
+    if @job.save
+      render :show, status: :created, location: @job
+    else
+      render json: @job.errors, status: :unprocessable_entity
+    end
   end
 
   # PATCH/PUT /jobs/1
@@ -70,7 +78,7 @@ class JobsController < ApplicationController
         :inital_hours,
         :hours_per_day,
         :color,
-        :start
+        :start_time
       )
     end
 end

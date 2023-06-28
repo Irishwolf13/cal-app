@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   # GET /events.json
   def index
     @events = Event.all
+    render json: @events
   end
 
   # GET /events/1
@@ -50,8 +51,8 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(
         :job_id,
-        :start,
-        :end,
+        :start_time,
+        :end_time,
         :hours_per_day,
         :hours_remaining,
         :color
