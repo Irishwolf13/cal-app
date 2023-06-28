@@ -11,6 +11,8 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    @job = Job.includes(:events).find(params[:id])
+    render json: @job, include: :events
   end
 
   # POST /jobs
@@ -23,11 +25,10 @@ class JobsController < ApplicationController
     current_date = @job.start_time
 
     while hours_remaining > 0
-      if current_date.saturday? || current_date.sunday?
-        puts "WEEKEND"
-      else
-        puts "WEEK DAY"
-        puts current_date
+      if !current_date.saturday? || !current_date.sunday?
+        if hours_remaining - @job.hours_per_day < 0
+          @job.hours_per_day = hours_remaining
+        end
         my_object = {
           job_id: @job.id,
           start_time: current_date,
@@ -43,7 +44,7 @@ class JobsController < ApplicationController
     end
   
     if @job.save
-      render :show, status: :created, location: @job
+      render json: @job, include: :events, status: :created, location: @job
     else
       render json: @job.errors, status: :unprocessable_entity
     end
