@@ -6,9 +6,14 @@ export default function EditJobModal({ modalEditJob, setModalEditJob }) {
 
   return (
     <div>
-      <Modal isOpen={modalEditJob} onRequestClose={e => setModalEditJob()}>
+      <Modal
+        isOpen={modalEditJob}
+        onRequestClose={e => setModalEditJob()}
+        overlayClassName="Overlay"
+        className="modalBasic"
+      >
         <h2>Hello there!</h2>
-        <p>This is the content of the modal.</p>
+        <p>This is the content of the Edit Job Modal.</p>
 
         <button onClick={e => setModalEditJob()}>Close</button>
       </Modal>

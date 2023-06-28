@@ -15,6 +15,7 @@ export default function MyCalendar() {
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
   const [modalEditJob, setModalEditJob] = useState(false);
+  const [eventClickedOn, setEventClickedOn] = useState();
 
   useEffect(() => {
     fetch('/events')
@@ -47,10 +48,12 @@ export default function MyCalendar() {
   const handleEventDrop = (object) => {
     const filteredEvents = allEvents.filter(event => event.job_id === object.event.job_id);
     console.log(filteredEvents);
+    console.log(object)
   }
   const handleSelectSlot = (event) => {
     console.log(event)
     setModalCreateJob(!modalCreateJob)
+    setEventClickedOn(event)
   }
 
   return (
@@ -58,6 +61,7 @@ export default function MyCalendar() {
       <CreateJobModal
         modalCreateJob={modalCreateJob}
         setModalCreateJob={setModalCreateJob}
+        eventClickedOn={eventClickedOn}
       />
       <EditJobModal 
         modalEditJob={modalEditJob}
@@ -71,11 +75,21 @@ export default function MyCalendar() {
         draggableAccessor={(event) => true}
         selectable={isSelectable}
         resizable={false}
-        // draggableAccessor={(event) => true} In my old code, but doesn't seem to work here yet.
+        // draggableAccessor={(event) => true} // In my old code, but doesn't seem to work here yet.
         onSelectEvent={handleEventClicked}
         onEventDrop={handleEventDrop}
         onSelectSlot={handleSelectSlot}
         style={{ height: 700, margin: "20px", zIndex: 1 }}
+        eventPropGetter={(event) =>
+          event.color
+            ? {
+                style: {
+                  background: event.color,
+                  color: event.color === 'rgb(172, 236, 253)' || event.color === 'Yellow' || event.color === 'orange' ? 'black' : ''
+                }
+              }
+            : {}
+        }
       />
     </div>
   )
