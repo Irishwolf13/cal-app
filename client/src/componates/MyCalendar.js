@@ -45,12 +45,28 @@ export default function MyCalendar() {
     console.log(event)
     setModalEditJob(!modalEditJob)
   }
-// ********** YOU ARE HERE AND YOU"RE LOOKING TO ADJUST OPTIMISTICALLY *************
   const handleEventDrop = (object) => {
-    const filteredEvents = allEvents.filter(event => event.job_id === object.event.job_id);
-    console.log(filteredEvents);
-    console.log("object.event: ",object.event)
-    console.log("object: ",object)
+    // ********** ADJUST OPTIMISTICALLY, THEN FOLLOW UP WITH PESIMESTICALLY *************
+    // const filteredEvents = allEvents.filter(event => event.job_id === object.event.job_id);
+    // const nonFilteredEvents = allEvents.filter(event => event.job_id !== object.event.job_id);
+    // let currentDate = new Date(object.start);
+
+    // const adjustedEvents = filteredEvents.map((event, index) => {
+    //   let newDate = new Date(currentDate);
+    //   newDate.setDate(newDate.getDate() + index); // Increment the date based on the current index
+    
+    //   // Check if the newDate falls on a weekend (Saturday or Sunday)
+    //   while (newDate.getDay() === 0 || newDate.getDay() === 6) {
+    //     newDate.setDate(newDate.getDate() + 1); // Increment the date by one day
+    //   }
+    
+    //   return { ...event, start: newDate, end: newDate };
+    // });
+    
+    // setAllEvents([...nonFilteredEvents, ...adjustedEvents]);
+    
+
+
     // Check to see if the dropped event.start is after the lower IDs start dates, because all events have to stay in order
     // FETCH: UPDATE JOBS
     fetch(`/jobs/move/${object.event.job_id}`, {
@@ -64,24 +80,24 @@ export default function MyCalendar() {
       })
     })
     .then(response => response.json())
-    // .then(data => {
-    //   const myJobNumber = data.id;
-    //   const updatedEvents = [...allEvents];
-    //   const unFilteredEvents = updatedEvents.filter(event => event.job_id !== myJobNumber);
-    //   const filteredEvents = updatedEvents.filter(event => event.job_id === myJobNumber);
+    .then(data => {
+      const myJobNumber = data.id;
+      const updatedEvents = [...allEvents];
+      const unFilteredEvents = updatedEvents.filter(event => event.job_id !== myJobNumber);
+      const filteredEvents = updatedEvents.filter(event => event.job_id === myJobNumber);
       
-    //   data.events.forEach((event, index) => {
-    //     // Check if the index is within the range of filteredEvents array
-    //     if (index < filteredEvents.length) {
-    //       // Replace start time of filteredEvents at the same index with event.start_time
-    //       filteredEvents[index].start = event.start_time;
-    //       filteredEvents[index].end = event.start_time;
-    //     }
-    //   });
-    //   const adjustedEvents = [...unFilteredEvents, ...filteredEvents];
-    //   setAllEvents(adjustedEvents)
-    // });
-    // // Use response to update allEvents
+      data.events.forEach((event, index) => {
+        // Check if the index is within the range of filteredEvents array
+        if (index < filteredEvents.length) {
+          // Replace start time of filteredEvents at the same index with event.start_time
+          filteredEvents[index].start = event.start_time;
+          filteredEvents[index].end = event.start_time;
+        }
+      });
+      const adjustedEvents = [...unFilteredEvents, ...filteredEvents];
+      setAllEvents(adjustedEvents)
+    });
+    // Use response to update allEvents
   }
   const handleSelectSlot = (event) => {
     console.log(event)
