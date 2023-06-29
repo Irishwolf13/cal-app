@@ -29,7 +29,8 @@ export default function MyCalendar() {
             start: event.start_time,
             end: event.end_time,
             color: event.color,
-            myID: event.id
+            myID: event.id,
+            uuid: event.uuid
           }
           return tempObject
         })
@@ -45,29 +46,30 @@ export default function MyCalendar() {
     console.log(event)
     setModalEditJob(!modalEditJob)
   }
+
   const handleEventDrop = (object) => {
-    // ********** ADJUST OPTIMISTICALLY, THEN FOLLOW UP WITH PESIMESTICALLY *************
-    // const filteredEvents = allEvents.filter(event => event.job_id === object.event.job_id);
-    // const nonFilteredEvents = allEvents.filter(event => event.job_id !== object.event.job_id);
-    // let currentDate = new Date(object.start);
+    // Check to make sure the date you moved to isn't the date you came from
+    let dropDate = new Date(object.event.start)
+    dropDate.setDate(dropDate.getDate() + 1)
+    if (object.start.getDate() == dropDate.getDate()) {
+      return
+    }
+    const filteredEvents = allEvents.filter(event => event.job_id === object.event.job_id)
+    for (let index = 0; index < filteredEvents.length; index++) {
+      const element = filteredEvents[index];
+      if (element.uuid === object.event.uuid) {
+        if (index === 0) {
+          break
+        }
+        let prevDate = new Date(filteredEvents[index -1].start)
+        prevDate.setDate(prevDate.getDate() +1)
+        if (object.start <= prevDate) {
+          console.log('stop that shit yo!')
+          return
+        }
+      }
+    }
 
-    // const adjustedEvents = filteredEvents.map((event, index) => {
-    //   let newDate = new Date(currentDate);
-    //   newDate.setDate(newDate.getDate() + index); // Increment the date based on the current index
-    
-    //   // Check if the newDate falls on a weekend (Saturday or Sunday)
-    //   while (newDate.getDay() === 0 || newDate.getDay() === 6) {
-    //     newDate.setDate(newDate.getDate() + 1); // Increment the date by one day
-    //   }
-    
-    //   return { ...event, start: newDate, end: newDate };
-    // });
-    
-    // setAllEvents([...nonFilteredEvents, ...adjustedEvents]);
-    
-
-
-    // Check to see if the dropped event.start is after the lower IDs start dates, because all events have to stay in order
     // FETCH: UPDATE JOBS
     fetch(`/jobs/move/${object.event.job_id}`, {
       method: 'PATCH',
@@ -85,7 +87,7 @@ export default function MyCalendar() {
       const updatedEvents = [...allEvents];
       const unFilteredEvents = updatedEvents.filter(event => event.job_id !== myJobNumber);
       const filteredEvents = updatedEvents.filter(event => event.job_id === myJobNumber);
-      
+
       data.events.forEach((event, index) => {
         // Check if the index is within the range of filteredEvents array
         if (index < filteredEvents.length) {

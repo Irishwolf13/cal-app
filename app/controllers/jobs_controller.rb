@@ -67,7 +67,10 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     current_date = Date.parse(params[:newDate])
 
-    @job.events.each do |event|
+    @job.events.order(:id).each do |event|
+      if (event.id < params[:myID])
+        event.save
+      end
       if event.id == params[:myID]
         while current_date.saturday? || current_date.sunday?
           current_date += 1
@@ -77,7 +80,8 @@ class JobsController < ApplicationController
         event.end_time = current_date
         event.save
         current_date += 1
-      elsif event.id > params[:myID]
+      end
+      if event.id > params[:myID]
         while current_date.saturday? || current_date.sunday?
           current_date += 1
         end
@@ -86,8 +90,6 @@ class JobsController < ApplicationController
         event.end_time = current_date
         event.save
         current_date += 1
-      else #event.id < params[:myID]
-        event.save
       end
     end
     render json: @job, include: :events, status: :created, location: @job
