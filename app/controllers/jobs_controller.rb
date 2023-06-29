@@ -53,11 +53,41 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1
   # PATCH/PUT /jobs/1.json
   def update
-    if @job.update(job_params)
-      render :show, status: :ok, location: @job
-    else
-      render json: @job.errors, status: :unprocessable_entity
+    # if @job.update(job_params)
+    #   render :show, status: :ok, location: @job
+    # else
+    #   render json: @job.errors, status: :unprocessable_entity
+    # end
+  end
+
+  def move
+    puts params
+    # Retrieve the job using the id parameter
+    @job = Job.find(params[:id])
+    puts "*************** HERE *********************"
+    current_date = Date.parse(params[:newDate])
+
+    @job.events.each do |event|
+      while current_date.saturday? || current_date.sunday?
+        current_date += 1
+      end
+      if event.id == params[:myID]
+        puts current_date
+        # Update the event with current_date
+        event.start_time = current_date
+        event.end_time = current_date
+        event.save
+        current_date += 1
+      elsif event.id > params[:myID]
+        puts current_date.to_s
+        # Update the event with current_date
+        event.start_time = current_date
+        event.end_time = current_date
+        event.save
+        current_date += 1
+      end
     end
+    render json: @job, include: :events, status: :created, location: @job
   end
 
   # DELETE /jobs/1
