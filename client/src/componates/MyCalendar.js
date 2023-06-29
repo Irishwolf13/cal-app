@@ -97,6 +97,7 @@ export default function MyCalendar() {
         }
       });
       const adjustedEvents = [...filteredEvents, ...unFilteredEvents];
+      sortJobAndStart(adjustedEvents);
       setAllEvents(adjustedEvents)
     });
     // Use response to update allEvents
@@ -105,6 +106,26 @@ export default function MyCalendar() {
     console.log(event)
     setModalCreateJob(!modalCreateJob)
     setEventClickedOn(event)
+  }
+
+  const sortJobAndStart = (object) => {
+    object.sort((a, b) => {
+      // First, compare the job_id
+      if (a.job_id < b.job_id) {
+        return -1;
+      }
+      if (a.job_id > b.job_id) {
+        return 1;
+      }
+      // If job_id is the same, compare the start
+      if (a.start < b.start) {
+        return -1;
+      }
+      if (a.start > b.start) {
+        return 1;
+      }
+      return 0; // If both job_id and start are equal
+    });
   }
 
   return (
