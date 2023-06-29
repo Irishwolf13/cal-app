@@ -19,6 +19,7 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
+    @job.uuid = UUID.new.generate
     @job.save
 
     hours_remaining = @job.inital_hours
@@ -35,7 +36,8 @@ class JobsController < ApplicationController
           end_time: current_date,
           hours_per_day: @job.hours_per_day,
           hours_remaining: hours_remaining,
-          color: @job.color
+          color: @job.color,
+          uuid: UUID.new.generate
         }
         Event.create(my_object)
         hours_remaining -= @job.hours_per_day
@@ -61,7 +63,6 @@ class JobsController < ApplicationController
   end
 
   def move
-    puts params
     # Retrieve the job using the id parameter
     @job = Job.find(params[:id])
     current_date = Date.parse(params[:newDate])
@@ -111,7 +112,8 @@ class JobsController < ApplicationController
         :inital_hours,
         :hours_per_day,
         :color,
-        :start_time
+        :start_time,
+        :uuid
       )
     end
 end
