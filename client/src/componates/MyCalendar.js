@@ -96,7 +96,7 @@ export default function MyCalendar() {
           filteredEvents[index].end = event.start_time;
         }
       });
-      const adjustedEvents = [...unFilteredEvents, ...filteredEvents];
+      const adjustedEvents = [...filteredEvents, ...unFilteredEvents];
       setAllEvents(adjustedEvents)
     });
     // Use response to update allEvents
