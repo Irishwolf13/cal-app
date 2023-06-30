@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
-export default function CreateJobModal({ modalCreateJob, setModalCreateJob, eventClickedOn }) {
+export default function CreateJobModal({ modalCreateJob, setModalCreateJob, eventClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
 
   const [jobData, setJobData] = useState({
     hoursForJob: '',
     hoursPerDay: '',
-    nameOfJob: ''
+    nameOfJob: '',
+    color: 'Blue'
   });
 
   const handleChange = (e) => {
@@ -24,7 +25,25 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, even
     console.log('nameOfJob:', jobData.nameOfJob);
     console.log('hoursForJob:', jobData.hoursForJob);
     console.log('hoursPerDay:', jobData.hoursPerDay);
-    // You can perform additional logic or API calls here with the submitted value
+    // Fetch POST job
+    fetch(`/jobs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        job_name: jobData.nameOfJob,
+        inital_hours: jobData.hoursForJob,
+        hours_per_day: jobData.hoursPerDay,
+        start_time: eventClickedOn.start,
+        color: jobData.color
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      setAllEvents([...allEvents, ...data.events])
+      setRefreshMe(prev => !prev)
+    })
 
     // Reset the input value if needed
     setJobData(prevState => ({
@@ -35,8 +54,8 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, even
     }));
   };
 
-  const handleColorDropdownChange = () => {
-    console.log('Iran')
+  const handleColorDropdownChange = (e) => {
+    jobData.color = e.target.value
   }
 
   return (

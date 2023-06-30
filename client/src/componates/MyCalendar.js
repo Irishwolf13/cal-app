@@ -16,6 +16,7 @@ export default function MyCalendar() {
   const [modalCreateJob, setModalCreateJob] = useState(false);
   const [modalEditJob, setModalEditJob] = useState(false);
   const [eventClickedOn, setEventClickedOn] = useState();
+  const [refreshMe, setRefreshMe] = useState(false);
 
   useEffect(() => {
     fetch('/events')
@@ -40,7 +41,7 @@ export default function MyCalendar() {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [refreshMe]);
 
   const handleEventClicked = (event) => {
     console.log(event)
@@ -102,12 +103,6 @@ export default function MyCalendar() {
     });
     // Use response to update allEvents
   }
-  const handleSelectSlot = (event) => {
-    console.log(event)
-    setModalCreateJob(!modalCreateJob)
-    setEventClickedOn(event)
-  }
-
   const sortJobAndStart = (object) => {
     object.sort((a, b) => {
       // First, compare the job_id
@@ -128,12 +123,21 @@ export default function MyCalendar() {
     });
   }
 
+  const handleSelectSlot = (event) => {
+    console.log(event)
+    setModalCreateJob(!modalCreateJob)
+    setEventClickedOn(event)
+  }
+
   return (
     <div>
       <CreateJobModal
         modalCreateJob={modalCreateJob}
         setModalCreateJob={setModalCreateJob}
         eventClickedOn={eventClickedOn}
+        setAllEvents={setAllEvents}
+        allEvents={allEvents}
+        setRefreshMe={setRefreshMe}
       />
       <EditJobModal 
         modalEditJob={modalEditJob}
