@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
-export default function CreateJobModal({ modalCreateJob, setModalCreateJob, eventClickedOn, setAllEvents, allEvents, setRefreshMe }) {
+export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
 
   const [jobData, setJobData] = useState({
@@ -21,7 +21,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, even
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('EventStartDate', eventClickedOn.start)
+    console.log('EventStartDate', slotClickedOn.start)
     console.log('nameOfJob:', jobData.nameOfJob);
     console.log('hoursForJob:', jobData.hoursForJob);
     console.log('hoursPerDay:', jobData.hoursPerDay);
@@ -35,7 +35,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, even
         job_name: jobData.nameOfJob,
         inital_hours: jobData.hoursForJob,
         hours_per_day: jobData.hoursPerDay,
-        start_time: eventClickedOn.start,
+        start_time: slotClickedOn.start,
         color: jobData.color
       })
     })
@@ -68,7 +68,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, even
       >
         <div>
           <h2 className="modalTitle" >Create New Job</h2>
-          {eventClickedOn && <p className="modalDate">{eventClickedOn.start.toLocaleDateString()}</p>}
+          {slotClickedOn && <p className="modalDate">{slotClickedOn.start.toLocaleDateString()}</p>}
           <form className="createJobForm" onSubmit={handleSubmit}>
             <label htmlFor="nameOfJob">Name of Job</label>
             <input
@@ -113,7 +113,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, even
             <button type="submit">Submit</button>
           </form>
           <br></br>
-          <button onClick={e => setModalCreateJob()}>Close</button>
+          {/* <button onClick={e => setModalCreateJob()}>Close</button> */}
         </div>
       </Modal>
     </div>

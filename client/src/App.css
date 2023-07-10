@@ -29,6 +29,27 @@
   z-index: 9999;
 }
 
+.modalAdjust {
+  background-color: rgb(255, 255, 255);
+  border: solid 2px black;
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  width: 250px;
+  padding: 10px;
+  text-align: center;
+}
+
+.OverlayAdjust {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-color: rgba(255, 255, 255, 0.6); */
+  z-index: 9999;
+}
+
 /* ***************** FORMS INFORMATION ***************** */
 .modalTitle{
   margin-top: 10px;

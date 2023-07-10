@@ -15,6 +15,7 @@ export default function MyCalendar() {
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
   const [modalEditJob, setModalEditJob] = useState(false);
+  const [slotClickedOn, setslotClickedOn] = useState();
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
 
@@ -30,6 +31,7 @@ export default function MyCalendar() {
             end: event.end_time,
             color: event.color,
             myID: event.id,
+            perDay: event.hours_per_day,
             uuid: event.uuid
           }
           return tempObject
@@ -48,7 +50,7 @@ export default function MyCalendar() {
   }, [refreshMe]);
 
   const handleEventClicked = (event) => {
-    console.log(event)
+    setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
   }
 
@@ -130,7 +132,7 @@ export default function MyCalendar() {
   const handleSelectSlot = (event) => {
     console.log(event)
     setModalCreateJob(!modalCreateJob)
-    setEventClickedOn(event)
+    setslotClickedOn(event)
   }
 
   return (
@@ -138,12 +140,13 @@ export default function MyCalendar() {
       <CreateJobModal
         modalCreateJob={modalCreateJob}
         setModalCreateJob={setModalCreateJob}
-        eventClickedOn={eventClickedOn}
+        slotClickedOn={slotClickedOn}
         setAllEvents={setAllEvents}
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
       />
-      <EditJobModal 
+      <EditJobModal
+        eventClickedOn={eventClickedOn}
         modalEditJob={modalEditJob}
         setModalEditJob={setModalEditJob}
       />
