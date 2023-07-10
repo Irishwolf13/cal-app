@@ -45,11 +45,17 @@ export default function MyCalendar() {
   
   useEffect(() => {
     fetchData();
-    // const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
-    // return () => clearInterval(interval);
+    const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
+    return () => clearInterval(interval);
   }, [refreshMe]);
 
+  // Had to add this in to avoid some errors with slot section.
+  useEffect(() => {
+    setIsSelectable(!modalEditJob);
+  }, [modalEditJob]);
+
   const handleEventClicked = (event) => {
+    setIsSelectable(!isSelectable)
     setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
   }
@@ -150,6 +156,8 @@ export default function MyCalendar() {
         modalEditJob={modalEditJob}
         setModalEditJob={setModalEditJob}
         setRefreshMe={setRefreshMe}
+        // setIsSelectable={setIsSelectable}
+        // isSelectable={isSelectable}
       />
       <DnDCalendar
         localizer={localizer}

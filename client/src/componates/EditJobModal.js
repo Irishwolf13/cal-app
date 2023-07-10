@@ -19,9 +19,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       setRefreshMe(prev => !prev)
-      setModalEditJob()
+      setModalEditJob(!modalEditJob)
     })
   }
 
