@@ -37,6 +37,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     })
     .then(response => response.json())
     .then(data => {
+      setModalCreateJob(!modalCreateJob)
       setAllEvents([...allEvents, ...data.events])
       setRefreshMe(prev => !prev)
     })
