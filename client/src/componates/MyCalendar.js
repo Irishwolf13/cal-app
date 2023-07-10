@@ -149,6 +149,7 @@ export default function MyCalendar() {
         eventClickedOn={eventClickedOn}
         modalEditJob={modalEditJob}
         setModalEditJob={setModalEditJob}
+        setRefreshMe={setRefreshMe}
       />
       <DnDCalendar
         localizer={localizer}

@@ -55,11 +55,26 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1
   # PATCH/PUT /jobs/1.json
   def update
-    # if @job.update(job_params)
-    #   render :show, status: :ok, location: @job
-    # else
-    #   render json: @job.errors, status: :unprocessable_entity
-    # end
+    @job = Job.find(params[:id])
+    puts '*********************** HERE ***********************'
+    puts params
+    @foundEvent = false
+    @hours_remaining = 0
+    @job.events.order(:id).each do |event|
+      if @foundEvent == true
+        event.hours_remaining = @hours_remaining
+        event.save
+        @hours_remaining = event.hours_remaining - event.hours_per_day
+      end
+      if event.uuid == params[:eventClickedOn][:uuid]
+        puts '*********************** FOUND IT! ***********************'
+        @foundEvent = true
+        event.hours_per_day = params[:newPerDay]
+        event.save
+        @hours_remaining = event.hours_remaining - event.hours_per_day
+      end
+    end
+    render json: @job, include: :events, status: :created, location: @job
   end
 
   def move
