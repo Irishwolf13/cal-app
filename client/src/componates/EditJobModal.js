@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
 export default function EditJobModal({ modalEditJob, setModalEditJob, eventClickedOn}) {
@@ -18,12 +18,12 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
         className="modalAdjust"
       >
         <form className="createJobForm" onSubmit={handleSubmit}>
-            <label htmlFor="nameOfJob">PerDay Hours</label>
+            <label htmlFor="nameOfJob">PerDay</label>
             <input
               type="number"
               id="nameOfJob"
               name="nameOfJob"
-              placeholder={eventClickedOn.perDay}
+              placeholder='hours'
               autoFocus
             />
             <br></br>
