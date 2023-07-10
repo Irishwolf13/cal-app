@@ -150,7 +150,7 @@ export default function MyCalendar() {
       <DnDCalendar
         localizer={localizer}
         events={allEvents}
-        startAccessor="start"
+        startAccessor={(event) => { return new Date(event.start) }}
         endAccessor="end"
         draggableAccessor={(event) => true}
         selectable={isSelectable}
