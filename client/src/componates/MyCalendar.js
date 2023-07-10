@@ -18,12 +18,11 @@ export default function MyCalendar() {
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch('/events')
       .then(response => response.json())
       .then(data => {
         const tempArray = data.map(event => {
-          // console.log(event)
           const tempObject = {
             title: `${event.job.job_name} -- ${event.hours_per_day} / ${event.hours_remaining}`,
             job_id: event.job_id,
@@ -35,12 +34,17 @@ export default function MyCalendar() {
           }
           return tempObject
         })
-        // console.log(tempArray)
         setAllEvents(tempArray)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+  };
+  
+  useEffect(() => {
+    fetchData();
+    // const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
+    // return () => clearInterval(interval);
   }, [refreshMe]);
 
   const handleEventClicked = (event) => {
