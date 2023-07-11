@@ -28,6 +28,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
+    setOptions(!options)
   }
   const handleButtonClicked = (e) => {
     setOptions(!options)
@@ -50,7 +51,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       .then(data => {
         setRefreshMe(prev => !prev)
       })
-      handleButtonClicked()
+      setOptions(!options)
       setModalEditJob(!modalEditJob)
     } else {
       // If the user clicked "No" or closed the dialog
@@ -69,6 +70,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
+      setOptions(!options)
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
@@ -85,6 +87,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
+      setOptions(!options)
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })

@@ -21,6 +21,19 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Checks for information
+    if (jobData.nameOfJob === '') {
+      alert('Every Job must have a name')
+      return
+    }
+    if (jobData.hoursForJob <= 0) {
+      alert('Hours for Job be greater than zero')
+      return
+    }
+    if (jobData.hoursPerDay <= 0) {
+      alert('Hours Per Day must be greater than zero')
+      return
+    }
     // Fetch POST job
     fetch(`/jobs`, {
       method: 'POST',
@@ -41,7 +54,6 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       setAllEvents([...allEvents, ...data.events])
       setRefreshMe(prev => !prev)
     })
-
     // Reset the input value if needed
     setJobData(prevState => ({
       ...prevState,
@@ -96,7 +108,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
             />
             <br></br>
             <select className="colorDropdown" onChange={handleColorDropdownChange}>
-              <option value="rgb(55, 55, 255)">Default Color</option>
+              <option value="rgb(55, 55, 255)">Select Color</option>
               <option value="rgb(55, 55, 255)">Blue</option>
               <option value="rgb(172, 236, 253)">Light Blue</option>
               <option value="rgb(0, 129, 0)">Green</option>

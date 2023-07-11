@@ -1,22 +1,16 @@
 class JobsController < ApplicationController
   before_action :set_job, only: %i[ show update destroy ]
 
-  # GET /jobs
-  # GET /jobs.json
   def index
     @jobs = Job.includes(:events).all # Include all events associated with each job
     render json: @jobs
   end
 
-  # GET /jobs/1
-  # GET /jobs/1.json
   def show
     @job = Job.includes(:events).find(params[:id])
     render json: @job, include: :events
   end
 
-  # POST /jobs
-  # POST /jobs.json
   def create
     @job = Job.new(job_params)
     @job.uuid = UUID.new.generate
@@ -56,8 +50,8 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1.json
   def update
     @job = Job.find(params[:id])
-    puts '*********************** HERE ***********************'
-    puts params
+    # puts '*********************** HERE ***********************'
+    # puts params
     @foundEvent = false
     @hours_remaining = 0
     @job.events.order(:id).each do |event|
@@ -67,7 +61,7 @@ class JobsController < ApplicationController
         @hours_remaining = event.hours_remaining - event.hours_per_day
       end
       if event.uuid == params[:eventClickedOn][:uuid]
-        puts '*********************** FOUND IT! ***********************'
+        # puts '*********************** FOUND IT! ***********************'
         @foundEvent = true
         event.hours_per_day = params[:newPerDay]
         event.save
@@ -78,7 +72,6 @@ class JobsController < ApplicationController
   end
 
   def move
-    # Retrieve the job using the id parameter
     @job = Job.find(params[:id])
     current_date = Date.parse(params[:newDate])
 
@@ -110,8 +103,6 @@ class JobsController < ApplicationController
     render json: @job, include: :events, status: :created, location: @job
   end
 
-  # DELETE /jobs/1
-  # DELETE /jobs/1.json
   def destroy
     @job = Job.find(params[:id])
     @job.destroy
@@ -120,14 +111,18 @@ class JobsController < ApplicationController
   def add
     @job = Job.find(params[:id])
     highest_id_event = @job.events.max_by { |event| event.id }
-    puts '*********************** ADDED JOB ***********************'
-    puts highest_id_event.hours_remaining
-    puts highest_id_event.hours_per_day
-    puts highest_id_event.start_time + 1
+    # checks to see if the date is a Saturday and ajusts it to Monday
+    @myDay = highest_id_event.start_time.wday + 1
+    if @myDay == 6
+      newDate = highest_id_event.start_time + 3
+    else
+      newDate = highest_id_event.start_time + 1
+    end
+
     my_object = {
       job_id: @job.id,
-      start_time: highest_id_event.start_time + 1,
-      end_time: highest_id_event.start_time + 1,
+      start_time: newDate,
+      end_time: newDate,
       hours_per_day: highest_id_event.hours_per_day,
       hours_remaining: highest_id_event.hours_remaining - highest_id_event.hours_per_day,
       color: @job.color,
@@ -141,7 +136,6 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     highest_id_event = @job.events.max_by { |event| event.id }
     highest_id_event.destroy
-    puts '*********************** SUBTRACTED JOB ***********************'
     render json: @job, include: :events, status: :created, location: @job
   end
 
