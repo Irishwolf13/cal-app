@@ -1,5 +1,8 @@
 # README
 # public ip: 3.23.60.143
+22 - ssh
+80 - http
+443 - https
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
