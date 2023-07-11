@@ -1,5 +1,4 @@
 # README
-# public ip: 3.23.60.143
 22 - ssh
 80 - http
 443 - https

@@ -73,3 +73,16 @@
 .colorDropdown {
   margin-bottom: 20px;
 }
+
+/* ***************** BUTTONS ***************** */
+.optionsButton{
+  position:absolute;
+  left: 1px;
+  top: 1px;
+}
+.deleteJobButton{
+  position:absolute;
+  right: 1px;
+  bottom: 1px;
+  background-color: rgb(255, 61, 61);
+}
