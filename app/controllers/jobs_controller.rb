@@ -117,6 +117,14 @@ class JobsController < ApplicationController
     @job.destroy
   end
 
+  def add
+    @job = Job.find(params[:id])
+  end
+
+  def subtract
+    @job = Job.find(params[:id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_job

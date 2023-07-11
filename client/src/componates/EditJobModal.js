@@ -57,6 +57,13 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     }
   }
 
+  const handleAddClicked = () => {
+    console.log(eventClickedOn.job_id)
+  }
+  const handleSubClicked = () => {
+    console.log(eventClickedOn.job_id)
+  }
+
   return (
     <div>
       <Modal
@@ -81,8 +88,10 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
           </form>
           {options &&
             <div>
+              <div>Job Changes</div>
+              <button onClick={handleSubClicked}>Sub Day</button>
+              <button onClick={handleAddClicked}>Add Day</button>
               <form className="createJobForm" onSubmit={handleJobChangeSubmit}>
-                <div>Job Changes</div>
                 <label htmlFor="totalHours">Hours</label>
                 <input
                   type="number"
