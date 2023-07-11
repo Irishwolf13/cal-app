@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   # get '/hello', to: 'application#hello_world'
   patch '/jobs/move/:id', to: 'jobs#move', as: 'move_job'
   patch '/jobs/add/:id', to: 'jobs#add', as: 'add_job'
-  patch '/jobs/subtract/:id', to: 'jobs#subtract', as: 'subtract_job'
+  patch '/jobs/sub/:id', to: 'jobs#sub', as: 'sub_job'
 end

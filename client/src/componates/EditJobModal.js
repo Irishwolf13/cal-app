@@ -56,12 +56,38 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       // If the user clicked "No" or closed the dialog
     }
   }
-
+// /jobs/add/
   const handleAddClicked = () => {
     console.log(eventClickedOn.job_id)
+    // Fetch POST job
+    fetch(`/jobs/add/${eventClickedOn.job_id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({job_id: eventClickedOn.job_id})
+    })
+    .then(response => response.json())
+    .then(data => {
+      setRefreshMe(prev => !prev)
+      setModalEditJob(!modalEditJob)
+    })
   }
   const handleSubClicked = () => {
     console.log(eventClickedOn.job_id)
+    // Fetch POST job
+    fetch(`/jobs/sub/${eventClickedOn.job_id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({job_id: eventClickedOn.job_id})
+    })
+    .then(response => response.json())
+    .then(data => {
+      setRefreshMe(prev => !prev)
+      setModalEditJob(!modalEditJob)
+    })
   }
 
   return (

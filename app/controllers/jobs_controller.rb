@@ -119,10 +119,30 @@ class JobsController < ApplicationController
 
   def add
     @job = Job.find(params[:id])
+    highest_id_event = @job.events.max_by { |event| event.id }
+    puts '*********************** ADDED JOB ***********************'
+    puts highest_id_event.hours_remaining
+    puts highest_id_event.hours_per_day
+    puts highest_id_event.start_time + 1
+    my_object = {
+      job_id: @job.id,
+      start_time: highest_id_event.start_time + 1,
+      end_time: highest_id_event.start_time + 1,
+      hours_per_day: highest_id_event.hours_per_day,
+      hours_remaining: highest_id_event.hours_remaining - highest_id_event.hours_per_day,
+      color: @job.color,
+      uuid: UUID.new.generate
+    }
+    Event.create(my_object)
+    render json: @job, include: :events, status: :created, location: @job
   end
 
-  def subtract
+  def sub
     @job = Job.find(params[:id])
+    highest_id_event = @job.events.max_by { |event| event.id }
+    highest_id_event.destroy
+    puts '*********************** SUBTRACTED JOB ***********************'
+    render json: @job, include: :events, status: :created, location: @job
   end
 
   private
