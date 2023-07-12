@@ -18,6 +18,7 @@ export default function MyCalendar() {
   const [slotClickedOn, setslotClickedOn] = useState();
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
+  const [calSize, setCalSize] = useState(900);
 
   const fetchData = () => {
     fetch('/events')
@@ -42,7 +43,7 @@ export default function MyCalendar() {
         console.error('Error fetching data:', error);
       });
   };
-  
+
   useEffect(() => {
     fetchData();
     // const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
@@ -55,7 +56,7 @@ export default function MyCalendar() {
   }, [modalEditJob]);
 
   const handleEventClicked = (event) => {
-    console.log(eventClickedOn)
+    console.log(event)
     setIsSelectable(!isSelectable)
     setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
@@ -137,7 +138,6 @@ export default function MyCalendar() {
   }
 
   const handleSelectSlot = (event) => {
-    console.log(event)
     setModalCreateJob(!modalCreateJob)
     setslotClickedOn(event)
   }
@@ -169,11 +169,11 @@ export default function MyCalendar() {
         draggableAccessor={(event) => true}
         selectable={isSelectable}
         resizable={false}
-        // draggableAccessor={(event) => true} // In my old code, but doesn't seem to work here yet.
         onSelectEvent={handleEventClicked}
         onEventDrop={handleEventDrop}
         onSelectSlot={handleSelectSlot}
-        style={{ height: 900, margin: "20px", zIndex: 1 }}
+        popup
+        style={{ height: calSize, margin: "20px", zIndex: 1 }}
         eventPropGetter={(event) =>
           event.color
             ? {
