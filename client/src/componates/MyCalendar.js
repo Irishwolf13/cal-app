@@ -173,13 +173,18 @@ export default function MyCalendar() {
         onSelectEvent={handleEventClicked}
         onEventDrop={handleEventDrop}
         onSelectSlot={handleSelectSlot}
-        style={{ height: 700, margin: "20px", zIndex: 1 }}
+        style={{ height: 900, margin: "20px", zIndex: 1 }}
         eventPropGetter={(event) =>
           event.color
             ? {
                 style: {
                   background: event.color,
-                  color: event.color === 'rgb(172, 236, 253)' || event.color === 'Yellow' || event.color === 'orange' ? 'black' : ''
+                  color: 
+                  event.color === 'rgb(172, 236, 253)'
+                  || event.color === 'rgb(255, 255, 0)'
+                  || event.color === 'rgb(255, 166, 0)'
+                  || event.color === 'rgb(255, 63, 172)'
+                  ? 'black' : ''
                 }
               }
             : {}

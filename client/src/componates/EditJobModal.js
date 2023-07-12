@@ -161,7 +161,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                   <option value="rgb(0, 129, 0)">Green</option>
                   <option value="rgb(132, 0, 132)">Purple</option>
                   <option value="rgb(255, 63, 172)">Pink</option>
-                  <option value="rgb(255, 0, 0)">Red</option>
+                  <option value="rgb(190, 10, 10)">Red</option>
                   <option value="rgb(255, 255, 0)">Yellow</option>
                   <option value="rgb(255, 166, 0)">Orange</option>
                 </select>
