@@ -38,7 +38,7 @@ class JobsController < ApplicationController
       end
       current_date += 1
     end
-  
+
     if @job.save
       render json: @job, include: :events, status: :created, location: @job
     else
@@ -46,27 +46,20 @@ class JobsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /jobs/1
-  # PATCH/PUT /jobs/1.json
   def update
     @job = Job.find(params[:id])
-    # puts '*********************** HERE ***********************'
-    # puts params
-    @foundEvent = false
-    @hours_remaining = 0
-    @job.events.order(:id).each do |event|
-      if @foundEvent == true
-        event.hours_remaining = @hours_remaining
-        event.save
-        @hours_remaining = event.hours_remaining - event.hours_per_day
-      end
-      if event.uuid == params[:eventClickedOn][:uuid]
-        # puts '*********************** FOUND IT! ***********************'
-        @foundEvent = true
-        event.hours_per_day = params[:newPerDay]
-        event.save
-        @hours_remaining = event.hours_remaining - event.hours_per_day
-      end
+    if !params[:newColor].to_s.empty?
+      puts params[:newColor]
+      process_color_change
+    end
+    if !params[:newHours].to_s.empty?
+      process_Hours_change
+    end
+    if !params[:newTitle].to_s.empty?
+      process_title_change
+    end
+    if params[:newPerDay]
+      process_per_day_change
     end
     render json: @job, include: :events, status: :created, location: @job
   end
@@ -155,5 +148,52 @@ class JobsController < ApplicationController
         :start_time,
         :uuid
       )
+    end
+
+    def process_per_day_change
+      puts '*********************** PerDay Change ***********************'
+      @foundEvent = false
+      @hours_remaining = 0
+      @job.events.order(:id).each do |event|
+        if @foundEvent == true
+          event.hours_remaining = @hours_remaining
+          event.save
+          @hours_remaining = event.hours_remaining - event.hours_per_day
+        end
+        if event.uuid == params[:eventClickedOn][:uuid]
+          @foundEvent = true
+          event.hours_per_day = params[:newPerDay]
+          event.save
+          @hours_remaining = event.hours_remaining - event.hours_per_day
+        end
+      end
+    end
+
+    def process_color_change
+      # puts '*********************** COLOR Change ***********************'
+      @job.color = params[:newColor]
+      @job.save
+      @job.events.order(:id).each do |event|
+        event.color = params[:newColor]
+        event.save
+      end
+    end
+
+    def process_title_change
+      # puts '*********************** TITLE Change ***********************'
+      @job.job_name = params[:newTitle]
+      @job.save
+    end
+
+    def process_Hours_change
+      # puts '*********************** HOURS Change ***********************'
+      tempPerDay = 0
+      tempRemaining = params[:newHours].to_i
+      @job.events.order(:id).each do |event|
+        event.hours_remaining = tempRemaining
+        event.save
+        tempPerDay = event.hours_per_day
+        tempRemaining = event.hours_remaining - tempPerDay
+      end
     end
 end

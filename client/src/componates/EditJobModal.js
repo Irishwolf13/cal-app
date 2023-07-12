@@ -6,12 +6,12 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
 
   const [newPerDay, setNewPerDay] = useState('');
   const [options, setOptions] = useState(false);
-  const [jobHours, setJobHours] = useState(0);
-  const [jobName, setJobName] = useState('');
+  const [newColor, setNewColor] = useState('');
+  const [newHours, setNewHours] = useState('');
+  const [newTitle, setNewTitle] = useState('');
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
-
     // Fetch POST job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -28,13 +28,30 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
+    // Fetch POST job
+    fetch(`/jobs/${eventClickedOn.job_id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle})
+    })
+    .then(response => response.json())
+    .then(data => {
+      setRefreshMe(prev => !prev)
+      setModalEditJob(!modalEditJob)
+    })
     setOptions(!options)
+    setNewColor('')
+    setNewHours('')
+    setNewTitle('')
   }
   const handleButtonClicked = (e) => {
     setOptions(!options)
   }
   const handleColorDropdownChange = (e) => {
     console.log(e.target.value)
+    setNewColor(e.target.value)
   }
   const handleDeleteJob = () => {
     const userConfirmation = window.confirm("Delete this job forever?");
@@ -126,7 +143,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                   type="number"
                   id="totalHours"
                   placeholder='New Hours'
-                  onChange={(e) => setJobHours(e.target.value)}
+                  onChange={(e) => setNewHours(e.target.value)}
                 />
                 <br></br>
                 <label htmlFor="totalHours">Title</label>
@@ -134,7 +151,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                   type="text"
                   id="jobName"
                   placeholder='New Title'
-                  onChange={(e) => setJobName(e.target.value)}
+                  onChange={(e) => setNewTitle(e.target.value)}
                 />
                 <br></br>
                 <select className="colorDropdown" onChange={handleColorDropdownChange}>

@@ -55,6 +55,7 @@ export default function MyCalendar() {
   }, [modalEditJob]);
 
   const handleEventClicked = (event) => {
+    console.log(eventClickedOn)
     setIsSelectable(!isSelectable)
     setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
