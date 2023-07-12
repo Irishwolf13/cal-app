@@ -3,16 +3,19 @@ import { Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import "./App.css";
 import MyCalendar from "./componates/MyCalendar";
+import HomePage from "./componates/HomePage";
 import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
-  //allow navigation
-  const navigate = useNavigate();
 
   return (
     <div className="App">
       <img className="mainLogo" src={myImage} alt="Reliable Design Logo"/>
       <Routes>
+          <Route
+            path="/"
+            element={<HomePage />}
+          />
           <Route
             path="/calendar"
             element={<MyCalendar />}
