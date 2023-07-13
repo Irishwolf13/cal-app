@@ -153,7 +153,6 @@ export default function MyCalendar() {
         let myDate = new Date(event.start)
         if (day === myDate.getDate() + 1 && month === myDate.getMonth()) {
           tempHours += event.perDay
-          console.log(tempHours)
         }
       })
       if (tempHours > teamHours) {
@@ -197,21 +196,25 @@ export default function MyCalendar() {
         popup
         style={{ height: calSize, margin: "20px", zIndex: 1 }}
         dayPropGetter={checkIfOverHours}
-        eventPropGetter={(event) =>
-          event.color
-            ? {
-                style: {
-                  background: event.color,
-                  color: 
-                  event.color === 'rgb(172, 236, 253)'
-                  || event.color === 'rgb(255, 255, 0)'
-                  || event.color === 'rgb(255, 166, 0)'
-                  || event.color === 'rgb(255, 63, 172)'
-                  ? 'black' : ''
-                }
-              }
-            : {}
-        }
+        eventPropGetter={(event) => {
+          let style = {
+            background: event.color,
+            color:
+              event.color === 'rgb(172, 236, 253)' ||
+              event.color === 'rgb(255, 255, 0)' ||
+              event.color === 'rgb(255, 166, 0)' ||
+              event.color === 'rgb(255, 63, 172)'
+                ? 'black'
+                : '',
+          };
+          let myTitle = event.title.split('/')
+          if (parseInt(myTitle[1])- event.perDay < 0) {
+            style.border = '2px solid red';
+          } else {
+            style.border = '1px solid black';
+          }
+          return { style };
+        }}
       />
     </div>
   )
