@@ -202,16 +202,16 @@ export default function MyCalendar() {
             color:
               event.color === 'rgb(172, 236, 253)' ||
               event.color === 'rgb(255, 255, 0)' ||
-              event.color === 'rgb(255, 166, 0)' ||
+              event.color === 'rgba(255, 166, 0, 0.623)' ||
               event.color === 'rgb(255, 63, 172)'
                 ? 'black'
                 : '',
           };
           let myTitle = event.title.split('/')
           if (parseInt(myTitle[1])- event.perDay < 0) {
-            style.border = '2px solid red';
+            style.boxShadow = 'inset 0 0 0 3px red';
           } else {
-            style.border = '1px solid black';
+            style.boxShadow = 'inset 0 0 0 1px black';
           }
           return { style };
         }}
