@@ -1,4 +1,8 @@
 # README
+
+# This is the tutorial I used for creating the basic React / Rails application
+https://github.com/learn-co-curriculum/react-rails-project-setup-guide
+
 22 - ssh
 80 - http
 443 - https

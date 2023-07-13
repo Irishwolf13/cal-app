@@ -12,6 +12,10 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
+    if (newPerDay < 0) {
+      alert('Can not have negative hours')
+      return
+    }
     // Fetch POST job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -28,6 +32,10 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
+    if (newHours < 0) {
+      alert('Can not have negative hours')
+      return
+    }
     // Fetch POST job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
       method: 'PATCH',
