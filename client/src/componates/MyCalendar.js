@@ -19,6 +19,7 @@ export default function MyCalendar() {
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
+  const [teamHours, setTeamHours] = useState(50);
 
   const fetchData = () => {
     fetch('/events')
@@ -142,6 +143,27 @@ export default function MyCalendar() {
     setslotClickedOn(event)
   }
 
+  const checkIfOverHours = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth();
+  
+    // if (day === 14) {
+      let tempHours = 0
+      allEvents.forEach(event => {
+        let myDate = new Date(event.start)
+        if (day === myDate.getDate() + 1 && month === myDate.getMonth()) {
+          tempHours += event.perDay
+          console.log(tempHours)
+        }
+      })
+      if (tempHours > teamHours) {
+        return { className: 'overWarning' };
+      }
+    // }
+  
+    return null;
+  };
+
   return (
     <div>
       <CreateJobModal
@@ -174,6 +196,7 @@ export default function MyCalendar() {
         onSelectSlot={handleSelectSlot}
         popup
         style={{ height: calSize, margin: "20px", zIndex: 1 }}
+        dayPropGetter={checkIfOverHours}
         eventPropGetter={(event) =>
           event.color
             ? {

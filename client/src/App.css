@@ -6,6 +6,9 @@
   width: 70%;
   max-height: 100px;
 }
+.overWarning{
+  background-color: rgba(255, 0, 0, 0.355);
+}
 
 /* ***************** MODAL INFORMATION ***************** */
 .modalBasic {
