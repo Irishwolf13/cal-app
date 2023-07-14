@@ -1,0 +1,2 @@
+class DailyMaximum < ApplicationRecord
+end

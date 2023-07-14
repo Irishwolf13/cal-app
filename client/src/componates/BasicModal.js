@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-export default function ({ modalCompanyHours, handleCompanyButton}) {
-  const [newComapnyHours, setNewCompanyHours] = useState(50)
+export default function ({ modalCompanyHours, handleCompanyButton, newComapnyHours, setNewCompanyHours}) {
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
-    // PATCH TO THE BACKEND NEW COMPANY HOURS
+    // Fetch POST Daily Maxium Hours
+    fetch(`/daily_maximums`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({daily_max: newComapnyHours})
+    })
+    .then(response => response.json())
+    .then(data => {
+      setNewCompanyHours(data.daily_max)
+    })
     handleCompanyButton()
   }
+  
   return (
     <Modal
       isOpen={modalCompanyHours}

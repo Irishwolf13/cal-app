@@ -16,7 +16,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       alert('Can not have negative hours')
       return
     }
-    // Fetch POST job
+    // Fetch PATCH job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
       method: 'PATCH',
       headers: {

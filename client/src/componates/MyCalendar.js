@@ -21,7 +21,7 @@ export default function MyCalendar() {
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
-  const [teamHours, setTeamHours] = useState(50);
+  const [newComapnyHours, setNewCompanyHours] = useState()
 
   const fetchData = () => {
     fetch('/events')
@@ -57,6 +57,19 @@ export default function MyCalendar() {
   useEffect(() => {
     setIsSelectable(!modalEditJob);
   }, [modalEditJob]);
+
+  useEffect(() => {
+    fetch(`/daily_maximums/1`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      setNewCompanyHours(data.daily_max)
+    })
+  }, [])
 
   const handleEventClicked = (event) => {
     console.log(event)
@@ -157,7 +170,7 @@ export default function MyCalendar() {
           tempHours += event.perDay
         }
       })
-      if (tempHours > teamHours) {
+      if (tempHours > newComapnyHours) {
         return { className: 'overWarning' };
       }
     // }
@@ -174,6 +187,8 @@ export default function MyCalendar() {
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
+        newComapnyHours={newComapnyHours}
+        setNewCompanyHours={setNewCompanyHours}
       />
       <CreateJobModal
         modalCreateJob={modalCreateJob}
