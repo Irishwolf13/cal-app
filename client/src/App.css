@@ -90,3 +90,9 @@
   bottom: 1px;
   background-color: rgb(255, 61, 61);
 }
+
+.basicButton{
+  position:absolute;
+  left: 1px;
+  top: 1px;
+}

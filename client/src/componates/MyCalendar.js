@@ -6,6 +6,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import CreateJobModal from "./CreateJobModal";
 import EditJobModal from "./EditJobModal";
+import BasicModal from "./BasicModal"
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -15,6 +16,7 @@ export default function MyCalendar() {
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
   const [modalEditJob, setModalEditJob] = useState(false);
+  const [modalCompanyHours, setModalCompanyHours] = useState(false);
   const [slotClickedOn, setslotClickedOn] = useState();
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
@@ -159,12 +161,20 @@ export default function MyCalendar() {
         return { className: 'overWarning' };
       }
     // }
-  
     return null;
   };
 
+  const handleCompanyButton = () => {
+    setModalCompanyHours(prev => !prev)
+  }
+
   return (
     <div>
+      <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
+      <BasicModal
+        modalCompanyHours = {modalCompanyHours}
+        handleCompanyButton = {handleCompanyButton}
+      />
       <CreateJobModal
         modalCreateJob={modalCreateJob}
         setModalCreateJob={setModalCreateJob}
