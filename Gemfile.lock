@@ -84,6 +84,8 @@ GEM
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    dockerfile-rails (1.5.1)
+      rails
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -112,6 +114,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.2)
     minitest (5.18.1)
     msgpack (1.7.1)
     net-imap (0.3.6)
@@ -124,6 +127,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.2)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.2-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.3)
@@ -194,6 +200,7 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -201,6 +208,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   debug
+  dockerfile-rails (>= 1.5)
   importmap-rails
   jbuilder
   pg (~> 1.1)
@@ -214,7 +222,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 2.7.4p191
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.7
