@@ -223,3 +223,42 @@ http://0.0.0.0:3000 but replace 0.0.0.0 with the IP of the server
 1. docker compose build
 1. bin/rails credentials:edit
 1. docker compose up -d
+
+
+# Running
+
+```
+version: "3.8"
+services:
+  web:
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+      - DATABASE_URL=postgres://root:password@postgres-db/
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    image: rooneyjohn/cal-app:latest
+
+
+  postgres-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready
+      interval: 2s
+      timeout: 5s
+      retries: 30
+```
+
+- create a .env file and it's contents should be:
+```text
+RAILS_MASTER_KEY=passwordhere
+```
