@@ -203,3 +203,23 @@ docker compose up -d
 
 ## Access
 http://0.0.0.0:3000 but replace 0.0.0.0 with the IP of the server
+
+
+# Round 2
+1. Install fresh Ubuntu v22
+1. Install SSH Key into ~/.ssh
+1. Install rbenv
+  1. Install the thing that makes rbenv install work
+  1. Install the apt-get dependencies for the suggested dev environment
+1. rbenv install 3.2.2
+1. curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
+1. npm i npm
+1. sudo apt install libpq-dev
+1. bundle install
+1. bundle add dockerfile-rails --optimistic --group development
+1. bin/rails generate dockerfile --compose --postgresql
+1. npm install react-scripts@latest
+1. Install Docker following the instructions on the offical web page
+1. docker compose build
+1. bin/rails credentials:edit
+1. docker compose up -d
