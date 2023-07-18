@@ -10,6 +10,9 @@
   background-color: rgba(255, 166, 0, 0.623);
   box-shadow: inset 0 0 0 2px red;
 }
+.smallBreak{
+  margin-top: -10px;
+}
 
 /* ***************** MODAL INFORMATION ***************** */
 .modalBasic {
@@ -89,6 +92,9 @@
   right: 1px;
   bottom: 1px;
   background-color: rgb(255, 61, 61);
+}
+.editingButtons{
+  margin-bottom: 20px;
 }
 
 .basicButton{

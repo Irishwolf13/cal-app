@@ -58,13 +58,11 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setOptions(!options)
   }
   const handleColorDropdownChange = (e) => {
-    console.log(e.target.value)
     setNewColor(e.target.value)
   }
   const handleDeleteJob = () => {
     const userConfirmation = window.confirm("Delete this job forever?");
     if (userConfirmation) {
-      console.log(eventClickedOn.job_id)
       // // FETCH: UPDATE JOBS
       fetch(`/jobs/${eventClickedOn.job_id}`, {
         method: 'DELETE',
@@ -82,9 +80,9 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       // If the user clicked "No" or closed the dialog
     }
   }
-// /jobs/add/
+  
   const handleAddClicked = () => {
-    console.log(eventClickedOn.job_id)
+    // console.log(eventClickedOn.job_id)
     // Fetch POST job
     fetch(`/jobs/add/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -101,7 +99,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
   }
   const handleSubClicked = () => {
-    console.log(eventClickedOn.job_id)
     // Fetch POST job
     fetch(`/jobs/sub/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -127,7 +124,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
         className="modalAdjust"
       >
         <button className="optionsButton" onClick={handleButtonClicked}>...</button>
-        <form className="createJobForm" onSubmit={handlePerDaySubmit}>
+        {!options &&
+          <form className="createJobForm" onSubmit={handlePerDaySubmit}>
             <label htmlFor="newPerDay">PerDay</label>
             <input
               type="number"
@@ -140,45 +138,48 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
             <br></br>
             {/* <button type="submit">Submit</button> */}
           </form>
-          {options &&
-            <div>
-              <div>Job Changes</div>
-              <button onClick={handleSubClicked}>Sub Day</button>
-              <button onClick={handleAddClicked}>Add Day</button>
-              <form className="createJobForm" onSubmit={handleJobChangeSubmit}>
-                <label htmlFor="totalHours">Hours</label>
-                <input
-                  type="number"
-                  id="totalHours"
-                  placeholder='New Hours'
-                  onChange={(e) => setNewHours(e.target.value)}
-                />
-                <br></br>
-                <label htmlFor="totalHours">Title</label>
-                <input
-                  type="text"
-                  id="jobName"
-                  placeholder='New Title'
-                  onChange={(e) => setNewTitle(e.target.value)}
-                />
-                <br></br>
-                <select className="colorDropdown" onChange={handleColorDropdownChange}>
-                  <option value="rgb(55, 55, 255)">Select Color</option>
-                  <option value="rgb(55, 55, 255)">Blue</option>
-                  <option value="rgb(172, 236, 253)">Light Blue</option>
-                  <option value="rgb(0, 129, 0)">Green</option>
-                  <option value="rgb(132, 0, 132)">Purple</option>
-                  <option value="rgb(255, 63, 172)">Pink</option>
-                  <option value="rgb(100, 100, 100)">Gray</option>
-                  <option value="rgb(255, 255, 0)">Yellow</option>
-                  <option value="rgba(255, 166, 0, 0.623)">Orange</option>
-                </select>
-                <br></br>
-                <button type="submit">Submit</button>
-              </form>
-                <button className='deleteJobButton' onClick={handleDeleteJob} >Delete Job</button>
-            </div>
-          }
+        }
+        {options &&
+          <div>
+            <div>Changes for Entire Job</div>
+            <br></br>
+            <form className="createJobForm" onSubmit={handleJobChangeSubmit}>
+              <label htmlFor="totalHours">Hours</label>
+              <input
+                type="number"
+                id="totalHours"
+                placeholder='New Hours'
+                onChange={(e) => setNewHours(e.target.value)}
+              />
+              <br></br>
+              <label htmlFor="totalHours">Title</label>
+              <input
+                type="text"
+                id="jobName"
+                placeholder='New Title'
+                onChange={(e) => setNewTitle(e.target.value)}
+              />
+              <br></br>
+              <select className="colorDropdown" onChange={handleColorDropdownChange}>
+                <option value="rgb(55, 55, 255)">Select Color</option>
+                <option value="rgb(55, 55, 255)">Blue</option>
+                <option value="rgb(172, 236, 253)">Light Blue</option>
+                <option value="rgb(0, 129, 0)">Green</option>
+                <option value="rgb(132, 0, 132)">Purple</option>
+                <option value="rgb(255, 63, 172)">Pink</option>
+                <option value="rgb(100, 100, 100)">Gray</option>
+                <option value="rgb(255, 255, 0)">Yellow</option>
+                <option value="rgba(255, 166, 0, 0.623)">Orange</option>
+              </select>
+              <div className='smallBreak'></div>
+              <button className='editingButtons' type="submit">Submit</button>
+              <br></br>
+              <button  className='editingButtons' onClick={handleSubClicked}>Sub Day</button>
+              <button  className='editingButtons' onClick={handleAddClicked}>Add Day</button>
+            </form>
+              <button className='deleteJobButton' onClick={handleDeleteJob} >Delete Job</button>
+          </div>
+        }
 
       </Modal>
     </div>

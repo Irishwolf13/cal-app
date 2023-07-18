@@ -40,6 +40,7 @@ export default function MyCalendar() {
           }
           return tempObject
         })
+        sortJobAndStart(tempArray)
         setAllEvents(tempArray)
       })
       .catch(error => {
@@ -72,7 +73,7 @@ export default function MyCalendar() {
   }, [])
 
   const handleEventClicked = (event) => {
-    console.log(event)
+    // console.log(event)
     setIsSelectable(!isSelectable)
     setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
@@ -95,7 +96,7 @@ export default function MyCalendar() {
         let prevDate = new Date(filteredEvents[index -1].start)
         prevDate.setDate(prevDate.getDate() +1)
         if (object.start <= prevDate) {
-          console.log('stop that shit yo!')
+          // console.log('stop that shit yo!')
           return
         }
       }
@@ -134,6 +135,7 @@ export default function MyCalendar() {
     // Use response to update allEvents
   }
   const sortJobAndStart = (object) => {
+    // console.log(object)
     object.sort((a, b) => {
       // First, compare the job_id
       if (a.job_id < b.job_id) {
