@@ -205,6 +205,7 @@ export default function MyCalendar() {
         modalEditJob={modalEditJob}
         setModalEditJob={setModalEditJob}
         setRefreshMe={setRefreshMe}
+        allEvents={allEvents}
         // setIsSelectable={setIsSelectable}
         // isSelectable={isSelectable}
       />

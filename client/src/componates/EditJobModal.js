@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-export default function EditJobModal({ modalEditJob, setModalEditJob, eventClickedOn, setRefreshMe}) {
+export default function EditJobModal({ modalEditJob, setModalEditJob, eventClickedOn, setRefreshMe, allEvents}) {
   Modal.setAppElement('#root')
 
   const [newPerDay, setNewPerDay] = useState('');
@@ -9,6 +9,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [newColor, setNewColor] = useState('');
   const [newHours, setNewHours] = useState('');
   const [newTitle, setNewTitle] = useState('');
+  const [isFirstDay, setIsFirstDay] = useState(false)
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
@@ -56,6 +57,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
   const handleButtonClicked = (e) => {
     setOptions(!options)
+    checkFirstDay()
   }
   const handleColorDropdownChange = (e) => {
     setNewColor(e.target.value)
@@ -81,8 +83,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     }
   }
   
-  const handleAddClicked = () => {
-    // console.log(eventClickedOn.job_id)
+  const handleAddClicked = (e) => {
+    e.preventDefault();
     // Fetch POST job
     fetch(`/jobs/add/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -93,12 +95,13 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      setOptions(!options)
       setRefreshMe(prev => !prev)
-      setModalEditJob(!modalEditJob)
+      // setOptions(!options)
+      // setModalEditJob(!modalEditJob)
     })
   }
-  const handleSubClicked = () => {
+  const handleSubClicked = (e) => {
+    e.preventDefault();
     // Fetch POST job
     fetch(`/jobs/sub/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -109,17 +112,30 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      setOptions(!options)
       setRefreshMe(prev => !prev)
+      // setOptions(!options)
       // setModalEditJob(!modalEditJob)
     })
+  }
+
+  const checkFirstDay = () =>  {
+    if (eventClickedOn.uuid === allEvents.filter(obj => obj.job_id === eventClickedOn.job_id)[0].uuid) {
+      setIsFirstDay(true)
+    } else {
+      setIsFirstDay(false)
+    }
+  }
+
+  const handleModalClosed = (e) => {
+    setModalEditJob()
+    setOptions(false)
   }
 
   return (
     <div>
       <Modal
         isOpen={modalEditJob}
-        onRequestClose={e => setModalEditJob()}
+        onRequestClose={handleModalClosed}
         overlayClassName="OverlayAdjust"
         className="modalAdjust"
       >
@@ -177,7 +193,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
               <button  className='editingButtons' onClick={handleSubClicked}>Sub Day</button>
               <button  className='editingButtons' onClick={handleAddClicked}>Add Day</button>
             </form>
-              <button className='deleteJobButton' onClick={handleDeleteJob} >Delete Job</button>
+              {isFirstDay && <button className='deleteJobButton' onClick={handleDeleteJob} >Delete Job</button>}
           </div>
         }
 
