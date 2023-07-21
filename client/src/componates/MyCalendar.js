@@ -29,7 +29,7 @@ export default function MyCalendar() {
       .then(data => {
         const tempArray = data.map(event => {
           const tempObject = {
-            title: `${event.job.job_name} -- ${event.hours_per_day} / ${event.hours_remaining}`,
+            title: `${event.job.job_name} -- ${event.hours_remaining} / ${event.hours_per_day}`,
             job_id: event.job_id,
             start: event.start_time,
             end: event.end_time,
@@ -234,8 +234,12 @@ export default function MyCalendar() {
                 ? 'black'
                 : '',
           };
-          let myTitle = event.title.split('/')
-          if (parseInt(myTitle[1])- event.perDay < 0) {
+          
+          let startIndex = event.title.indexOf("--") + 2;
+          let endIndex = event.title.indexOf("/");
+          let totalHoursInJob = event.title.substring(startIndex, endIndex).trim();
+          
+          if (parseInt(totalHoursInJob) - event.perDay < 0) {
             style.boxShadow = 'inset 0 0 0 3px red';
           } else {
             style.boxShadow = 'inset 0 0 0 1px black';

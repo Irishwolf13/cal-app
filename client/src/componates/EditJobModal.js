@@ -111,7 +111,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     .then(data => {
       setOptions(!options)
       setRefreshMe(prev => !prev)
-      setModalEditJob(!modalEditJob)
+      // setModalEditJob(!modalEditJob)
     })
   }
 
