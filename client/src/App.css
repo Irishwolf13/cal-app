@@ -10,6 +10,9 @@
   background-color: rgba(255, 166, 0, 0.623);
   box-shadow: inset 0 0 0 2px red;
 }
+.smallBreak{
+  margin-top: -10px;
+}
 
 /* ***************** MODAL INFORMATION ***************** */
 .modalBasic {
@@ -61,6 +64,7 @@
 }
 .modalDate {
   margin-top: 0px;
+  margin-bottom: 0px;
 }
 .createJobForm {
   width: 100%;
@@ -90,9 +94,17 @@
   bottom: 1px;
   background-color: rgb(255, 61, 61);
 }
+.editingButtons{
+  margin-bottom: 20px;
+}
 
 .basicButton{
   position:absolute;
   left: 1px;
   top: 1px;
+}
+
+/* ***************** CHECKBOXES ***************** */
+.myCheckBox{
+  margin-bottom: 20px;
 }

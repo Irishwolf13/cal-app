@@ -29,7 +29,7 @@ export default function MyCalendar() {
       .then(data => {
         const tempArray = data.map(event => {
           const tempObject = {
-            title: `${event.job.job_name} -- ${event.hours_per_day} / ${event.hours_remaining}`,
+            title: `${event.job.job_name} -- ${event.hours_remaining} / ${event.hours_per_day}`,
             job_id: event.job_id,
             start: event.start_time,
             end: event.end_time,
@@ -40,6 +40,7 @@ export default function MyCalendar() {
           }
           return tempObject
         })
+        sortJobAndStart(tempArray)
         setAllEvents(tempArray)
       })
       .catch(error => {
@@ -49,8 +50,8 @@ export default function MyCalendar() {
 
   useEffect(() => {
     fetchData();
-    // const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
-    // return () => clearInterval(interval);
+    const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
+    return () => clearInterval(interval);
   }, [refreshMe]);
 
   // Had to add this in to avoid some errors with slot section.
@@ -72,7 +73,7 @@ export default function MyCalendar() {
   }, [])
 
   const handleEventClicked = (event) => {
-    console.log(event)
+    // console.log(event)
     setIsSelectable(!isSelectable)
     setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
@@ -95,7 +96,7 @@ export default function MyCalendar() {
         let prevDate = new Date(filteredEvents[index -1].start)
         prevDate.setDate(prevDate.getDate() +1)
         if (object.start <= prevDate) {
-          console.log('stop that shit yo!')
+          // console.log('stop that shit yo!')
           return
         }
       }
@@ -134,6 +135,7 @@ export default function MyCalendar() {
     // Use response to update allEvents
   }
   const sortJobAndStart = (object) => {
+    // console.log(object)
     object.sort((a, b) => {
       // First, compare the job_id
       if (a.job_id < b.job_id) {
@@ -203,6 +205,7 @@ export default function MyCalendar() {
         modalEditJob={modalEditJob}
         setModalEditJob={setModalEditJob}
         setRefreshMe={setRefreshMe}
+        allEvents={allEvents}
         // setIsSelectable={setIsSelectable}
         // isSelectable={isSelectable}
       />
@@ -232,8 +235,12 @@ export default function MyCalendar() {
                 ? 'black'
                 : '',
           };
-          let myTitle = event.title.split('/')
-          if (parseInt(myTitle[1])- event.perDay < 0) {
+          
+          let startIndex = event.title.indexOf("--") + 2;
+          let endIndex = event.title.indexOf("/");
+          let totalHoursInJob = event.title.substring(startIndex, endIndex).trim();
+          
+          if (parseInt(totalHoursInJob) - event.perDay < 0) {
             style.boxShadow = 'inset 0 0 0 3px red';
           } else {
             style.boxShadow = 'inset 0 0 0 1px black';
