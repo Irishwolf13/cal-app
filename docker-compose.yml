@@ -6,6 +6,9 @@ services:
       args:
         UID: ${UID:-1000}
         GID: ${GID:-${UID:-1000}}
+      tags:
+        - "cal-app:happytag"
+        - "registry/username/myrepos:my-other-tag"
     ports:
       - "3000:3000"
     environment:
@@ -15,6 +18,8 @@ services:
       postgres-db:
         condition: service_healthy
     image: cal-app:20230716
+
+
 
   postgres-db:
     image: postgres
