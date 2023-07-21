@@ -19,8 +19,6 @@ services:
         condition: service_healthy
     image: cal-app:20230716
 
-
-
   postgres-db:
     image: postgres
     environment:
