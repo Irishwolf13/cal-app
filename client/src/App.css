@@ -64,6 +64,7 @@
 }
 .modalDate {
   margin-top: 0px;
+  margin-bottom: 0px;
 }
 .createJobForm {
   width: 100%;
@@ -101,4 +102,9 @@
   position:absolute;
   left: 1px;
   top: 1px;
+}
+
+/* ***************** CHECKBOXES ***************** */
+.myCheckBox{
+  margin-bottom: 20px;
 }
