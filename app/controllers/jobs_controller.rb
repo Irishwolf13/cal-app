@@ -116,7 +116,7 @@ class JobsController < ApplicationController
       job_id: @job.id,
       start_time: newDate,
       end_time: newDate,
-      hours_per_day: highest_id_event.hours_per_day,
+      hours_per_day: @job.hours_per_day,
       hours_remaining: highest_id_event.hours_remaining - highest_id_event.hours_per_day,
       color: @job.color,
       uuid: UUID.new.generate
