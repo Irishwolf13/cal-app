@@ -29,5 +29,8 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+.env
+
+# Node Dependencies
 node_modules/
 client/node_modules
