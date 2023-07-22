@@ -108,27 +108,26 @@ serve -s build -l 4000
 
 1. Install Docker following the instructions on the [offical web page](https://www.docker.com/)
 
-2. You can skip this step as the Dockerfile is already commited to the repo.
-- If the Dockerfile requires regeneration, create a new Dockerfile using dockerfile-rails.
+2. You can skip this step as the Dockerfile is already commited to the repo. If the Dockerfile requires regeneration, create a new Dockerfile using dockerfile-rails.
+
 ```bash
 bin/rails generate dockerfile --compose --postgresql
 ```
 
-3. You can skip this step as the secrets have already been generated and commited to the repo.
-- If the secrets need to be recreated, follow these steps
+3. You can skip this step as the secrets have already been generated and commited to the repo. If the secrets need to be recreated, follow these steps
   1. Delete old secret key
 ```bash
 rm .env
 rm config/credentials.yml.enc
 rm config/master.key
 ```
-  1. Generate new secret key
+  2. Generate new secret key
 ```bash
 EDITOR=nano bin/rails credentials:edit
 ```
 Simply hit Ctrl-X to save and exit. This will generate a new config/master.key, which is later used to decrypt & start the docker container.
 
-  1. Write the key to .env so docker containers can find it at run time
+  3. Write the key to .env so docker containers can find it at run time
 ```bash
 echo RAILS_MASTER_KEY=$(cat config/master.key) > .env
 ```
