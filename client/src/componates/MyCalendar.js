@@ -73,7 +73,7 @@ export default function MyCalendar() {
   }, [])
 
   const handleEventClicked = (event) => {
-    // console.log(event)
+    console.log(event)
     setIsSelectable(!isSelectable)
     setEventClickedOn(event)
     setModalEditJob(!modalEditJob)
@@ -183,6 +183,31 @@ export default function MyCalendar() {
     setModalCompanyHours(prev => !prev)
   }
 
+  const checkRemainingHours = (event) => {
+    let style = {
+      background: event.color,
+      color:
+        event.color === 'rgb(172, 236, 253)' ||
+        event.color === 'rgb(255, 255, 0)' ||
+        event.color === 'rgba(255, 166, 0, 0.623)' ||
+        event.color === 'rgb(255, 63, 172)'
+          ? 'black'
+          : '',
+    };
+
+    let startIndex = event.title.indexOf("--") + 2;
+    let endIndex = event.title.indexOf("/");
+    let totalHoursInJob = event.title.substring(startIndex, endIndex).trim();
+    
+    if (parseInt(totalHoursInJob) - event.perDay < 0) {
+      
+      style.boxShadow = 'inset 0 0 0 3px red';
+    } else {
+      style.boxShadow = 'inset 0 0 0 1px black';
+    }
+    return style
+  }
+
   return (
     <div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
@@ -224,27 +249,9 @@ export default function MyCalendar() {
         popup
         style={{ height: calSize, margin: "20px", zIndex: 1 }}
         dayPropGetter={checkIfOverHours}
+        // tooltipAccessor={(event) => `${event.title}\n PerDay: ${event.perDay} \n DueDate: 7/31/2023`}
         eventPropGetter={(event) => {
-          let style = {
-            background: event.color,
-            color:
-              event.color === 'rgb(172, 236, 253)' ||
-              event.color === 'rgb(255, 255, 0)' ||
-              event.color === 'rgba(255, 166, 0, 0.623)' ||
-              event.color === 'rgb(255, 63, 172)'
-                ? 'black'
-                : '',
-          };
-          
-          let startIndex = event.title.indexOf("--") + 2;
-          let endIndex = event.title.indexOf("/");
-          let totalHoursInJob = event.title.substring(startIndex, endIndex).trim();
-          
-          if (parseInt(totalHoursInJob) - event.perDay < 0) {
-            style.boxShadow = 'inset 0 0 0 3px red';
-          } else {
-            style.boxShadow = 'inset 0 0 0 1px black';
-          }
+          let style = checkRemainingHours(event)
           return { style };
         }}
       />

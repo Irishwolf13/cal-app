@@ -11,32 +11,53 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [newTitle, setNewTitle] = useState('');
   const [isFirstDay, setIsFirstDay] = useState(false)
 
-  const handlePerDaySubmit = (e) => {
+  const handlePerDaySubmit = async (e) => {
     e.preventDefault();
     if (newPerDay < 0) {
       alert('Can not have negative hours')
-      return
+      return;
     }
-    // Fetch PATCH job
-    fetch(`/jobs/${eventClickedOn.job_id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({eventClickedOn, newPerDay: newPerDay})
-    })
-    .then(response => response.json())
-    .then(data => {
-      setRefreshMe(prev => !prev)
-      setModalEditJob(!modalEditJob)
-    })
-  }
+    try {
+      const response = await fetch(`/jobs/${eventClickedOn.job_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({eventClickedOn, newPerDay: newPerDay})
+      });
+      const data = await response.json();
+      let myInfo = data.events;
+      for (let i = myInfo.length - 1; i >= 0; i--) {
+        if (myInfo[i].hours_remaining <= 0) {
+          await handleSubClicked(e);
+        }
+      }
+      setRefreshMe(prev => !prev);
+      setModalEditJob(!modalEditJob);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
     if (newHours < 0) {
       alert('Can not have negative hours')
       return
     }
+    postJobChange(eventClickedOn)
+    setOptions(!options)
+    setNewColor('')
+    setNewHours('')
+    setNewTitle('')
+  }
+  // const checkLastEvent = (eventClickedOn) => {
+  //   console.log(eventClickedOn)
+  //   const filteredEvents = allEvents.filter(myEvent => myEvent.job_id === eventClickedOn.job_id);
+  //   const lastObject = filteredEvents[filteredEvents.length - 1];
+  //   console.log('lastObject', lastObject)
+  // }
+  const postJobChange = () => {
     // Fetch POST job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
       method: 'PATCH',
@@ -50,10 +71,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
-    setOptions(!options)
-    setNewColor('')
-    setNewHours('')
-    setNewTitle('')
   }
   const handleButtonClicked = (e) => {
     setOptions(!options)
@@ -100,23 +117,22 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       // setModalEditJob(!modalEditJob)
     })
   }
-  const handleSubClicked = (e) => {
+  const handleSubClicked = async (e) => {
     e.preventDefault();
-    // Fetch POST job
-    fetch(`/jobs/sub/${eventClickedOn.job_id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({job_id: eventClickedOn.job_id})
-    })
-    .then(response => response.json())
-    .then(data => {
-      setRefreshMe(prev => !prev)
-      // setOptions(!options)
-      // setModalEditJob(!modalEditJob)
-    })
-  }
+    try {
+      const response = await fetch(`/jobs/sub/${eventClickedOn.job_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({job_id: eventClickedOn.job_id})
+      });
+      const data = await response.json();
+      setRefreshMe(prev => !prev);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const checkFirstDay = () =>  {
     if (eventClickedOn.uuid === allEvents.filter(obj => obj.job_id === eventClickedOn.job_id)[0].uuid) {
