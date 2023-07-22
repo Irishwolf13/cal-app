@@ -41,12 +41,12 @@ RAILS_MASTER_KEY=passwordhere
 # Development
 
 ## Well Known Network Ports
-22 - ssh
-80 - http
-443 - https
-3000 - Rails Proxy
-4000 - HTTP Frontend
-5432- PostgreSQL
+- 22 - ssh
+- 80 - http
+- 443 - https
+- 3000 - Rails Proxy
+- 4000 - HTTP Frontend
+- 5432- PostgreSQL
 
 ## Environments
 - [dev](http://18.219.53.0:4000/calendar)
@@ -107,20 +107,23 @@ serve -s build -l 4000
 
 ## Docker Build Initial Setup
 
+1. Install Docker following the instructions on the [offical web page](https://www.docker.com/)
+
 1. You can skip this step as the Dockerfile is already commited to the repo.
-  1. If the Dockerfile requires regeneration, create a new Dockerfile using dockerfile-rails.
+- If the Dockerfile requires regeneration, create a new Dockerfile using dockerfile-rails.
 ```bash
 bin/rails generate dockerfile --compose --postgresql
 ```
 
 1. You can skip this step as the secrets have already been generated and commited to the repo.
-  1. If the secrets need to be recreated, follow these steps
+- If the secrets need to be recreated, follow these steps
+  1. Delete old secret key
 ```bash
 rm .env
 rm config/credentials.yml.enc
 rm config/master.key
 ```
-  1. Generate New Key
+  1. Generate new secret key
 ```bash
 EDITOR=nano bin/rails credentials:edit
 ```
@@ -130,9 +133,7 @@ Simply hit Ctrl-X to save and exit. This will generate a new config/master.key, 
 ```bash
 echo RAILS_MASTER_KEY=$(cat config/master.key) > .env
 ```
-Note: config/master.key and .env should NOT be checked in to git or baked into the docker container. It's the master password. Store it someplace secure.
-
-1. Install Docker following the instructions on the offical web page
+Note: config/master.key and .env should **NOT** be checked in to git or baked into the docker container. It's the master password. Store it someplace secure.
 
 ## Docker Image Build & Release
 1. Bump version in docker-compose.yml
@@ -140,10 +141,13 @@ Note: config/master.key and .env should NOT be checked in to git or baked into t
 ```bash
 docker compose build && docker compose up -d
 ```
+
 1. Test Image. If good:
 ```bash
 docker compose push
 ```
+
+Image should now be hosted on [rooneyjohn/cal-app](https://hub.docker.com/r/rooneyjohn/cal-app/tags)
 
 # References
 - https://github.com/learn-co-curriculum/react-rails-project-setup-guide
