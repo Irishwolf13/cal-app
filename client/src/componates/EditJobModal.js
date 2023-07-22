@@ -26,11 +26,23 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
         body: JSON.stringify({eventClickedOn, newPerDay: newPerDay})
       });
       const data = await response.json();
+
       let myInfo = data.events;
-      for (let i = myInfo.length - 1; i >= 0; i--) {
-        if (myInfo[i].hours_remaining <= 0) {
-          await handleSubClicked(e);
+      let myRemaining = myInfo[myInfo.length -1].hours_remaining
+      let myPerDay = myInfo[myInfo.length -1].hours_per_day
+
+      if (myRemaining <= 0) {
+        for (let i = myInfo.length - 1; i >= 0; i--) {
+          if (myInfo[i].hours_remaining <= 0) {
+            await handleSubClicked(e);
+          }
         }
+      }
+      if (myRemaining > myPerDay) {
+        const myNumber = Math.ceil(myRemaining/myPerDay)
+        for (let index = 1; index < myNumber; index++) {
+          await handleAddClicked(e);
+        }        
       }
       setRefreshMe(prev => !prev);
       setModalEditJob(!modalEditJob);
@@ -100,23 +112,27 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     }
   }
   
-  const handleAddClicked = (e) => {
+  const handleAddClicked = async (e) => {
     e.preventDefault();
     // Fetch POST job
-    fetch(`/jobs/add/${eventClickedOn.job_id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({job_id: eventClickedOn.job_id})
-    })
-    .then(response => response.json())
-    .then(data => {
-      setRefreshMe(prev => !prev)
+    try {
+      const response = await fetch(`/jobs/add/${eventClickedOn.job_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({job_id: eventClickedOn.job_id})
+      });
+
+      const data = await response.json();
+      setRefreshMe(prev => !prev);
       // setOptions(!options)
       // setModalEditJob(!modalEditJob)
-    })
+    } catch (error) {
+      console.error(error);
+    }
   }
+
   const handleSubClicked = async (e) => {
     e.preventDefault();
     try {
