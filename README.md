@@ -1,5 +1,3 @@
-# README
-
 # Running with Docker Compose
 
 Sample docker-compose.yml
@@ -37,6 +35,7 @@ services:
 ```text
 RAILS_MASTER_KEY=passwordhere
 ```
+If you need the password, please contact me.
 
 # Development
 
@@ -55,25 +54,25 @@ RAILS_MASTER_KEY=passwordhere
 # Local Dev Environment Setup
 1. Clone this repo. Commands are issued in the root of the repo unless otherwise specified.
 
-1. [Install rbenv](https://github.com/rbenv/rbenv-installer#rbenv-installer) if you want multiple versions of Ruby on the same workstation.
+2. [Install rbenv](https://github.com/rbenv/rbenv-installer#rbenv-installer) if you want multiple versions of Ruby on the same workstation.
 
 ```bash
 rbenv install 3.2.2 --verbose
 rbenv global 3.2.2
 ```
 
-1. Install NodeJS v16
+3. Install NodeJS v16
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
 ```
 
-1. Install Postgres & Client Libraries
+4. Install Postgres & Client Libraries
 ```bash
 sudo apt install postgresql postgresql-contrib libpq-dev
 sudo service postgresql start
 ```
 
-1. Install Node.js dependencies from package.json
+5. Install Node.js dependencies from package.json
 ```bash
 npm install
 ```
@@ -109,13 +108,13 @@ serve -s build -l 4000
 
 1. Install Docker following the instructions on the [offical web page](https://www.docker.com/)
 
-1. You can skip this step as the Dockerfile is already commited to the repo.
+2. You can skip this step as the Dockerfile is already commited to the repo.
 - If the Dockerfile requires regeneration, create a new Dockerfile using dockerfile-rails.
 ```bash
 bin/rails generate dockerfile --compose --postgresql
 ```
 
-1. You can skip this step as the secrets have already been generated and commited to the repo.
+3. You can skip this step as the secrets have already been generated and commited to the repo.
 - If the secrets need to be recreated, follow these steps
   1. Delete old secret key
 ```bash
@@ -137,12 +136,12 @@ Note: config/master.key and .env should **NOT** be checked in to git or baked in
 
 ## Docker Image Build & Release
 1. Bump version in docker-compose.yml
-1. Build & run new Docker Image
+2. Build & run new Docker Image
 ```bash
 docker compose build && docker compose up -d
 ```
 
-1. Test Image. If good:
+3. Test Image. If good:
 ```bash
 docker compose push
 ```
