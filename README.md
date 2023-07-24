@@ -27,15 +27,16 @@ services:
     healthcheck:
       test: pg_isready
       interval: 2s
-      timeout: 5s
-      retries: 30
+        timeout: 5s
+        retries: 30
 ```
-
-- create a .env file in the same dir as your docker-compose.yml. It's contents should be:
+## Secrets
+- Contact me if you need the password
+- create a [.env](https://docs.docker.com/compose/environment-variables/set-environment-variables/) file in the same dir as your docker-compose.yml. It's contents should be:
 ```text
 RAILS_MASTER_KEY=passwordhere
 ```
-If you need the password, please contact me.
+- Note that this is not the best practice method as there are security risks involved with vanilla environment variables. It is recommended to use a more secure method of secret distribution such as [docker secrets](https://docs.docker.com/compose/use-secrets/).
 
 # Development
 
