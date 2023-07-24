@@ -126,9 +126,13 @@ class JobsController < ApplicationController
   end
 
   def sub
-    @job = Job.find(params[:id])
-    highest_id_event = @job.events.max_by { |event| event.id }
-    highest_id_event.destroy
+    @loop_number = params[:numb_subtract]
+    while @loop_number > 0 do
+      @job = Job.find(params[:id])
+      highest_id_event = @job.events.max_by { |event| event.id }
+      highest_id_event.destroy
+      @loop_number = @loop_number - 1
+    end
     render json: @job, include: :events, status: :created, location: @job
   end
 

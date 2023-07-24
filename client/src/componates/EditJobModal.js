@@ -27,9 +27,21 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
+      // Might want to put this into it's own function
+      // This checks how many events need to be deleted, then deletes them using handleSubClicked
+      let myCount = 0
+      for (let i = 0; i < data.events.length; i++) {
+        const element = data.events[i];
+        if (element.hours_remaining < 0) {
+          myCount++
+        }
+      }
+      handleSubClicked(e, myCount)
+
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
+    // console.log('EventClickedON',eventClickedOn)
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
@@ -100,7 +112,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       // setModalEditJob(!modalEditJob)
     })
   }
-  const handleSubClicked = (e) => {
+  const handleSubClicked = (e, numberToSubtract = 1) => {
     e.preventDefault();
     // Fetch POST job
     fetch(`/jobs/sub/${eventClickedOn.job_id}`, {
@@ -108,7 +120,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({job_id: eventClickedOn.job_id})
+      body: JSON.stringify({job_id: eventClickedOn.job_id, numb_subtract: numberToSubtract})
     })
     .then(response => response.json())
     .then(data => {
@@ -190,8 +202,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
               <div className='smallBreak'></div>
               <button className='editingButtons' type="submit">Submit</button>
               <br></br>
-              <button  className='editingButtons' onClick={handleSubClicked}>Sub Day</button>
-              <button  className='editingButtons' onClick={handleAddClicked}>Add Day</button>
+              <button  className='editingButtons' onClick={e => handleSubClicked(e)}>Sub Day</button>
+              <button  className='editingButtons' onClick={e => handleAddClicked(e)}>Add Day</button>
             </form>
               {isFirstDay && <button className='deleteJobButton' onClick={handleDeleteJob} >Delete Job</button>}
           </div>
