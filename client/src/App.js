@@ -12,12 +12,12 @@ function App() {
     <div className="App">
       <img className="mainLogo" src={myImage} alt="Reliable Design Logo"/>
       <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={<HomePage />}
-          />
+          /> */}
           <Route
-            path="/calendar"
+            path="/"
             element={<MyCalendar />}
           />
         </Routes>
