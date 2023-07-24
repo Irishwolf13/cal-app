@@ -102,26 +102,30 @@ class JobsController < ApplicationController
   end
 
   def add
-    @job = Job.find(params[:id])
-    highest_id_event = @job.events.max_by { |event| event.id }
-    # checks to see if the date is a Saturday and ajusts it to Monday
-    @myDay = highest_id_event.start_time.wday + 1
-    if @myDay == 6
-      newDate = highest_id_event.start_time + 3
-    else
-      newDate = highest_id_event.start_time + 1
+    @loop_number = params[:numb_add]
+    while @loop_number > 0 do
+      @job = Job.find(params[:id])
+      highest_id_event = @job.events.max_by { |event| event.id }
+      # checks to see if the date is a Saturday and ajusts it to Monday
+      @myDay = highest_id_event.start_time.wday + 1
+      if @myDay == 6
+        newDate = highest_id_event.start_time + 3
+      else
+        newDate = highest_id_event.start_time + 1
+      end
+      
+      my_object = {
+        job_id: @job.id,
+        start_time: newDate,
+        end_time: newDate,
+        hours_per_day: @job.hours_per_day,
+        hours_remaining: highest_id_event.hours_remaining - highest_id_event.hours_per_day,
+        color: @job.color,
+        uuid: UUID.new.generate
+      }
+      Event.create(my_object)
+      @loop_number = @loop_number - 1
     end
-
-    my_object = {
-      job_id: @job.id,
-      start_time: newDate,
-      end_time: newDate,
-      hours_per_day: highest_id_event.hours_per_day,
-      hours_remaining: highest_id_event.hours_remaining - highest_id_event.hours_per_day,
-      color: @job.color,
-      uuid: UUID.new.generate
-    }
-    Event.create(my_object)
     render json: @job, include: :events, status: :created, location: @job
   end
 

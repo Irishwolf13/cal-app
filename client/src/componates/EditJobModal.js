@@ -27,17 +27,9 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      // Might want to put this into it's own function
-      // This checks how many events need to be deleted, then deletes them using handleSubClicked
-      let myCount = 0
-      for (let i = 0; i < data.events.length; i++) {
-        const element = data.events[i];
-        if (element.hours_remaining < 0) {
-          myCount++
-        }
-      }
-      handleSubClicked(e, myCount)
-
+      // console.log(data)
+      autoAddEvents(e, data)
+      autoSubEvents(e, data)
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
@@ -59,6 +51,9 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
+      // console.log('Data: ',data)
+      autoAddEvents(e, data)
+      autoSubEvents(e, data)
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
@@ -95,7 +90,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     }
   }
   
-  const handleAddClicked = (e) => {
+  const handleAddClicked = (e, numberToAdd = 1) => {
     e.preventDefault();
     // Fetch POST job
     fetch(`/jobs/add/${eventClickedOn.job_id}`, {
@@ -103,7 +98,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({job_id: eventClickedOn.job_id})
+      body: JSON.stringify({job_id: eventClickedOn.job_id, numb_add: numberToAdd})
     })
     .then(response => response.json())
     .then(data => {
@@ -111,6 +106,17 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       // setOptions(!options)
       // setModalEditJob(!modalEditJob)
     })
+  }
+  const autoAddEvents = (e, data) => {
+    let addCount = 0
+      let jobPerDay = data.hours_per_day
+      let lastPerDay = data.events[data.events.length -1].hours_per_day
+      let lastHoursRemaining = data.events[data.events.length -1].hours_remaining - lastPerDay
+      while (lastHoursRemaining > 0) {
+        addCount = addCount + 1
+        lastHoursRemaining = lastHoursRemaining - jobPerDay
+      }
+      handleAddClicked(e, addCount)
   }
   const handleSubClicked = (e, numberToSubtract = 1) => {
     e.preventDefault();
@@ -128,6 +134,19 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       // setOptions(!options)
       // setModalEditJob(!modalEditJob)
     })
+  }
+
+  const autoSubEvents = (e, data) => {
+    let subCount = 0
+    for (let i = 0; i < data.events.length; i++) {
+      const element = data.events[i];
+      if (element.hours_remaining <= 0) {
+        subCount++
+      }
+    }
+    if (subCount > 0){
+      handleSubClicked(e, subCount)
+    }
   }
 
   const checkFirstDay = () =>  {
