@@ -6,8 +6,6 @@ services:
       args:
         UID: ${UID:-1000}
         GID: ${GID:-${UID:-1000}}
-      tags:
-        - "cal-app:happytag"
     ports:
       - "3000:3000"
     environment:
@@ -16,7 +14,7 @@ services:
     depends_on:
       postgres-db:
         condition: service_healthy
-    image: cal-app:20230724
+    image: cal-app:20230724a
 
   postgres-db:
     image: postgres
