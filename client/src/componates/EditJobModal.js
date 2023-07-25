@@ -68,6 +68,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setNewColor('')
     setNewHours('')
     setNewTitle('')
+    setDeliveryDate('')
   }
   const handleButtonClicked = (e) => {
     setOptions(!options)
@@ -191,6 +192,10 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
 
   const handleModalClosed = (e) => {
+    setNewColor('')
+    setNewHours('')
+    setNewTitle('')
+    setDeliveryDate('')
     setModalEditJob()
     setOptions(false)
   }
