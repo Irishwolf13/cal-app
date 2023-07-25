@@ -27,7 +27,7 @@ export default function MyCalendar() {
     fetch('/events')
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         const tempArray = data.map(event => {
           const tempObject = {
             title: `${event.job.job_name} -- ${event.hours_remaining} / ${event.hours_per_day}`,

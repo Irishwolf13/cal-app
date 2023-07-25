@@ -65,6 +65,9 @@ class JobsController < ApplicationController
     if params[:newPerDay]
       process_per_day_change
     end
+    if params[:newDelivery]
+      process_delivery_change
+    end
     render json: @job, include: :events, status: :created, location: @job
   end
 
@@ -174,7 +177,7 @@ class JobsController < ApplicationController
     end
 
     def process_per_day_change
-      puts '*********************** PerDay Change ***********************'
+      # puts '*********************** PerDay Change ***********************'
       @foundEvent = false
       @hours_remaining = 0
       @job.events.order(:id).each do |event|
@@ -205,6 +208,12 @@ class JobsController < ApplicationController
     def process_title_change
       # puts '*********************** TITLE Change ***********************'
       @job.job_name = params[:newTitle]
+      @job.save
+    end
+
+    def process_delivery_change
+      # puts '*********************** TITLE Change ***********************'
+      @job.delivery = params[:newDelivery]
       @job.save
     end
 

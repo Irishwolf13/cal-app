@@ -10,6 +10,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [newHours, setNewHours] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [isFirstDay, setIsFirstDay] = useState(false)
+  const [deliveryDate, setDeliveryDate] = useState('')
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
@@ -41,13 +42,19 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       alert('Can not have negative hours')
       return
     }
+    let infoToSend = ''
+    if (deliveryDate !== '') {
+      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newDelivery: deliveryDate})
+    }else {
+      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle})
+    }
     // Fetch POST job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle})
+      body: infoToSend
     })
     .then(response => response.json())
     .then(data => {
@@ -188,6 +195,12 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setOptions(false)
   }
 
+  const handleDatePicker = (e) => {
+    const selectedDate = new Date(e.target.value);
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    setDeliveryDate(selectedDate);
+  }
+
   return (
     <div>
       <Modal
@@ -217,14 +230,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
             <div>Changes for Entire Job</div>
             <br></br>
             <form className="createJobForm" onSubmit={handleJobChangeSubmit}>
-              <label htmlFor="totalHours">Hours</label>
-              <input
-                type="number"
-                id="totalHours"
-                placeholder='New Hours'
-                onChange={(e) => setNewHours(e.target.value)}
-              />
-              <br></br>
               <label htmlFor="totalHours">Title</label>
               <input
                 type="text"
@@ -233,8 +238,20 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 onChange={(e) => setNewTitle(e.target.value)}
               />
               <br></br>
+              <label htmlFor="totalHours">Hours</label>
+              <input
+                type="number"
+                id="totalHours"
+                placeholder='New Hours'
+                onChange={(e) => setNewHours(e.target.value)}
+              />
+              <br></br>
+              <label>New Delivery Date</label>
+              <br></br>
+              <input className="datePicker" type="date" id="datepicker" onChange={handleDatePicker}></input>
+              <br></br>
               <select className="colorDropdown" onChange={handleColorDropdownChange}>
-                <option value="rgb(55, 55, 255)">Select Color</option>
+                <option value="rgb(55, 55, 255)">New Color</option>
                 <option value="rgb(55, 55, 255)">Blue</option>
                 <option value="rgb(172, 236, 253)">Light Blue</option>
                 <option value="rgb(0, 129, 0)">Green</option>
@@ -244,7 +261,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 <option value="rgb(255, 255, 0)">Yellow</option>
                 <option value="rgba(255, 166, 0, 0.623)">Orange</option>
               </select>
-              <div className='smallBreak'></div>
+              <br></br>
               <button className='editingButtons' type="submit">Submit</button>
               <br></br>
               <button  className='editingButtons' onClick={e => handleSubClicked(e)}>Sub Day</button>
