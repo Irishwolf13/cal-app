@@ -13,6 +13,9 @@ class JobsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
+    puts "************************************* HERE *******************************"
+    puts job_params
+    puts params
     @job.uuid = UUID.new.generate
     @job.save
 
@@ -164,9 +167,9 @@ class JobsController < ApplicationController
         :job_name,
         :inital_hours,
         :hours_per_day,
-        :color,
         :start_time,
-        :uuid
+        :color,
+        :delivery
       )
     end
 

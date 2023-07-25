@@ -27,6 +27,7 @@ export default function MyCalendar() {
     fetch('/events')
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         const tempArray = data.map(event => {
           const tempObject = {
             title: `${event.job.job_name} -- ${event.hours_remaining} / ${event.hours_per_day}`,
@@ -36,6 +37,7 @@ export default function MyCalendar() {
             color: event.color,
             myID: event.id,
             perDay: event.hours_per_day,
+            delivery: event.job.delivery,
             uuid: event.uuid
           }
           return tempObject
@@ -184,9 +186,9 @@ export default function MyCalendar() {
   }
 
   const tooltipContent = (event) => {
-    return (
-      `${event.job_id}`
-    );
+    const deliveryDate = new Date(event.delivery);
+    const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+    return `Delivery Date: ${formattedDeliveryDate}`;
   };
 
   return (
@@ -230,7 +232,7 @@ export default function MyCalendar() {
         popup
         style={{ height: calSize, margin: "20px", zIndex: 1 }}
         dayPropGetter={checkIfOverHours}
-        // tooltipAccessor={tooltipContent}
+        tooltipAccessor={tooltipContent}
         eventPropGetter={(event) => {
           let style = {
             background: event.color,

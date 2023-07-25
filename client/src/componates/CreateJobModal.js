@@ -39,6 +39,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     if (checkBox) {
       myCurrentDate = endSelected(jobData.hoursForJob, jobData.hoursPerDay)
     }
+    const date = new Date('07/18/2023');
     setCheckBox(false)
     // Fetch POST job
     fetch(`/jobs`, {
@@ -51,6 +52,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         inital_hours: jobData.hoursForJob,
         hours_per_day: jobData.hoursPerDay,
         start_time: slotClickedOn.start,
+        delivery: date,
         color: jobData.color
       })
     })
