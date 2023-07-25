@@ -18,23 +18,24 @@ class JobsController < ApplicationController
 
     hours_remaining = @job.inital_hours
     current_date = @job.start_time
+    my_hours_per_day = @job.hours_per_day
 
     while hours_remaining > 0
       if !current_date.saturday? && !current_date.sunday?
-        if hours_remaining - @job.hours_per_day < 0
-          @job.hours_per_day = hours_remaining
+        if hours_remaining - my_hours_per_day < 0
+          my_hours_per_day = hours_remaining
         end
         my_object = {
           job_id: @job.id,
           start_time: current_date,
           end_time: current_date,
-          hours_per_day: @job.hours_per_day,
+          hours_per_day: my_hours_per_day,
           hours_remaining: hours_remaining,
           color: @job.color,
           uuid: UUID.new.generate
         }
         Event.create(my_object)
-        hours_remaining -= @job.hours_per_day
+        hours_remaining -= my_hours_per_day
       end
       current_date += 1
     end
@@ -143,6 +144,11 @@ class JobsController < ApplicationController
       highest_id_event.destroy
       @loop_number = @loop_number - 1
     end
+    # Take highest_id_event and set it's perDay = hours_remaining
+    @job = Job.find(params[:id])
+    highest_id_event = @job.events.max_by { |event| event.id }
+    highest_id_event.hours_per_day = highest_id_event.hours_remaining
+    highest_id_event.save
     render json: @job, include: :events, status: :created, location: @job
   end
 

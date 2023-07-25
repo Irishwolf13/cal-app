@@ -27,13 +27,13 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      console.log('PerDaySubmit Data: ',data)
+      // console.log('PerDaySubmit Data: ',data)
       autoAddEvents(e, data)
       autoSubEvents(e, data)
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
-    console.log('EventClickedON',eventClickedOn)
+    // console.log('EventClickedON',eventClickedOn)
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
@@ -108,25 +108,18 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
   }
   const autoAddEvents = (e, data) => {
-    // First we check if the last event's hours_per_day < data.hours_per_day
-    // And if event's hours_remaining is > event's hours_per_day
-    // If so, going to need to patch that updated hours_per_day, then use that return data to complete steps below
     let lastDay = data.events[data.events.length -1]
-    console.log('lastDay: ', lastDay)
-    console.log('lastDay.hours_remaining', lastDay.hours_remaining)
-    console.log('lastDay.hours_per_day', lastDay.hours_per_day)
-    console.log('data.hours_per_day', data.hours_per_day)
+    // console.log('lastDay: ', lastDay)
+    // console.log('lastDay.hours_remaining', lastDay.hours_remaining)
+    // console.log('lastDay.hours_per_day', lastDay.hours_per_day)
+    // console.log('data.hours_per_day', data.hours_per_day)
     if (lastDay.hours_remaining >= data.hours_per_day) {
-      console.log('hours remaining are greater than or equal to hours Per day')
       lastDay.hours_per_day = data.hours_per_day
     }else {
-      console.log('hours remaining are less than hours Per day')
       lastDay.hours_per_day = lastDay.hours_remaining
     }
     const filteredEvent = allEvents.filter(event => event.uuid === lastDay.uuid);
     eventClickedOn = filteredEvent[0]
-    console.log('filtered', filteredEvent[0])
-    // THEN PATCH AGAIN...
     // Fetch PATCH job
     fetch(`/jobs/${filteredEvent[0].job_id}`, {
       method: 'PATCH',

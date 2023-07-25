@@ -183,6 +183,12 @@ export default function MyCalendar() {
     setModalCompanyHours(prev => !prev)
   }
 
+  const tooltipContent = (event) => {
+    return (
+      `${event.job_id}`
+    );
+  };
+
   return (
     <div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
@@ -224,6 +230,7 @@ export default function MyCalendar() {
         popup
         style={{ height: calSize, margin: "20px", zIndex: 1 }}
         dayPropGetter={checkIfOverHours}
+        // tooltipAccessor={tooltipContent}
         eventPropGetter={(event) => {
           let style = {
             background: event.color,
