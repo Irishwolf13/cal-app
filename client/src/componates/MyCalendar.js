@@ -52,8 +52,8 @@ export default function MyCalendar() {
 
   useEffect(() => {
     fetchData();
-    // const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
-    // return () => clearInterval(interval);
+    const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
+    return () => clearInterval(interval);
   }, [refreshMe]);
 
   // Had to add this in to avoid some errors with slot section.
@@ -193,7 +193,7 @@ export default function MyCalendar() {
 
   return (
     <div>
-      <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
+      <button className="maxButton" onClick={handleCompanyButton}>Daily Max</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
