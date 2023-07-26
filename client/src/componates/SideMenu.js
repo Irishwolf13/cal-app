@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import SideMenuItem from "./SideMenuItem";
 
 export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
   const [allJobs, setAllJobs] = useState(null);
@@ -16,7 +17,7 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Data: ', data);
+        // console.log('Data: ', data);
         let sortedData = sortDataByDeliveryDate(data);
         setAllJobs(sortedData);
         setSelectedDates(Array(sortedData.length).fill(null));
@@ -63,7 +64,7 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
   };
 
   const handlePatchJob = (id, selectedDate) => {
-    console.log("Selected Date:",selectedDate);
+    // console.log("Selected Date:",selectedDate);
     fetch(`/jobs/${id}`, {
       method: 'PATCH',
       headers: {
@@ -81,11 +82,11 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
       return toDisplay.map((element, index) => {
         return (
           <div className="sideBarInfo" key={element.uuid} style={{ backgroundColor: element.color }}>
-            <div>JobName: {element.job_name}</div>
-            <div>Job Hours: {element.inital_hours}</div>
-            <div>Job Start Date: {element.events[0].start_time}</div>
-            <div>Job End Date: {element.events[element.events.length - 1].start_time}</div>
-            <div>Delivery Date:</div>
+            <SideMenuItem leftSide={"JobName: "} rightSide={element.job_name}/>
+            <SideMenuItem leftSide={"Job Hours: "} rightSide={element.inital_hours} />
+            <SideMenuItem leftSide={"Job Start Date: "} rightSide={element.events[0].start_time} />
+            <SideMenuItem leftSide={"Job End Date: "} rightSide={element.events[element.events.length - 1].start_time} />
+            <label>Delivery Date: </label>
             <DatePicker
               selected={selectedDates[index]}
               onChange={(date) => handleDatePicker(date, index)}
