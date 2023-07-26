@@ -112,7 +112,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const handleDatePicker = (date) => {
     if (date !== null) {
       const selectedDate = date;
-      selectedDate.setDate(selectedDate.getDate() + 1);
+      selectedDate.setDate(selectedDate.getDate());
       setSelectedDate(selectedDate);
     }else {setSelectedDate(null)}
   }

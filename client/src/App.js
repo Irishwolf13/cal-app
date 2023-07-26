@@ -9,6 +9,7 @@ import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [refreshMe, setRefreshMe] = useState(false);
 
   const handleClick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -23,7 +24,7 @@ function App() {
       <div className="mainContainer">
         <div className={`menuBar ${isMenuOpen ? '' : 'collapsed'}`}>
           {isMenuOpen && 
-            <SideMenu />
+            <SideMenu isMenuOpen={isMenuOpen} setRefreshMe={setRefreshMe} refreshMe={refreshMe}/>
           }
         </div>
         <div className={`mainContent ${isMenuOpen ? '' : 'expanded'}`}>
@@ -34,7 +35,7 @@ function App() {
               /> */}
               <Route
                 path="/"
-                element={<MyCalendar />}
+                element={<MyCalendar setRefreshMe={setRefreshMe} refreshMe={refreshMe}/>}
               />
             </Routes>
         </div>

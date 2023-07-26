@@ -11,7 +11,7 @@ import BasicModal from "./BasicModal"
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
 
-export default function MyCalendar() {
+export default function MyCalendar({ refreshMe, setRefreshMe }) {
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -19,7 +19,6 @@ export default function MyCalendar() {
   const [modalCompanyHours, setModalCompanyHours] = useState(false);
   const [slotClickedOn, setslotClickedOn] = useState();
   const [eventClickedOn, setEventClickedOn] = useState();
-  const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
   const [newComapnyHours, setNewCompanyHours] = useState()
 
@@ -134,6 +133,7 @@ export default function MyCalendar() {
       sortJobAndStart(adjustedEvents);
       setAllEvents(adjustedEvents)
     });
+    setRefreshMe(prev => !prev)
     // Use response to update allEvents
   }
   const sortJobAndStart = (object) => {
@@ -187,6 +187,7 @@ export default function MyCalendar() {
 
   const tooltipContent = (event) => {
     const deliveryDate = new Date(event.delivery);
+    deliveryDate.setDate(deliveryDate.getDate() + 1);
     const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
     return `Delivery Date: ${formattedDeliveryDate}`;
   };
