@@ -77,13 +77,17 @@
   width: 80px;
   margin-left: 10px;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 .colorDropdown {
   margin-bottom: 20px;
+  cursor: pointer;
 }
-.datePickerContainer {
-  margin-bottom: 20px;
 
+.react-datepicker__input-container input {
+  width: 125px;
+  text-align: center;
+  cursor: pointer;
 }
 
 /* ***************** BUTTONS ***************** */
@@ -91,21 +95,25 @@
   position:absolute;
   left: 1px;
   top: 1px;
+  cursor: pointer;
 }
 .deleteJobButton{
   position:absolute;
   right: 1px;
   bottom: 1px;
   background-color: rgb(255, 61, 61);
+  cursor: pointer;
 }
 .editingButtons{
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .basicButton{
   position:absolute;
   left: 1px;
   top: 1px;
+  cursor: pointer;
 }
 
 /* ***************** CHECKBOXES ***************** */

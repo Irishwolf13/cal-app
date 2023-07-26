@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
-  const [deliveryDate, setDeliveryDate] = useState(new Date('01/02/2000'))
+  const [selectedDate, setSelectedDate] = useState(null)
 
   const [jobData, setJobData] = useState({
     hoursForJob: '',
@@ -52,7 +54,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         inital_hours: jobData.hoursForJob,
         hours_per_day: jobData.hoursPerDay,
         start_time: slotClickedOn.start,
-        delivery: deliveryDate,
+        delivery: selectedDate,
         color: jobData.color
       })
     })
@@ -69,7 +71,6 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       hoursPerDay: '',
       nameOfJob: ''
     }));
-    setDeliveryDate(new Date('01/02/2000'))
   };
 
   const handleColorDropdownChange = (e) => {
@@ -81,6 +82,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   }
 
   const handleModalClose = (e) => {
+    setSelectedDate(null)
     setModalCreateJob()
     setCheckBox(false);
   }
@@ -107,10 +109,12 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     return myDate;
   }
 
-  const handleDatePicker = (e) => {
-    const selectedDate = new Date(e.target.value);
-    selectedDate.setDate(selectedDate.getDate() + 1);
-    setDeliveryDate(selectedDate);
+  const handleDatePicker = (date) => {
+    if (date !== null) {
+      const selectedDate = date;
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      setSelectedDate(selectedDate);
+    }else {setSelectedDate(null)}
   }
 
   return (
@@ -174,11 +178,11 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               <option value="rgb(255, 255, 0)">Yellow</option>
               <option value="rgba(255, 166, 0, 0.623)">Orange</option>
             </select>
-            <br></br>
-            <label htmlFor="datepicker">Delivery Date</label>
-            <div className='datePickerContainer'>
-              <input className="datePicker" type="date" id="datepicker" onChange={handleDatePicker}></input>
-            </div>
+            <DatePicker 
+              selected={selectedDate} 
+              onChange={date => handleDatePicker(date)} 
+              placeholderText="Select Delivery Date"
+            />
             <br></br>
             <button type="submit">Submit</button>
           </form>

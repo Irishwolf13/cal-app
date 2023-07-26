@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function EditJobModal({ modalEditJob, setModalEditJob, eventClickedOn, setRefreshMe, allEvents}) {
   Modal.setAppElement('#root')
@@ -10,7 +12,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [newHours, setNewHours] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [isFirstDay, setIsFirstDay] = useState(false)
-  const [deliveryDate, setDeliveryDate] = useState('')
+  const [selectedDate, setSelectedDate] = useState(null)
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
@@ -43,8 +45,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       return
     }
     let infoToSend = ''
-    if (deliveryDate !== '') {
-      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newDelivery: deliveryDate})
+    if (selectedDate !== null) {
+      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newDelivery: selectedDate})
     }else {
       infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle})
     }
@@ -68,7 +70,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setNewColor('')
     setNewHours('')
     setNewTitle('')
-    setDeliveryDate('')
+    setSelectedDate(null)
   }
   const handleButtonClicked = (e) => {
     setOptions(!options)
@@ -195,15 +197,17 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setNewColor('')
     setNewHours('')
     setNewTitle('')
-    setDeliveryDate('')
+    setSelectedDate(null)
     setModalEditJob()
     setOptions(false)
   }
 
-  const handleDatePicker = (e) => {
-    const selectedDate = new Date(e.target.value);
-    selectedDate.setDate(selectedDate.getDate() + 1);
-    setDeliveryDate(selectedDate);
+  const handleDatePicker = (date) => {
+    if (date !== null) {
+      const selectedDate = date;
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      setSelectedDate(selectedDate);
+    }else {setSelectedDate(null)}
   }
 
   return (
@@ -251,10 +255,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 onChange={(e) => setNewHours(e.target.value)}
               />
               <br></br>
-              <label>New Delivery Date</label>
-              <br></br>
-              <input className="datePicker" type="date" id="datepicker" onChange={handleDatePicker}></input>
-              <br></br>
               <select className="colorDropdown" onChange={handleColorDropdownChange}>
                 <option value="rgb(55, 55, 255)">New Color</option>
                 <option value="rgb(55, 55, 255)">Blue</option>
@@ -266,6 +266,11 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 <option value="rgb(255, 255, 0)">Yellow</option>
                 <option value="rgba(255, 166, 0, 0.623)">Orange</option>
               </select>
+              <DatePicker 
+                selected={selectedDate} 
+                onChange={date => handleDatePicker(date)} 
+                placeholderText="New Delivery Date"
+              />
               <br></br>
               <button className='editingButtons' type="submit">Submit</button>
               <br></br>
