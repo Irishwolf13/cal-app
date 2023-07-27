@@ -32,6 +32,20 @@
   border-color: black;
   margin: 5px;
 }
+.sideBarSpacer{
+  height: 40px;
+}
+.sideMenuItemContainer{
+  display: flex;
+  flex-wrap: wrap;
+}
+.sideMenuItemLeft{
+  flex-basis: 50%;
+}
+.datePickerLable{
+  margin-right: 40px;
+  margin-left: 25px;
+}
 /* ***************** MODAL INFORMATION ***************** */
 .modalBasic {
   background-color: rgb(255, 255, 255);

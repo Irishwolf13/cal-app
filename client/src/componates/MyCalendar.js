@@ -137,7 +137,6 @@ export default function MyCalendar({ refreshMe, setRefreshMe }) {
     // Use response to update allEvents
   }
   const sortJobAndStart = (object) => {
-    // console.log(object)
     object.sort((a, b) => {
       // First, compare the job_id
       if (a.job_id < b.job_id) {

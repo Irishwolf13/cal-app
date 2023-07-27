@@ -24,6 +24,9 @@ function App() {
       <div className="mainContainer">
         <div className={`menuBar ${isMenuOpen ? '' : 'collapsed'}`}>
           {isMenuOpen && 
+            <div className="sideBarSpacer"></div>
+          }
+          {isMenuOpen && 
             <SideMenu isMenuOpen={isMenuOpen} setRefreshMe={setRefreshMe} refreshMe={refreshMe}/>
           }
         </div>

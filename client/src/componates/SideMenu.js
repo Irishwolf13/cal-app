@@ -82,16 +82,13 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
       return toDisplay.map((element, index) => {
         return (
           <div className="sideBarInfo" key={element.uuid} style={{ backgroundColor: element.color }}>
-            <SideMenuItem leftSide={"JobName: "} rightSide={element.job_name}/>
-            <SideMenuItem leftSide={"Job Hours: "} rightSide={element.inital_hours} />
-            <SideMenuItem leftSide={"Job Start Date: "} rightSide={element.events[0].start_time} />
-            <SideMenuItem leftSide={"Job End Date: "} rightSide={element.events[element.events.length - 1].start_time} />
-            <label>Delivery Date: </label>
-            <DatePicker
-              selected={selectedDates[index]}
-              onChange={(date) => handleDatePicker(date, index)}
-              placeholderText={displayContent(element)}
-            />
+            <SideMenuItem element={element}/>
+            <label className='datePickerLable'>Delivery Date:</label>
+              <DatePicker
+                selected={selectedDates[index]}
+                onChange={(date) => handleDatePicker(date, index)}
+                placeholderText={displayContent(element)}
+              />
           </div>
         );
       });
@@ -100,7 +97,6 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
 
   return (
     <div>
-      {/* <button onClick={handleClick}>ReFresh</button> */}
       {renderElements(allJobs)}
     </div>
   );
