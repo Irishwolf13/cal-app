@@ -28,8 +28,7 @@
 /* ***************** TESTING ***************** */
 .sideBarInfo{
   border-style: solid;
-  border-width: 1px;
-  border-color: black;
+  border-width: 4px;
   margin: 5px;
 }
 .sideBarSpacer{
@@ -45,6 +44,11 @@
 .datePickerLable{
   margin-right: 40px;
   margin-left: 25px;
+}
+.sideMenuCurrentStatus{
+  margin-right: 50px;
+  margin-left: 55px;
+
 }
 /* ***************** MODAL INFORMATION ***************** */
 .modalBasic {

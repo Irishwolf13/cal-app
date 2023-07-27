@@ -8,7 +8,7 @@ import SideMenu from "./componates/SideMenu";
 import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [refreshMe, setRefreshMe] = useState(false);
 
   const handleClick = () => {

@@ -81,7 +81,7 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
     if (toDisplay) {
       return toDisplay.map((element, index) => {
         return (
-          <div className="sideBarInfo" key={element.uuid} style={{ backgroundColor: element.color }}>
+          <div className="sideBarInfo" key={element.uuid} style={{ background: `linear-gradient(to right, ${element.color} 3%, white 8%)` }}>
             <SideMenuItem element={element}/>
             <label className='datePickerLable'>Delivery Date:</label>
               <DatePicker
