@@ -161,25 +161,40 @@ export default function MyCalendar() {
     setModalCreateJob(!modalCreateJob)
     setslotClickedOn(event)
   }
-
+// READ THROUGH THIS CODE AT SOME POINT AND UNDERSTAND WHAT IS HAPPENING
   const checkIfOverHours = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth();
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth();
   
-    // if (day === 14) {
-      let tempHours = 0
-      allEvents.forEach(event => {
-        let myDate = new Date(event.start)
-        if (day === myDate.getDate() + 1 && month === myDate.getMonth()) {
-          tempHours += event.perDay
-        }
-      })
-      if (tempHours > newComapnyHours) {
-        return { className: 'overWarning' };
+    let tempHours = 0;
+    allEvents.forEach(event => {
+      let myDate = new Date(event.start);
+      let eventDay = myDate.getUTCDate();
+      let eventMonth = myDate.getUTCMonth();
+  
+      // Check if the current date is the last day of the month
+      if (day === getLastDayOfMonth(month) && month === eventMonth && eventDay === getLastDayOfMonth(eventMonth)) {
+        tempHours += event.perDay;
       }
-    // }
+      // Check if the current date is not the last day of the month and NOT the day before the last day of the month
+      else if (day === eventDay && month === eventMonth && day !== getLastDayOfMonth(month) - 1) {
+        tempHours += event.perDay;
+      }
+    });
+  
+    if (tempHours > newComapnyHours) {
+      return { className: 'overWarning' };
+    }
+  
     return null;
   };
+  // Helper function to get the last day of a specific month
+  const getLastDayOfMonth = (month) => {
+    const nextMonth = new Date(new Date().getUTCFullYear(), month + 1, 1);
+    const lastDay = new Date(nextMonth - 1).getUTCDate();
+    return lastDay;
+  };
+// END READ THROUGH THIS CODE AT SOME POINT AND UNDERSTAND WHAT IS HAPPENING
 
   const handleCompanyButton = () => {
     setModalCompanyHours(prev => !prev)
