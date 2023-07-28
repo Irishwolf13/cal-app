@@ -11,7 +11,7 @@ import BasicModal from "./BasicModal"
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
 
-export default function MyCalendar({ refreshMe, setRefreshMe }) {
+export default function MyCalendar({ refreshMe, setRefreshMe, handleRangeChange }) {
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -229,6 +229,7 @@ export default function MyCalendar({ refreshMe, setRefreshMe }) {
         onSelectEvent={handleEventClicked}
         onEventDrop={handleEventDrop}
         onSelectSlot={handleSelectSlot}
+        onRangeChange={handleRangeChange}
         popup
         style={{ height: calSize, margin: "20px", zIndex: 1 }}
         dayPropGetter={checkIfOverHours}

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import SideMenuItem from "./SideMenuItem";
 
-export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
+export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe, viewDates }) {
   const [allJobs, setAllJobs] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
 
@@ -23,10 +21,6 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
         setSelectedDates(Array(sortedData.length).fill(null));
       });
   }, [refreshMe]);
-
-  const handleClick = () => {
-    setRefreshMe((prev) => !prev);
-  };
 
   const sortDataByDeliveryDate = (data) => {
     data.sort((a, b) => {
@@ -80,15 +74,16 @@ export default function SideMenu({ isMenuOpen, refreshMe, setRefreshMe }) {
   const renderElements = (toDisplay) => {
     if (toDisplay) {
       return toDisplay.map((element, index) => {
+        // console.log(viewDates)
         return (
-          <div className="sideBarInfo" key={element.uuid} style={{ background: `linear-gradient(to right, ${element.color} 3%, white 8%)` }}>
-            <SideMenuItem element={element}/>
-            <label className='datePickerLable'>Delivery Date:</label>
-              <DatePicker
-                selected={selectedDates[index]}
-                onChange={(date) => handleDatePicker(date, index)}
-                placeholderText={displayContent(element)}
-              />
+          <div className="sideBarInfo" key={element.uuid} style={{ background: `linear-gradient(to right, white 90%, ${element.color} 100%)` }}>
+            <SideMenuItem 
+              element={element}
+              index={index}
+              displayContent={displayContent}
+              selectedDates={selectedDates}
+              handleDatePicker={handleDatePicker}
+            />
           </div>
         );
       });

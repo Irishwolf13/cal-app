@@ -10,10 +10,18 @@ import myImage from './images/reliable_design_logo2.jpg';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [refreshMe, setRefreshMe] = useState(false);
+  const [viewDates, setViewDates] = useState({})
 
   const handleClick = () => {
     setIsMenuOpen(!isMenuOpen);
   }
+
+  const handleRangeChange = (range) => {
+    const startDate = range.start;
+    const endDate = range.end;
+    console.log(startDate, endDate);
+    setViewDates({startDate, endDate})
+  };
 
   return (
     <div className="App">
@@ -27,7 +35,12 @@ function App() {
             <div className="sideBarSpacer"></div>
           }
           {isMenuOpen && 
-            <SideMenu isMenuOpen={isMenuOpen} setRefreshMe={setRefreshMe} refreshMe={refreshMe}/>
+            <SideMenu 
+              isMenuOpen={isMenuOpen} 
+              setRefreshMe={setRefreshMe} 
+              refreshMe={refreshMe}
+              // viewDates={viewDates}
+            />
           }
         </div>
         <div className={`mainContent ${isMenuOpen ? '' : 'expanded'}`}>
@@ -38,7 +51,9 @@ function App() {
               /> */}
               <Route
                 path="/"
-                element={<MyCalendar setRefreshMe={setRefreshMe} refreshMe={refreshMe}/>}
+                element={<MyCalendar setRefreshMe={setRefreshMe} refreshMe={refreshMe} 
+                handleRangeChange={handleRangeChange}
+                />}
               />
             </Routes>
         </div>

@@ -37,17 +37,20 @@
 .sideMenuItemContainer{
   display: flex;
   flex-wrap: wrap;
+  min-width: 270px;
 }
 .sideMenuItemLeft{
-  flex-basis: 50%;
+  padding-left: 3%;
+  text-align: left;
+  /* background-color: aqua; */
+  flex-basis: 40%;
 }
 .datePickerLable{
-  margin-right: 40px;
-  margin-left: 25px;
+  margin-right: 10%;
 }
 .sideMenuCurrentStatus{
-  margin-right: 50px;
-  margin-left: 55px;
+  margin-right: 10%;
+  padding-left: 3%;
 
 }
 /* ***************** MODAL INFORMATION ***************** */
