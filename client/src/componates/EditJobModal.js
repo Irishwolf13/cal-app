@@ -30,9 +30,14 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      // console.log('PerDaySubmit Data: ',data)
-      autoAddEvents(e, data)
-      autoSubEvents(e, data)
+      console.log("There:",eventClickedOn.uuid)
+      console.log("Here: ",data.events[data.events.length - 1].uuid)
+      if (eventClickedOn.uuid === data.events[data.events.length - 1].uuid) {
+        handleAddClicked(e)
+      }else {
+        autoAddEvents(e, data)
+        autoSubEvents(e, data)
+      }
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
