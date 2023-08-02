@@ -203,7 +203,7 @@ export default function MyCalendar() {
   const tooltipContent = (event) => {
     const deliveryDate = new Date(event.delivery);
     const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
-    return `Delivery Date: ${formattedDeliveryDate}`;
+    return `${event.title}\nDelivery Date: ${formattedDeliveryDate}`;
   };
 
   return (

@@ -13,6 +13,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [newTitle, setNewTitle] = useState('');
   const [isFirstDay, setIsFirstDay] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
+  const [tempHoursRemaining, setTempHoursRemaining] = useState(0)
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
@@ -30,8 +31,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      console.log("There:",eventClickedOn.uuid)
-      console.log("Here: ",data.events[data.events.length - 1].uuid)
+      // console.log("There:",eventClickedOn.uuid)
+      // console.log("Here: ",data.events[data.events.length - 1].uuid)
       if (eventClickedOn.uuid === data.events[data.events.length - 1].uuid) {
         handleAddClicked(e)
       }else {
@@ -41,7 +42,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
-    // console.log('EventClickedON',eventClickedOn)
+    console.log('EventClickedON',eventClickedOn)
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
@@ -78,6 +79,10 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setSelectedDate(null)
   }
   const handleButtonClicked = (e) => {
+    // use this to find total job hours remaining
+    let jobToFind = eventClickedOn.job_id
+    let foundJobID = allEvents.find(job => job.job_id === jobToFind)
+    setTempHoursRemaining(foundJobID.title.match(/--\s*(.*?)\s*\//)[1])
     setOptions(!options)
     checkFirstDay()
   }
@@ -215,6 +220,16 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     }else {setSelectedDate(null)}
   }
 
+  function getPlaceholderDate() {
+    const deliveryDate = new Date(eventClickedOn.delivery);
+    const formattedDate = deliveryDate.toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric'
+    });
+    return formattedDate;
+  }
+
   return (
     <div>
       <Modal
@@ -231,7 +246,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
               type="number"
               id="newPerDay"
               name="newPerDay"
-              placeholder='hours'
+              placeholder={eventClickedOn ? eventClickedOn.title.match(/\/\s*(\d+)/)[1] : ''}
               onChange={(e) => setNewPerDay(e.target.value)}
               autoFocus
             />
@@ -244,20 +259,27 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
             <div>Changes for Entire Job</div>
             <br></br>
             <form className="createJobForm" onSubmit={handleJobChangeSubmit}>
-              <label htmlFor="totalHours">Title</label>
+              <label htmlFor="totalHours">Job Name</label>
               <input
                 type="text"
                 id="jobName"
-                placeholder='New Title'
+                placeholder={eventClickedOn.title.match(/^(.*?)\s*--/)[1]}
                 onChange={(e) => setNewTitle(e.target.value)}
               />
               <br></br>
-              <label htmlFor="totalHours">Hours</label>
+              <label htmlFor="totalHours">Job Hours</label>
               <input
                 type="number"
                 id="totalHours"
-                placeholder='New Hours'
+                placeholder={tempHoursRemaining}
                 onChange={(e) => setNewHours(e.target.value)}
+              />
+              <br></br>
+              <label>Delivery</label>
+              <DatePicker 
+                selected={selectedDate} 
+                onChange={date => handleDatePicker(date)} 
+                placeholderText={getPlaceholderDate(eventClickedOn.delivery)}
               />
               <br></br>
               <select className="colorDropdown" onChange={handleColorDropdownChange}>
@@ -271,11 +293,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 <option value="rgb(255, 255, 0)">Yellow</option>
                 <option value="rgba(255, 166, 0, 0.623)">Orange</option>
               </select>
-              <DatePicker 
-                selected={selectedDate} 
-                onChange={date => handleDatePicker(date)} 
-                placeholderText="New Delivery Date"
-              />
               <br></br>
               <button className='editingButtons' type="submit">Submit</button>
               <br></br>
