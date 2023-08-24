@@ -52,6 +52,8 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     }
     let infoToSend = ''
     if (selectedDate !== null) {
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      setSelectedDate(selectedDate);
       infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newDelivery: selectedDate})
     }else {
       infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle})
@@ -215,7 +217,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const handleDatePicker = (date) => {
     if (date !== null) {
       const selectedDate = date;
-      selectedDate.setDate(selectedDate.getDate() + 1);
+      selectedDate.setDate(selectedDate.getDate());
       setSelectedDate(selectedDate);
     }else {setSelectedDate(null)}
   }

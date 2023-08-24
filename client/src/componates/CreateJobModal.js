@@ -42,6 +42,10 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     if (checkBox) {
       myCurrentDate = endSelected(jobData.hoursForJob, jobData.hoursPerDay)
     }
+    let tempDate = selectedDate
+    if (selectedDate != null) {
+      tempDate.setDate(tempDate.getDate() + 1);
+    }
     setCheckBox(false)
     // Fetch POST job
     fetch(`/jobs`, {
@@ -54,7 +58,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         inital_hours: jobData.hoursForJob,
         hours_per_day: jobData.hoursPerDay,
         start_time: slotClickedOn.start,
-        delivery: selectedDate,
+        delivery: tempDate,
         color: jobData.color
       })
     })
@@ -69,8 +73,10 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       ...prevState,
       hoursForJob: '',
       hoursPerDay: '',
-      nameOfJob: ''
+      nameOfJob: '',
+      color: 'Blue'
     }));
+    setSelectedDate(null)
   };
 
   const handleColorDropdownChange = (e) => {
@@ -112,7 +118,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const handleDatePicker = (date) => {
     if (date !== null) {
       const selectedDate = date;
-      selectedDate.setDate(selectedDate.getDate() + 1);
+      selectedDate.setDate(selectedDate.getDate());
       setSelectedDate(selectedDate);
     }else {setSelectedDate(null)}
   }
