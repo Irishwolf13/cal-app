@@ -166,14 +166,19 @@ class JobsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def job_params
-      params.require(:job).permit(
+      parameters = params.require(:job).permit(
         :job_name,
         :inital_hours,
         :hours_per_day,
         :start_time,
         :color,
-        :delivery
+        :delivery,
+        :calendar
       )
+      # Check if :calendar is null and set it to 0 if true
+      parameters[:calendar] ||= 0
+      # returns parameters after adjusting
+      parameters
     end
 
     def process_per_day_change

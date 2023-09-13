@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_163623) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_175324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calendars", force: :cascade do |t|
+    t.string "name"
+    t.integer "calendar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "daily_maximums", force: :cascade do |t|
     t.integer "daily_max"
@@ -42,6 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_163623) do
     t.date "start_time"
     t.uuid "uuid"
     t.date "delivery"
+    t.integer "calendar"
   end
 
 end

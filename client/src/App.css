@@ -116,6 +116,13 @@
   cursor: pointer;
 }
 
+.testingButton{
+  position:absolute;
+  left: 100px;
+  top: 1px;
+  cursor: pointer;
+}
+
 /* ***************** CHECKBOXES ***************** */
 .myCheckBox{
   margin-bottom: 20px;

@@ -38,7 +38,8 @@ export default function MyCalendar() {
             myID: event.id,
             perDay: event.hours_per_day,
             delivery: event.job.delivery,
-            uuid: event.uuid
+            uuid: event.uuid,
+            calendar: event.job.calendar
           }
           return tempObject
         })
@@ -61,6 +62,7 @@ export default function MyCalendar() {
     setIsSelectable(!modalEditJob);
   }, [modalEditJob]);
 
+  // This use effect is to set up inital state of the calendar.
   useEffect(() => {
     fetch(`/daily_maximums/1`, {
       method: 'GET',
@@ -200,6 +202,10 @@ export default function MyCalendar() {
     setModalCompanyHours(prev => !prev)
   }
 
+  const handleFrank = () => {
+    console.log('iran')
+  }
+
   const tooltipContent = (event) => {
     const deliveryDate = new Date(event.delivery);
     const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
@@ -209,6 +215,7 @@ export default function MyCalendar() {
   return (
     <div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
+      <button className="testingButton" onClick={handleFrank}>Testing</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
