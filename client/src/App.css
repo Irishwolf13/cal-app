@@ -13,6 +13,17 @@
 .smallBreak{
   margin-top: -10px;
 }
+.mainContentHolder{
+  display: flex;
+}
+.DnDCalendar {
+  flex: 4;
+}
+.sideBarMain{
+  flex: 1;
+  height: 400px;
+  background-color: aqua;
+}
 
 /* ***************** MODAL INFORMATION ***************** */
 .modalBasic {

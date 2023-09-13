@@ -6,7 +6,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import CreateJobModal from "./CreateJobModal";
 import EditJobModal from "./EditJobModal";
-import BasicModal from "./BasicModal"
+import BasicModal from "./BasicModal";
+import SideBar from "./SideBar";
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -202,10 +203,6 @@ export default function MyCalendar() {
     setModalCompanyHours(prev => !prev)
   }
 
-  const handleFrank = () => {
-    console.log('iran')
-  }
-
   const tooltipContent = (event) => {
     const deliveryDate = new Date(event.delivery);
     const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
@@ -215,7 +212,6 @@ export default function MyCalendar() {
   return (
     <div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
-      <button className="testingButton" onClick={handleFrank}>Testing</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
@@ -239,46 +235,50 @@ export default function MyCalendar() {
         // setIsSelectable={setIsSelectable}
         // isSelectable={isSelectable}
       />
-      <DnDCalendar
-        localizer={localizer}
-        events={allEvents}
-        views={['month', 'agenda']}
-        startAccessor="start"
-        endAccessor="end"
-        draggableAccessor={(event) => true}
-        selectable={isSelectable}
-        resizable={false}
-        onSelectEvent={handleEventClicked}
-        onEventDrop={handleEventDrop}
-        onSelectSlot={handleSelectSlot}
-        popup
-        style={{ height: calSize, margin: "20px", zIndex: 1 }}
-        dayPropGetter={checkIfOverHours}
-        tooltipAccessor={tooltipContent}
-        eventPropGetter={(event) => {
-          let style = {
-            background: event.color,
-            color:
-              event.color === 'rgb(172, 236, 253)' ||
-              event.color === 'rgb(255, 255, 0)' ||
-              event.color === 'rgba(255, 166, 0, 0.623)' ||
-              event.color === 'rgb(255, 63, 172)'
-                ? 'black'
-                : '',
-          };
-          
-          let startIndex = event.title.indexOf("--") + 2;
-          let endIndex = event.title.indexOf("/");
-          let totalHoursInJob = event.title.substring(startIndex, endIndex).trim();
-          
-          if (parseInt(totalHoursInJob) - event.perDay < 0) {
-            style.boxShadow = 'inset 0 0 0 3px red';
-          } else {
-            style.boxShadow = 'inset 0 0 0 1px black';
-          }
-          return { style };
-        }}
-      />
+      <div className="mainContentHolder">
+        <SideBar />
+        <DnDCalendar
+          className="DnDCalendar"
+          localizer={localizer}
+          events={allEvents}
+          views={['month', 'agenda']}
+          startAccessor="start"
+          endAccessor="end"
+          draggableAccessor={(event) => true}
+          selectable={isSelectable}
+          resizable={false}
+          onSelectEvent={handleEventClicked}
+          onEventDrop={handleEventDrop}
+          onSelectSlot={handleSelectSlot}
+          popup
+          style={{ height: calSize, margin: "20px", zIndex: 1 }}
+          dayPropGetter={checkIfOverHours}
+          tooltipAccessor={tooltipContent}
+          eventPropGetter={(event) => {
+            let style = {
+              background: event.color,
+              color:
+                event.color === 'rgb(172, 236, 253)' ||
+                event.color === 'rgb(255, 255, 0)' ||
+                event.color === 'rgba(255, 166, 0, 0.623)' ||
+                event.color === 'rgb(255, 63, 172)'
+                  ? 'black'
+                  : '',
+            };
+            
+            let startIndex = event.title.indexOf("--") + 2;
+            let endIndex = event.title.indexOf("/");
+            let totalHoursInJob = event.title.substring(startIndex, endIndex).trim();
+            
+            if (parseInt(totalHoursInJob) - event.perDay < 0) {
+              style.boxShadow = 'inset 0 0 0 3px red';
+            } else {
+              style.boxShadow = 'inset 0 0 0 1px black';
+            }
+            return { style };
+          }}
+        />
+      </div>
     </div>
   )
 }
