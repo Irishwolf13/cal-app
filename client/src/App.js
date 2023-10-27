@@ -1,10 +1,10 @@
-import { React, useState, useEffect } from "react";
+import React from "react";
 import { Routes, Route } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import "./App.css";
-import MyCalendar from "./componates/MyCalendar";
-import KanbandBoard from "./componates/KanbanBoard";
+import MyCalendar from "./components/MyCalendar";
+import KanbanBoard from "./components/KanbanBoard";
 import myImage from './images/reliable_design_logo2.jpg';
+const data = require('./data.json');
 
 function App() {
 
@@ -12,19 +12,15 @@ function App() {
     <div className="App">
       <img className="mainLogo" src={myImage} alt="Reliable Design Logo"/>
       <Routes>
-          {/* <Route
-            path="/"
-            element={<HomePage />}
-          /> */}
-          <Route
-            path="/"
-            element={<MyCalendar />}
-          />
-          <Route
-            path="/KanbandBoard"
-            element={<KanbandBoard />}
-          />
-        </Routes>
+        <Route
+          path="/"
+          element={<MyCalendar />}
+        />
+        <Route
+          path="/KanbanBoard"
+          element={<KanbanBoard />}
+        />
+      </Routes>
     </div>
   );
 }
