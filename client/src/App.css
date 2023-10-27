@@ -138,3 +138,10 @@
 .myCheckBox{
   margin-bottom: 20px;
 }
+
+.calendar-container {
+  height: 400px; /* Adjust the height as per your requirement */
+  overflow-y: scroll;
+}
+
+/* ***************** KANBAND BOARD ***************** */

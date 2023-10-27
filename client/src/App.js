@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import "./App.css";
 import MyCalendar from "./componates/MyCalendar";
-import HomePage from "./componates/HomePage";
+import KanbandBoard from "./componates/KanbanBoard";
 import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
@@ -19,6 +19,10 @@ function App() {
           <Route
             path="/"
             element={<MyCalendar />}
+          />
+          <Route
+            path="/KanbandBoard"
+            element={<KanbandBoard />}
           />
         </Routes>
     </div>

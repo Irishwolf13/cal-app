@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
+    "react-big-calendar": "^1.8.4",
     "react-modal": "^3.16.1"
   }
 }

@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
+import { useNavigate } from 'react-router-dom';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -9,10 +10,12 @@ import EditJobModal from "./EditJobModal";
 import BasicModal from "./BasicModal";
 import SideBar from "./SideBar";
 
-const localizer = momentLocalizer(moment) // or globalizeLocalizer
-const DnDCalendar = withDragAndDrop(Calendar)
-
 export default function MyCalendar() {
+    //allow navigation
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+      navigate('/KanbandBoard');
+    }
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -23,6 +26,8 @@ export default function MyCalendar() {
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
   const [newComapnyHours, setNewCompanyHours] = useState()
+  const localizer = momentLocalizer(moment) // or globalizeLocalizer
+  const DnDCalendar = withDragAndDrop(Calendar)
 
   const fetchData = () => {
     fetch('/events')
@@ -211,6 +216,9 @@ export default function MyCalendar() {
 
   return (
     <div>
+      <div>
+        <button onClick={handleNavigate}>Go to Priority Matrix</button>
+      </div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}

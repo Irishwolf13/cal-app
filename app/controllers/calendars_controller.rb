@@ -14,7 +14,14 @@ class CalendarsController < ApplicationController
   # end
 
   def create
-    @calendar = Calendar.new(name: params[:name], calendar: params[:calendar])
+    @calendars = Calendar.all
+  
+    if @calendars.empty?
+      calendar_value = 0
+    else
+      calendar_value = @calendars.length
+    end
+    @calendar = Calendar.new(name: "New Calendar", calendar: calendar_value)
   
     if @calendar.save
       render :show, status: :created, location: @calendar
