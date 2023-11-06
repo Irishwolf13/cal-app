@@ -7,7 +7,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import CreateJobModal from "./CreateJobModal";
 import EditJobModal from "./EditJobModal";
 import BasicModal from "./BasicModal";
-import SideBar from "./SideBar";
+// import SideBar from "./SideBar";
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -212,6 +212,7 @@ export default function MyCalendar() {
   return (
     <div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
+      <button className="matrixButton">Matrix</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
@@ -236,7 +237,7 @@ export default function MyCalendar() {
         // isSelectable={isSelectable}
       />
       <div className="mainContentHolder">
-        <SideBar />
+        {/* <SideBar /> */}
         <DnDCalendar
           className="DnDCalendar"
           localizer={localizer}
