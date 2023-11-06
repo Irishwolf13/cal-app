@@ -4,17 +4,18 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-big-calendar": "^1.8.1",
-    "react-datepicker": "^4.16.0",
-    "react-dom": "^18.2.0",
-    "react-modal": "^3.16.1",
-    "react-router-dom": "^6.14.0",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^2.1.4"
+    "@testing-library/jest-dom": "",
+    "@testing-library/react": "",
+    "@testing-library/user-event": "",
+    "react": "",
+    "react-big-calendar": "",
+    "react-datepicker": "",
+    "react-dom": "",
+    "react-modal": "",
+    "react-router-dom": "",
+    "react-scripts": "",
+    "react-trello": "",
+    "web-vitals": ""
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",
@@ -41,6 +42,6 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": ""
   }
 }
