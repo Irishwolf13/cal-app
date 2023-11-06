@@ -7,6 +7,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import CreateJobModal from "./CreateJobModal";
 import EditJobModal from "./EditJobModal";
 import BasicModal from "./BasicModal";
+import { useNavigate } from 'react-router-dom';
 // import SideBar from "./SideBar";
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
@@ -23,6 +24,12 @@ export default function MyCalendar() {
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
   const [newComapnyHours, setNewCompanyHours] = useState()
+
+  //allow navigation
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate('/matrix');
+  }
 
   const fetchData = () => {
     fetch('/events')
@@ -212,7 +219,7 @@ export default function MyCalendar() {
   return (
     <div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
-      <button className="matrixButton">Matrix</button>
+      <button className="navigationButton"onClick={handleNavigate}>Matrix</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
