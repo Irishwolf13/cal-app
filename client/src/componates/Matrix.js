@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import PreShopBar from './PreShopBar';
+import InShopBar from './InShopBar';
+import CompletedBar from './CompletedBar';
 
 export default function Matrix() {
   //allow navigation
@@ -12,9 +14,9 @@ export default function Matrix() {
   return (
     <div>
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
-      <div class="mainContainer">
-        <div class="matrixContainer">
-          <div class="preJob">
+      <div className="mainContainer">
+        <div className="matrixContainer">
+          <div className="preJob">
             <div className='preShopTitle'>
               <div className='preShopActivity'></div>
               <div className='preShopTitleName'> Pre-Shop </div>
@@ -22,24 +24,26 @@ export default function Matrix() {
             </div>
             <PreShopBar
               myJobName={"# JobNumberHere"}
-              myDate="1/10/2023"
+              myDate={"1/10/2023"}
             />
             <PreShopBar 
               myJobName={"# OtherJobNumberHere"}
-              myDate="2/22/2023"
+              myDate={"2/22/2023"}
             />
           </div>
-          <div class="inShop">
+          <div className="inShop">
             <div className='testing'>In Shop</div>
+            <InShopBar />
           </div>
-          <div class="expandableSpace">
+          <div className="expandableSpace">
             <div className='testing'>expandable</div>
           </div>
-          <div class="completed">
+          <div className="completed">
             <div className='testing'>Completed</div>
+            <CompletedBar />
           </div>
         </div>
-        <div class="detailContainer">detailContainer</div>
+        <div className="detailContainer">detailContainer</div>
       </div>
     </div>
   )
