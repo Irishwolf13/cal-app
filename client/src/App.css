@@ -141,6 +141,9 @@
 
 
 /* ***************** Matrix ***************** */
+.testing { background-color: rgb(0, 204, 255); }
+.activityCircle { width: 20px; }
+
 .mainContainer {
   display: flex;
   margin: 15px;
@@ -160,53 +163,92 @@
   margin-left: 5px;
 }
 
-.preJob,
-.inShop,
-.expandableSpace,
-.completed {
+.preShopContainer,
+.inShopContainer,
+.expandableContainer,
+.completedContainer {
   margin: 3px;
   min-height: 300px;
   background-color: rgb(209, 209, 209);
   border: 2px solid rgb(0, 0, 0);
 }
 
-.testing {
-  background-color: rgb(0, 204, 255);
-}
+.preShopTitleBar,
+.inShopTitleBar,
+.expandableTitleBar,
+.completedTitleBar { display: flex; }
 
-
-/* ***************** PreShopBar ***************** */
-.preShopTitle { 
+.preShopMainTitle,
+.inShopMainTitle,
+.expandable,
+.CompletedMainTitle {
   padding-top: 5px;
   padding-bottom: 5px;
-  display: flex;
   margin: 2px;
   background-color: rgb(0, 204, 255);
-}
-.preShopTitleName { 
-  flex: 60%; 
   text-align: center;
   font-size: 20px;
   font-family: Arial, sans-serif;
 }
 
+/* ***************** PreShopTitleBar ***************** */
+
+.preShopTitleActivity { flex: 10%; }
+.preShopTitleName { 
+  flex: 60%; 
+  text-align: center;
+}
+.preShopTitleDate { 
+  flex: 30%; 
+  text-align: right;
+  margin-right: 20px;
+}
+
+/* ***************** PreShopBar ***************** */
+.preShopBarActivity { flex: 10%; }
+.preShopBarName { 
+  flex: 60%; 
+  text-align: left;
+  padding-left: 20px;
+}
+.preShopBarDate { 
+  flex: 30%; 
+  text-align: right;
+  margin-right: 10px;
+}
 .preShopBar { 
   padding-top: 5px;
   padding-bottom: 5px;
   display: flex;
   margin: 2px;
-  background-color: rgb(255, 255, 205);
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(90, 90, 90);
 }
-.preShopActivity { flex: 10%; }
-.preShopShowName { 
-  flex: 60%; 
+
+/* ***************** InShopTitleBar ***************** */
+.inShopActivity { flex: 10%; }
+
+.inShopTitleName { 
+  flex: 50%; 
   text-align: left;
+  padding-left: 20px;
 }
-.preShopDate { 
+.inShopTitleDate {
   flex: 30%; 
-  text-align: right;
-  margin-right: 10px;
 }
-.activityCircle {
-  width: 20px;
+.inShopTitleCut,
+.inShopTitleWeld,
+.inShopTitleFinish {
+  flex: 10%;
+  background-color: rgb(248, 248, 96);
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.inShopBar { 
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: flex;
+  margin: 2px;
+  background-color: rgb(255, 255, 205);
 }

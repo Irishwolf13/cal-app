@@ -16,11 +16,13 @@ export default function Matrix() {
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
       <div className="mainContainer">
         <div className="matrixContainer">
-          <div className="preJob">
-            <div className='preShopTitle'>
-              <div className='preShopActivity'></div>
-              <div className='preShopTitleName'> Pre-Shop </div>
-              <div className='preShopDate'> Delivery </div>
+{/* PreShop */}
+          <div className="preShopContainer">
+            <div className='preShopMainTitle'> PreShop </div>
+            <div className='preShopTitleBar'>
+              <div className='preShopTitleActivity'></div>
+              <div className='preShopTitleName'> Show Name </div>
+              <div className='preShopTitleDate'> Delivery </div>
             </div>
             <PreShopBar
               myJobName={"# JobNumberHere"}
@@ -31,15 +33,26 @@ export default function Matrix() {
               myDate={"2/22/2023"}
             />
           </div>
-          <div className="inShop">
-            <div className='testing'>In Shop</div>
+{/* In Shop */}
+          <div className="inShopContainer">
+            <h2 className='inShopMainTitle'>In Shop</h2>
+            <div className='inShopTitleBar'>
+              <div className='inShopActivity'></div>
+              <div className='inShopTitleName'>Show Name</div>
+              <div className='inShopTitleDate'>Date</div>
+              <div className='inShopTitleCut'>Cut</div>
+              <div className='inShopTitleWeld'>Weld</div>
+              <div className='inShopTitleFinish'>Fin</div>
+            </div>
             <InShopBar />
           </div>
-          <div className="expandableSpace">
-            <div className='testing'>expandable</div>
+{/* Expandable */}
+          <div className="expandableContainer">
+            <div className='expandable'>Expandable</div>
           </div>
-          <div className="completed">
-            <div className='testing'>Completed</div>
+{/* Completed */}
+          <div className="completedContainer">
+            <div className='CompletedMainTitle'>Completed</div>
             <CompletedBar />
           </div>
         </div>
