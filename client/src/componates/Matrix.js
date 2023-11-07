@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PreShopBar from './PreShopBar';
 import InShopBar from './InShopBar';
@@ -11,6 +12,8 @@ export default function Matrix() {
     navigate('/');
   }
 
+  const [currentlySelected, setCurrentlySelected] = useState(0);
+
   return (
     <div>
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
@@ -20,16 +23,33 @@ export default function Matrix() {
           <div className="preShopContainer">
             <div className='preShopMainTitle'> PreShop </div>
             <div className='preShopTitleBar'>
-              <div className='preShopTitleActivity'></div>
+              <div className='preShopTitleActivity'>
+                <select className='activeDropDown'>  
+                  <option value="ascending">All Jobs</option>
+                  <option value="descending">Active Only</option>
+                </select>
+              </div>
               <div className='preShopTitleName'> Show Name </div>
-              <div className='preShopTitleDate'> Delivery </div>
+              <div className='preShopTitleDate'>
+                Ship Date
+                <select className='dropDown'>
+                  <option value="ascending">Ascending</option>
+                  <option value="descending">Descending</option>
+                </select>
+              </div>
             </div>
             <PreShopBar
-              myJobName={"# JobNumberHere"}
+              setCurrentlySelected={setCurrentlySelected}
+              currentlySelected={currentlySelected}
+              myID={1}
+              myName={"First Job"}
               myDate={"1/10/2023"}
             />
             <PreShopBar 
-              myJobName={"# OtherJobNumberHere"}
+              setCurrentlySelected={setCurrentlySelected}
+              currentlySelected={currentlySelected}
+              myID={2}
+              myName={"Second Job"}
               myDate={"2/22/2023"}
             />
           </div>
