@@ -30,7 +30,7 @@ export default function Matrix() {
                 </select>
               </div>
               <div className='preShopTitleName'></div>
-              <div className='preShopTitleDate'>
+              <div className='titleDate'>
                 <select className='dropDown'>
                   <option value="ascending">Ascending</option>
                   <option value="descending">Descending</option>
@@ -63,8 +63,13 @@ export default function Matrix() {
                   </select>
               </div>
               <div className='inShopActivity'></div>
-              <div className='inShopTitleName'>Show Name</div>
-              <div className='inShopTitleDate'>Date</div>
+              <div className='inShopTitleName'></div>
+              <div className='titleDate'>
+                <select className='dropDown'>
+                  <option value="ascending">Ascending</option>
+                  <option value="descending">Descending</option>
+                </select>
+              </div>
               <div className='inShopTitleCut'>Cut</div>
               <div className='inShopTitleWeld'>Weld</div>
               <div className='inShopTitleFinish'>Fin</div>
