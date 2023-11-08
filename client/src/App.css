@@ -256,17 +256,61 @@
 .inShopTitleCut,
 .inShopTitleWeld,
 .inShopTitleFinish {
-  flex: 12%;
+  flex: 13%;
   background-color: rgb(255, 255, 255);
   margin-left: 5px;
-  margin-right: 5px;
+  margin-right: 4px;
+  min-width: 30px;
+  max-width: 30px;
   border: solid 1px black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+.inShopTitleFinish {
+  margin-right: 8px;
+}
+
+/* ***************** InShopBar ***************** */
 .inShopBar { 
   padding-top: 5px;
   padding-bottom: 5px;
   display: flex;
   margin: 2px;
-  background-color: rgb(255, 255, 205);
+  border: solid 2px rgb(90, 90, 90);
+}
+
+.inShopBarActivity { flex: 10%;
+  padding-right: 5px;
+  padding-left: 5px; }
+.inShopBarName { 
+  flex: 50%; 
+  text-align: left;
+  padding-left: 20px;
+  border-left: solid 1px black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.inShopBarDate { 
+  flex: 20%; 
+  text-align: right;
+  margin-right: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-left: solid 1px black;
+  border-right: solid 1px black;
+}
+
+.inShopBarFinish,
+.inShopBarWeld,
+.inShopBarCut {
+  flex: 8%;
+  background-color: rgb(255, 255, 255);
+  margin-left: 5px;
+  margin-right: 5px;
+  min-width: 30px;
+  max-width: 30px;
+  border: solid 1px black;
 }

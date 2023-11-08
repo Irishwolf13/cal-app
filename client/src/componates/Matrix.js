@@ -70,11 +70,17 @@ export default function Matrix() {
                   <option value="descending">Descending</option>
                 </select>
               </div>
-              <div className='inShopTitleCut'>Cut</div>
-              <div className='inShopTitleWeld'>Weld</div>
-              <div className='inShopTitleFinish'>Fin</div>
+              <div className='inShopTitleCut'>N</div>
+              <div className='inShopTitleWeld'>N</div>
+              <div className='inShopTitleFinish'>N</div>
             </div>
-            <InShopBar />
+            <InShopBar 
+              setCurrentlySelected={setCurrentlySelected}
+              currentlySelected={currentlySelected}
+              myID={3}
+              myName={"Third Job With Longer Name"}
+              myDate={"2/22/2023"}
+            />
           </div>
 {/* Expandable */}
           <div className="expandableContainer">
