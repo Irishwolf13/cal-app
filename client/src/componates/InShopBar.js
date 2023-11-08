@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import blueCircle from '../images/blueCircle.png';
-import greyCircle from '../images/greyCircle.png';
 
 export default function InShopBar({ 
-  myID, myName, myShipDate, setCurrentlySelected, currentlySelected 
+  myID, myName, myShipDate, setCurrentlySelected, currentlySelected, myStatus 
 }) {
   const [activeStatus, setActiveStatus] = useState(false);
 
@@ -16,31 +14,41 @@ export default function InShopBar({
     // This will be a PATCH request for the active status of this job.
   };
 
-  // This function gets the date difference for days remaining
+  // This function gets the date difference
   const getDaysDifference = () => {
     const shipDate = new Date(myShipDate);
     const currentDate = new Date();
     const timeDifference = shipDate.getTime() - currentDate.getTime();
     const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
     
-    if (dayDifference <= 7) {
-      return `${dayDifference}d`;
+    if (dayDifference < 0) {
+      return { class: 'grey', label: 'x' };
+    } else if (dayDifference >= 0 && dayDifference <= 7) {
+      return { class: 'red', label: `${dayDifference}d` };
     } else if (dayDifference <= 28) {
-      const weekDifference = Math.floor(dayDifference / 7);
-      return `${weekDifference}w`;
+      return { class: 'yellow', label: `${Math.floor(dayDifference / 7)}w` };
     } else {
-      const monthDifference = Math.floor(dayDifference / 30);
-      return `${monthDifference}m`;
+      return { class: 'green', label: `${Math.floor(dayDifference / 30)}m` };
     }
   };
+  const { class: circleClass, label } = getDaysDifference();
 
   return (
     <div className={`inShopBar ${myID === currentlySelected ? 'selected' : 'notSelected'}`} onClick={handleBarClick}>
       <div className='inShopBarActivity' onClick={handleActivityClick}>
-        <img className='activityCircle' src={activeStatus ? blueCircle : greyCircle} alt="here" onClick={() => setActiveStatus(!activeStatus)} />
+        <button className={
+          `circle ${
+              myStatus === 'inActive' ? 'grey' 
+            : myStatus === 'active' ? 'blue' 
+            : myStatus === 'noCalendar' ? 'darkGrey' 
+            : ''
+          }`
+        }></button>
       </div>
       <div className='inShopBarName'> {myName} </div>
-      <div className='inShopBarDate'> {getDaysDifference()}</div>
+      <div className='inShopBarDate'>
+        <div className={`circle ${circleClass}`}>{label}</div>
+      </div>
       <button className='inShopBarCut'> N </button>
       <button className='inShopBarWeld'> N </button>
       <button className='inShopBarFinish'> N </button>

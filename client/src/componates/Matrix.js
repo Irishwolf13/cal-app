@@ -42,7 +42,8 @@ export default function Matrix() {
               currentlySelected={currentlySelected}
               myID={1}
               myName={"First Job"}
-              myShipDate={"11/10/2023"}
+              myShipDate={"11/08/2023"}
+              myStatus={'inActive'}
             />
             <PreShopBar 
               setCurrentlySelected={setCurrentlySelected}
@@ -50,6 +51,7 @@ export default function Matrix() {
               myID={2}
               myName={"Second Job"}
               myShipDate={"12/22/2023"}
+              myStatus={'noCalendar'}
             />
           </div>
 {/* In Shop */}
@@ -80,6 +82,7 @@ export default function Matrix() {
               myID={3}
               myName={"Third Job With Longer Name"}
               myShipDate={"11/22/2023"}
+              myStatus={'active'}
             />
           </div>
 {/* Expandable */}
