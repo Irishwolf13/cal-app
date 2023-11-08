@@ -23,15 +23,14 @@ export default function Matrix() {
           <div className="preShopContainer">
             <div className='preShopMainTitle'> PreShop </div>
             <div className='preShopTitleBar'>
-              <div className='preShopTitleActivity'>
+              <div className='titleActivity'>
                 <select className='activeDropDown'>  
-                  <option value="ascending">All Jobs</option>
-                  <option value="descending">Active Only</option>
+                  <option value="ascending">All</option>
+                  <option value="descending">Active</option>
                 </select>
               </div>
-              <div className='preShopTitleName'> Show Name </div>
+              <div className='preShopTitleName'></div>
               <div className='preShopTitleDate'>
-                Ship Date
                 <select className='dropDown'>
                   <option value="ascending">Ascending</option>
                   <option value="descending">Descending</option>
@@ -57,6 +56,12 @@ export default function Matrix() {
           <div className="inShopContainer">
             <h2 className='inShopMainTitle'>In Shop</h2>
             <div className='inShopTitleBar'>
+              <div className='titleActivity'>
+                  <select className='activeDropDown'>  
+                    <option value="ascending">All</option>
+                    <option value="descending">Active</option>
+                  </select>
+              </div>
               <div className='inShopActivity'></div>
               <div className='inShopTitleName'>Show Name</div>
               <div className='inShopTitleDate'>Date</div>
