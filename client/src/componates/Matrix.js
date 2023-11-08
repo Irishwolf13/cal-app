@@ -26,15 +26,15 @@ export default function Matrix() {
               <div className='titleActivity'>
                 <select className='activeDropDown'>  
                   <option value="ascending">All</option>
-                  <option value="descending">Active</option>
+                  <option value="descending">Scheduled</option>
                 </select>
               </div>
               <div className='preShopTitleName'></div>
               <div className='titleDate'>
-                <select className='dropDown'>
+                {/* <select className='dropDown'>
                   <option value="ascending">Ascending</option>
                   <option value="descending">Descending</option>
-                </select>
+                </select> */}
               </div>
             </div>
             <PreShopBar
@@ -42,14 +42,14 @@ export default function Matrix() {
               currentlySelected={currentlySelected}
               myID={1}
               myName={"First Job"}
-              myDate={"1/10/2023"}
+              myShipDate={"11/10/2023"}
             />
             <PreShopBar 
               setCurrentlySelected={setCurrentlySelected}
               currentlySelected={currentlySelected}
               myID={2}
               myName={"Second Job"}
-              myDate={"2/22/2023"}
+              myShipDate={"12/22/2023"}
             />
           </div>
 {/* In Shop */}
@@ -65,21 +65,21 @@ export default function Matrix() {
               <div className='inShopActivity'></div>
               <div className='inShopTitleName'></div>
               <div className='titleDate'>
-                <select className='dropDown'>
+                {/* <select className='dropDown'>
                   <option value="ascending">Ascending</option>
                   <option value="descending">Descending</option>
-                </select>
+                </select> */}
               </div>
-              <div className='inShopTitleCut'>N</div>
-              <div className='inShopTitleWeld'>N</div>
-              <div className='inShopTitleFinish'>N</div>
+              <div className='inShopTitleCut'>Cut</div>
+              <div className='inShopTitleWeld'>Weld</div>
+              <div className='inShopTitleFinish'>FIN</div>
             </div>
             <InShopBar 
               setCurrentlySelected={setCurrentlySelected}
               currentlySelected={currentlySelected}
               myID={3}
               myName={"Third Job With Longer Name"}
-              myDate={"2/22/2023"}
+              myShipDate={"11/22/2023"}
             />
           </div>
 {/* Expandable */}
