@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-export default function InShopBar({ 
-  myID, myName, myShipDate, setCurrentlySelected, currentlySelected, myStatus 
-}) {
+export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
   const [activeStatus, setActiveStatus] = useState(false);
 
   const handleBarClick = () => {
-    setCurrentlySelected(myID);
+    setCurrentlySelected(job.uuid);
+    setCurrentJob(job)
   };
 
   const handleActivityClick = () => {
@@ -16,7 +15,7 @@ export default function InShopBar({
 
   // This function gets the date difference
   const getDaysDifference = () => {
-    const shipDate = new Date(myShipDate);
+    const shipDate = new Date(job.delivery);
     const currentDate = new Date();
     const timeDifference = shipDate.getTime() - currentDate.getTime();
     const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
@@ -34,18 +33,18 @@ export default function InShopBar({
   const { class: circleClass, label } = getDaysDifference();
 
   return (
-    <div className={`inShopBar ${myID === currentlySelected ? 'selected' : 'notSelected'}`} onClick={handleBarClick}>
+    <div className={`inShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'}`} onClick={handleBarClick}>
       <div className='inShopBarActivity' onClick={handleActivityClick}>
         <button className={
           `circle ${
-              myStatus === 'inActive' ? 'grey' 
-            : myStatus === 'active' ? 'blue' 
-            : myStatus === 'noCalendar' ? 'darkGrey' 
+              job.status === 'inActive' ? 'grey' 
+            : job.status === 'active' ? 'blue' 
+            : job.status === 'noCalendar' ? 'darkGrey' 
             : ''
           }`
         }></button>
       </div>
-      <div className='inShopBarName'> {myName} </div>
+      <div className='inShopBarName'> {job.job_name} </div>
       <div className='inShopBarDate'>
         <div className={`circle ${circleClass}`}>{label}</div>
       </div>

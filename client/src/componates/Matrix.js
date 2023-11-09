@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import PreShopBar from './PreShopBar';
 import InShopBar from './InShopBar';
 import CompletedBar from './CompletedBar';
+import DetailPanel from './DetailPanel';
 
 export default function Matrix() {
   const [jobsPreShop, setJobsPreShop] = useState([]);
   const [jobsInShop, setJobsInShop] = useState([]);
   const [jobsComplete, setJobsComplete] = useState([]);
+  const [currentJob, setCurrentJob] = useState({});
   const [currentlySelected, setCurrentlySelected] = useState(0);
 
   //allow navigation
@@ -47,12 +49,10 @@ export default function Matrix() {
     return arrayToMap.map(job => (
       <Component  
         key={job.uuid}
-        myID={job.uuid}
-        myStatus={job.status}
-        myName={job.job_name}
-        myShipDate={job.delivery}
+        job={job}
         setCurrentlySelected={setCurrentlySelected}
         currentlySelected={currentlySelected}
+        setCurrentJob={setCurrentJob}
       />
     ));
   }
@@ -116,7 +116,7 @@ export default function Matrix() {
             <CompletedBar />
           </div>
         </div>
-        <div className="detailContainer">detailContainer</div>
+        <DetailPanel currentJob={currentJob}/>
       </div>
     </div>
   )

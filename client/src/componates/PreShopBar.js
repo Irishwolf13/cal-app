@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 
-export default function PreShopBar({ 
-  myID, myName, myShipDate, setCurrentlySelected, currentlySelected, myStatus
-}) {
-  const [activeStatus, setActiveStatus] = useState(myStatus);
+export default function PreShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
+  const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
-  
   
   // This is clicked to populate the details panel
   const handleBarClick = () => {
-    setCurrentlySelected(myID);
+    setCurrentlySelected(job.uuid);
+    setCurrentJob(job)
   };
 
   const handleActivityClick = (color) => {
@@ -24,7 +22,7 @@ export default function PreShopBar({
 
   // This function gets the date difference for days remaining and set class for color of circle
   const getDaysDifference = () => {
-    const shipDate = new Date(myShipDate);
+    const shipDate = new Date(job.delivery);
     const currentDate = new Date();
     const timeDifference = shipDate.getTime() - currentDate.getTime();
     const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
@@ -43,7 +41,7 @@ export default function PreShopBar({
   
 
   return (
-    <div className={`preShopBar ${myID === currentlySelected ? 'selected' : 'notSelected'}`}>
+    <div className={`preShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'}`}>
       <div className='preShopBarActivity'>
         <button className={
           `circle ${
@@ -54,7 +52,7 @@ export default function PreShopBar({
           }`
         } onClick={handleActivityClick}></button>
       </div>
-      <div className='preShopBarName' onClick={handleBarClick}> {myName} </div>
+      <div className='preShopBarName' onClick={handleBarClick}> {job.job_name} </div>
       <div className='preShopBarDate'> 
         <div className={`circle ${circleClass}`}>{label}</div>
       </div>
