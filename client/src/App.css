@@ -264,6 +264,7 @@
   height: 25px;
   border-radius: 50%; /* This creates the circular shape */
   border: solid 1px black;
+  cursor: pointer;
 }
 .red {background-color: red; color: white;}
 .yellow {background-color: yellow; color: black;}
