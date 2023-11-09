@@ -27,8 +27,8 @@ export default function PreShopBar({
     const shipDate = new Date(myShipDate);
     const currentDate = new Date();
     const timeDifference = shipDate.getTime() - currentDate.getTime();
-    const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-    
+    const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
+  
     if (dayDifference < 0) {
       return { class: 'grey', label: 'x' };
     } else if (dayDifference >= 0 && dayDifference <= 7) {

@@ -1,18 +1,39 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PreShopBar from './PreShopBar';
 import InShopBar from './InShopBar';
 import CompletedBar from './CompletedBar';
 
 export default function Matrix() {
+  const [jobsPreShop, setJobsPreShop] = useState([]);
+  const [jobsInShop, setJobsInShop] = useState([]);
+  const [jobsComplete, setJobsComplete] = useState([]);
+  const [currentlySelected, setCurrentlySelected] = useState(0);
+
   //allow navigation
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate('/');
   }
+ 
+  useEffect(() => {
+    fetchJobs()
+  }, []);
 
-  const [currentlySelected, setCurrentlySelected] = useState(0);
+  const fetchJobs = () => {
+    fetch(`/jobs`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      setJobsPreShop(data);
+      console.log(data);
+    })
+  }
 
   return (
     <div>
@@ -37,22 +58,17 @@ export default function Matrix() {
                 </select> */}
               </div>
             </div>
-            <PreShopBar
-              setCurrentlySelected={setCurrentlySelected}
-              currentlySelected={currentlySelected}
-              myID={1}
-              myName={"First Job"}
-              myShipDate={"11/08/2023"}
-              myStatus={'inActive'}
-            />
-            <PreShopBar 
-              setCurrentlySelected={setCurrentlySelected}
-              currentlySelected={currentlySelected}
-              myID={2}
-              myName={"Second Job"}
-              myShipDate={"12/22/2023"}
-              myStatus={'noCalendar'}
-            />
+            {jobsPreShop.map(job => (
+              <PreShopBar 
+                key={job.uuid}
+                myID={job.uuid}
+                myStatus={job.status}
+                myName={job.job_name}
+                myShipDate={job.delivery}
+                setCurrentlySelected={setCurrentlySelected}
+                currentlySelected={currentlySelected}
+              />
+            ))}
           </div>
 {/* In Shop */}
           <div className="inShopContainer">
@@ -76,14 +92,14 @@ export default function Matrix() {
               <div className='inShopTitleWeld'>Weld</div>
               <div className='inShopTitleFinish'>FIN</div>
             </div>
-            <InShopBar 
+            {/* <InShopBar 
               setCurrentlySelected={setCurrentlySelected}
               currentlySelected={currentlySelected}
               myID={3}
               myName={"Third Job With Longer Name"}
               myShipDate={"11/22/2023"}
               myStatus={'active'}
-            />
+            /> */}
           </div>
 {/* Expandable */}
           <div className="expandableContainer">
