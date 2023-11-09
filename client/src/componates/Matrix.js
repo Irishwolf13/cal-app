@@ -30,9 +30,31 @@ export default function Matrix() {
     })
     .then(response => response.json())
     .then(data => {
-      setJobsPreShop(data);
-      console.log(data);
-    })
+      const preShopJobs = data.filter(job => job.quadrent === "preShop");
+      const inShopJobs = data.filter(job => job.quadrent === "inShop");
+      const completeJobs = data.filter(job => job.quadrent === "complete");
+      setJobsPreShop(preShopJobs);
+      setJobsInShop(inShopJobs);
+      setJobsComplete(completeJobs);
+      
+      console.log(preShopJobs);
+      console.log(inShopJobs);
+      console.log(completeJobs);
+    });
+  }
+
+  const mapJobs = (arrayToMap, Component) => {
+    return arrayToMap.map(job => (
+      <Component  
+        key={job.uuid}
+        myID={job.uuid}
+        myStatus={job.status}
+        myName={job.job_name}
+        myShipDate={job.delivery}
+        setCurrentlySelected={setCurrentlySelected}
+        currentlySelected={currentlySelected}
+      />
+    ));
   }
 
   return (
@@ -58,17 +80,7 @@ export default function Matrix() {
                 </select> */}
               </div>
             </div>
-            {jobsPreShop.map(job => (
-              <PreShopBar 
-                key={job.uuid}
-                myID={job.uuid}
-                myStatus={job.status}
-                myName={job.job_name}
-                myShipDate={job.delivery}
-                setCurrentlySelected={setCurrentlySelected}
-                currentlySelected={currentlySelected}
-              />
-            ))}
+            {mapJobs(jobsPreShop, PreShopBar)}
           </div>
 {/* In Shop */}
           <div className="inShopContainer">
@@ -92,14 +104,7 @@ export default function Matrix() {
               <div className='inShopTitleWeld'>Weld</div>
               <div className='inShopTitleFinish'>FIN</div>
             </div>
-            {/* <InShopBar 
-              setCurrentlySelected={setCurrentlySelected}
-              currentlySelected={currentlySelected}
-              myID={3}
-              myName={"Third Job With Longer Name"}
-              myShipDate={"11/22/2023"}
-              myStatus={'active'}
-            /> */}
+            {mapJobs(jobsInShop, InShopBar)}
           </div>
 {/* Expandable */}
           <div className="expandableContainer">

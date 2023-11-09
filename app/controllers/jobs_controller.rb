@@ -60,14 +60,21 @@ class JobsController < ApplicationController
       process_Hours_change
     end
     if !params[:newTitle].to_s.empty?
-      process_title_change
+      @job.job_name = params[:newTitle]
     end
     if params[:newPerDay]
       process_per_day_change
     end
     if params[:newDelivery]
-      process_delivery_change
+      @job.delivery = params[:newDelivery]
     end
+    if params[:status]
+      @job.status = params[:status]
+    end
+    if params[:quadrent]
+      @job.quadrent = params[:quadrent]
+    end
+    @job.save
     render json: @job, include: :events, status: :created, location: @job
   end
 
@@ -208,18 +215,6 @@ class JobsController < ApplicationController
         event.color = params[:newColor]
         event.save
       end
-    end
-
-    def process_title_change
-      # puts '*********************** TITLE Change ***********************'
-      @job.job_name = params[:newTitle]
-      @job.save
-    end
-
-    def process_delivery_change
-      # puts '*********************** TITLE Change ***********************'
-      @job.delivery = params[:newDelivery]
-      @job.save
     end
 
     def process_Hours_change
