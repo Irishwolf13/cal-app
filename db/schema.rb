@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_09_195421) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_10_160852) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_195421) do
     t.integer "calendar"
     t.string "status", default: "active"
     t.string "quadrent", default: "preShop"
+    t.string "cut", default: "notStarted"
+    t.string "weld", default: "notStarted"
+    t.string "finish", default: "notStarted"
   end
 
 end

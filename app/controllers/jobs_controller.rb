@@ -74,6 +74,15 @@ class JobsController < ApplicationController
     if params[:quadrent]
       @job.quadrent = params[:quadrent]
     end
+    if params[:cut]
+      @job.cut = params[:cut]
+    end
+    if params[:weld]
+      @job.weld = params[:weld]
+    end
+    if params[:finish]
+      @job.finish = params[:finish]
+    end
     @job.save
     render json: @job, include: :events, status: :created, location: @job
   end

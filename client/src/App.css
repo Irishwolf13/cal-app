@@ -270,9 +270,10 @@
 .red {background-color: red; color: white;}
 .yellow {background-color: yellow; color: black;}
 .green {background-color: green; color: white;}
-.grey {background-color: rgb(81, 81, 81); color: white;}
 .darkGrey {background-color: rgb(26, 26, 26); color: white;}
-.blue {background-color: rgb(0, 123, 255); color: white;}
+.grey {background-color: rgb(81, 81, 81); color: white;}
+.blue {background-color: rgb(54, 151, 255); color: white;}
+.darkBlue {background-color: rgb(0, 0, 125); color: white;}
 
 .selection {
   margin-right: 5px;
@@ -343,13 +344,38 @@
 .inShopBarFinish,
 .inShopBarWeld,
 .inShopBarCut {
+  position: relative;
   flex: 8%;
-  background-color: rgb(255, 255, 255);
   margin-left: 5px;
   margin-right: 5px;
   min-width: 30px;
   max-width: 30px;
   border: solid 1px black;
+  cursor: pointer;
+}
+.inShopBarSelectContainer{
+  position: absolute;
+  top: 27px;
+  left: -2px;
+  min-width: 30px;
+  max-width: 30px;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  border: solid 1px rgb(255, 255, 255);
+  z-index: 1000;
+}
+.inShopBarSelect {
+  min-width: 25px;
+  max-width: 30px;
+  min-height: 25px;
+  max-height: 25px;
+  cursor: pointer;
+  /* margin-bottom: 1px; */
+  border: solid 1px white;
+}
+
+.inShopBarSelect:hover {
+  border-color: red;
 }
 
 .inShopActivityDropdown {

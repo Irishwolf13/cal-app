@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
-  
+  const [cutDropDownVisible, setCutDropDownVisible] = useState(false); // State for visibility
+
   // This is clicked to populate the details panel
   const handleBarClick = () => {
     setCurrentlySelected(job.uuid);
@@ -13,6 +14,9 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   const handleActivityClick = () => {
     setActivityDropdownVisible(!activityDropdownVisible); // Toggle visibility
   };
+  const handleCutClicked = () => {
+    setCutDropDownVisible(!cutDropDownVisible) // Toggle visibility
+  }
 
   const handleActivitySelectionClicked = (color) => {
     setActiveStatus(color);
@@ -25,6 +29,19 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       body: JSON.stringify({ status: color })
     });
   };
+
+  const cutWeldFinish = (type) => {
+    switch (type) {
+      case "notStarted":
+        return { buttonClass: "darkBlue", buttonText: "N" };
+      case "production":
+        return { buttonClass: "green", buttonText: "P" };
+      case "finish":
+        return { buttonClass: "darkGrey", buttonText: "F" };
+      default:
+        return { buttonClass: "darkBlue", buttonText: "N" };
+    }
+  }
 
   // This function gets the date difference
   const getDaysDifference = () => {
@@ -61,23 +78,29 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       <div className='inShopBarDate'>
         <div className={`circle ${circleClass}`}>{label}</div>
       </div>
-      {activityDropdownVisible ? (
-        <div className='inShopActivityDropdown visible'>
-          <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
-          <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-          <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+      <div className={`inShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
+        <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
+        <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
+        <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+      </div>
+
+      <div className={`inShopBarCut ${cutWeldFinish(job.cut).buttonClass}`} onClick={handleCutClicked}>
+        {cutWeldFinish(job.cut).buttonText}
+        <div className={`inShopBarSelectContainer ${cutDropDownVisible ? 'visible' : 'invisible'}`}>
+          <div className="inShopBarSelect darkBlue">N</div>
+          <div className="inShopBarSelect green">P</div>
+          <div className="inShopBarSelect darkGrey">F</div>
         </div>
-      ) : (
-        <div className='inShopActivityDropdown invisible'>
-          {/* Invisible class will hide the div */}
-          <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
-          <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-          <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
-        </div>
-      )}
-      <button className='inShopBarCut'> N </button>
-      <button className='inShopBarWeld'> N </button>
-      <button className='inShopBarFinish'> N </button>
+      </div>
+
+      <div className={`inShopBarWeld ${cutWeldFinish(job.weld).buttonClass} `}>
+        {cutWeldFinish(job.weld).buttonText}
+      </div>
+
+      <div className={`inShopBarFinish ${cutWeldFinish(job.finish).buttonClass}`}>
+        {cutWeldFinish(job.finish).buttonText}
+      </div>
+      
     </div>
   );
 }

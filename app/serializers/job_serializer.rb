@@ -8,9 +8,12 @@ class JobSerializer < ActiveModel::Serializer
   :color, 
   :start_time, 
   :delivery, 
-  :events, 
   :status, 
-  :quadrent
+  :quadrent,
+  :cut,
+  :weld,
+  :finish,
+  :events 
 
   def events
     object.events.order(:id)

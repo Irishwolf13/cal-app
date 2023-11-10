@@ -61,20 +61,11 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
       <div className='preShopBarDate'> 
         <div className={`circle ${circleClass}`}>{label}</div>
       </div>
-      {activityDropdownVisible ? (
-        <div className='preShopActivityDropdown visible'>
-          <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
-          <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-          <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
-        </div>
-      ) : (
-        <div className='preShopActivityDropdown invisible'>
-          {/* Invisible class will hide the div */}
-          <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
-          <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-          <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
-        </div>
-      )}
+      <div className={`preShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
+        <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
+        <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
+        <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+      </div>
     </div>
   );
 }
