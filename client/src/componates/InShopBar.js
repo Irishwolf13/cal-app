@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 
 export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
-  const [activeStatus, setActiveStatus] = useState(false);
-
+  const [activeStatus, setActiveStatus] = useState(job.status);
+  const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
+  
+  // This is clicked to populate the details panel
   const handleBarClick = () => {
     setCurrentlySelected(job.uuid);
     setCurrentJob(job)
   };
 
   const handleActivityClick = () => {
-    setActiveStatus(!activeStatus);
-    // This will be a PATCH request for the active status of this job.
+    setActivityDropdownVisible(!activityDropdownVisible); // Toggle visibility
+  };
+
+  const handleActivitySelectionClicked = (color) => {
+    setActiveStatus(color);
+    setActivityDropdownVisible(!activityDropdownVisible); // Toggle visibility
+    fetch(`/jobs/${job.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ status: color })
+    });
   };
 
   // This function gets the date difference
@@ -22,7 +35,7 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   
     if (dayDifference < 0) {
       return { class: 'grey', label: 'x' };
-    } else if (dayDifference >= 0 && dayDifference <= 7) {
+    } else if (dayDifference >= 0 && dayDifference <= 6) {
       return { class: 'red', label: `${dayDifference}d` };
     } else if (dayDifference <= 28) {
       return { class: 'yellow', label: `${Math.floor(dayDifference / 7)}w` };
@@ -33,21 +46,35 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   const { class: circleClass, label } = getDaysDifference();
 
   return (
-    <div className={`inShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'}`} onClick={handleBarClick}>
-      <div className='inShopBarActivity' onClick={handleActivityClick}>
+    <div className={`inShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'}`}>
+      <div className='inShopBarActivity'>
         <button className={
           `circle ${
-              job.status === 'inActive' ? 'grey' 
-            : job.status === 'active' ? 'blue' 
-            : job.status === 'noCalendar' ? 'darkGrey' 
+              activeStatus === 'inActive' ? 'grey' 
+            : activeStatus === 'active' ? 'blue' 
+            : activeStatus === 'noCalendar' ? 'darkGrey' 
             : ''
           }`
-        }></button>
+        } onClick={handleActivityClick}></button>
       </div>
-      <div className='inShopBarName'> {job.job_name} </div>
+      <div className='inShopBarName' onClick={handleBarClick}> {job.job_name} </div>
       <div className='inShopBarDate'>
         <div className={`circle ${circleClass}`}>{label}</div>
       </div>
+      {activityDropdownVisible ? (
+        <div className='inShopActivityDropdown visible'>
+          <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
+          <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
+          <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+        </div>
+      ) : (
+        <div className='inShopActivityDropdown invisible'>
+          {/* Invisible class will hide the div */}
+          <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
+          <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
+          <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+        </div>
+      )}
       <button className='inShopBarCut'> N </button>
       <button className='inShopBarWeld'> N </button>
       <button className='inShopBarFinish'> N </button>

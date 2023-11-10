@@ -32,18 +32,15 @@ export default function Matrix() {
     })
     .then(response => response.json())
     .then(data => {
-      const preShopJobs = data.filter(job => job.quadrent === "preShop");
-      const inShopJobs = data.filter(job => job.quadrent === "inShop");
-      const completeJobs = data.filter(job => job.quadrent === "complete");
+      const preShopJobs = data.filter(job => job.quadrent === "preShop").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+      const inShopJobs = data.filter(job => job.quadrent === "inShop").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+      const completeJobs = data.filter(job => job.quadrent === "complete").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
       setJobsPreShop(preShopJobs);
       setJobsInShop(inShopJobs);
       setJobsComplete(completeJobs);
-      
-      console.log(preShopJobs);
-      console.log(inShopJobs);
-      console.log(completeJobs);
+
     });
-  }
+  };
 
   const mapJobs = (arrayToMap, Component) => {
     return arrayToMap.map(job => (

@@ -11,14 +11,20 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   };
 
   const handleActivityClick = (color) => {
-    // This will be a PATCH request for the active status of this job.
     setActivityDropdownVisible(!activityDropdownVisible); // Toggle visibility
   };
+  
   const handleActivitySelectionClicked = (color) => {
-    console.log(color)
-    setActiveStatus(color)
+    setActiveStatus(color);
     setActivityDropdownVisible(!activityDropdownVisible); // Toggle visibility
-  }
+    fetch(`/jobs/${job.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ status: color })
+    });
+  };
 
   // This function gets the date difference for days remaining and set class for color of circle
   const getDaysDifference = () => {
@@ -29,7 +35,7 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   
     if (dayDifference < 0) {
       return { class: 'grey', label: 'x' };
-    } else if (dayDifference >= 0 && dayDifference <= 7) {
+    } else if (dayDifference >= 0 && dayDifference <= 6) {
       return { class: 'red', label: `${dayDifference}d` };
     } else if (dayDifference <= 28) {
       return { class: 'yellow', label: `${Math.floor(dayDifference / 7)}w` };
@@ -38,7 +44,6 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
     }
   };
   const { class: circleClass, label } = getDaysDifference();
-  
 
   return (
     <div className={`preShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'}`}>
