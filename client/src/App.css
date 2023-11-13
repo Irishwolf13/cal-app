@@ -35,7 +35,7 @@
   background-color: rgb(255, 255, 255);
   border: solid 2px black;
   position: fixed;
-  top: 40%;
+  top: 15%;
   left: 40%;
   width: 350px;
   padding: 10px;
@@ -96,7 +96,6 @@
   cursor: pointer;
 }
 .colorDropdown {
-  margin-bottom: 20px;
   cursor: pointer;
 }
 .myDatePicker {
@@ -144,34 +143,42 @@
 
 /* ***************** TOGGLE SWITCH ***************** */
 .toggle-switch {
-  display: inline-block;
   position: relative;
   cursor: pointer;
-  width: 60px;
-  height: 25px;
-  background-color: #ccc; /* Default background color */
-  border-radius: 15px; /* Rounded corners */
-  border: solid 1px #000000;
+  left: 50px;
+  margin-bottom: 5px;
+  width: 50px;
+  height: 20px;
+  background-color: #838383; /* Default background color */
+  border-radius: 10px; /* Rounded corners */
+  border: solid 1px #545454;
 }
 
 .toggleOn {
-  background-color: rgb(0, 0, 125);
+  background-color: rgb(0, 178, 254);
 }
 
-.ball {
+.toggle-ball {
   position: absolute;
   top: 2px;
-  left: 4px;
+  left: 2px;
   transform: translateX(0%);
-  border-radius: 50%;
+  border-radius: 40%;
   background-color: white;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   transition: transform 0.3s ease;
 }
 
-.toggleOn .ball {
-  transform: translateX(155%);
+.toggleOn .toggle-ball {
+  transform: translateX(190%);
+}
+
+.toggle-title {
+  margin-left: 70px;
+  margin-bottom: 3px;
+  min-width: 200px;
+  text-align: left;
 }
 
 /* ***************** CHECKBOXES ***************** */

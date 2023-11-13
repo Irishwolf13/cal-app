@@ -7,23 +7,37 @@ import ToggleSwitch from './ToggleSwitch';
 export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
-  const [scheduleBox, setScheduleBox] = useState(true);
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
-
-  const [jobData, setJobData] = useState({
+  const emptyJob = {
     hoursForJob: '',
     hoursPerDay: '',
     nameOfJob: '',
+    scheduled: true,
+    delivery: null,
+    inHand: null,
+    cncParts: false,
+    qaulityControl: false,
+    productTag: false,
+    hardware: false,
     color: 'Blue'
-  });
+  }
+  const [jobData, setJobData] = useState(emptyJob);
 
-  const handleChange = (e) => {
+  const handleTextChange = (e) => {
     const { name, value } = e.target;
     setJobData(prevState => ({
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleToggleChange = (toggleTitle) => {
+    setJobData(prevState => ({
+      ...prevState,
+      [toggleTitle]: !prevState[toggleTitle]
+    }));
+    // console.log(jobData)
   };
 
   const handleSubmit = (e) => {
@@ -45,9 +59,9 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     if (checkBox) {
       myCurrentDate = endSelected(jobData.hoursForJob, jobData.hoursPerDay)
     }
-    let tempDate = deliveryDate
+    let _deliveryDate = deliveryDate
     if (deliveryDate != null) {
-      tempDate.setDate(tempDate.getDate() + 1);
+      _deliveryDate.setDate(_deliveryDate.getDate() + 1);
     }
     setCheckBox(false)
     // Fetch POST job
@@ -61,7 +75,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         inital_hours: jobData.hoursForJob,
         hours_per_day: jobData.hoursPerDay,
         start_time: slotClickedOn.start,
-        delivery: tempDate,
+        delivery: _deliveryDate,
         color: jobData.color
       })
     })
@@ -72,13 +86,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       setRefreshMe(prev => !prev)
     })
     // Reset the input value if needed
-    setJobData(prevState => ({
-      ...prevState,
-      hoursForJob: '',
-      hoursPerDay: '',
-      nameOfJob: '',
-      color: 'Blue'
-    }));
+    setJobData(emptyJob);
     setDeliveryDate(null)
     setInHandDate(null)
   };
@@ -90,15 +98,13 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const handleCheckBox = (e) => {
     setCheckBox(prev => !prev)
   }
-  const handleScheduleChecked = (e) => {
-    setScheduleBox(prev => !prev)
-  }
 
   const handleModalClose = (e) => {
     setDeliveryDate(null)
     setInHandDate(null)
     setModalCreateJob()
     setCheckBox(false);
+    setJobData(emptyJob)
   }
 
   const endSelected = (jobHours, perDayHours) => {
@@ -130,6 +136,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       setDeliveryDate(selectedDate);
     }else {setDeliveryDate(null)}
   }
+
   const handleInHandPicker = (date) => {
     if (date !== null) {
       const selectedDate = date;
@@ -158,7 +165,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
           <label>
             <input 
               className="myCheckBox" type="checkbox" id="schedule" name="schedule" value="yes" defaultChecked
-              onChange={handleScheduleChecked}
+              onChange={() => handleToggleChange("scheduled")}
             />Scheduled 
           </label>
           <form className="createJobForm" onSubmit={handleSubmit}>
@@ -168,7 +175,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               id="nameOfJob"
               name="nameOfJob"
               value={jobData.nameOfJob}
-              onChange={handleChange}
+              onChange={handleTextChange}
               autoFocus
             />
             <br></br>
@@ -178,7 +185,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               id="totalHours"
               name="hoursForJob"
               value={jobData.hoursForJob}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
             <br></br>
             <label htmlFor="perDay">Hours Per Day</label>
@@ -187,9 +194,8 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               id="perDay"
               name="hoursPerDay"
               value={jobData.hoursPerDay}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
-            <br></br>
             <div>
               <select className="colorDropdown" onChange={handleColorDropdownChange}>
                 <option value="rgb(55, 55, 255)">Select Color</option>
@@ -220,7 +226,11 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               </div>
             </div>
             <br></br>
-            <ToggleSwitch />
+            <ToggleSwitch title={'CnC Parts'} option={"cncParts"} toggleChange={handleToggleChange}/>
+            <ToggleSwitch title={'Quality Control Tags'} option={"qaulityControl"} toggleChange={handleToggleChange}/>
+            <ToggleSwitch title={'Product Tags'} option={"productTag"} toggleChange={handleToggleChange}/>
+            <ToggleSwitch title={'Hardware'} option={"hardware"} toggleChange={handleToggleChange}/>
+            <br></br>
             <button type="submit">Submit</button>
           </form>
           <br></br>
