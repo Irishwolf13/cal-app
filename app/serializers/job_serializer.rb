@@ -19,6 +19,7 @@ class JobSerializer < ActiveModel::Serializer
   :product_tag,
   :hardware,
   :powder_coating,
+  :powder_colors,
   :memo_boxes,
   :check_boxes,
   :events 

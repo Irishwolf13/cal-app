@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_13_183217) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_13_185257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_13_183217) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["job_id"], name: "index_memo_boxes_on_job_id"
+  end
+
+  create_table "powder_colors", force: :cascade do |t|
+    t.integer "job_id"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "check_boxes", "jobs"
