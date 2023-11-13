@@ -56,33 +56,22 @@ class JobsController < ApplicationController
       puts params[:newColor]
       process_color_change
     end
-    if !params[:newHours].to_s.empty?
-      process_Hours_change
-    end
-    if !params[:newTitle].to_s.empty?
-      @job.job_name = params[:newTitle]
-    end
-    if params[:newPerDay]
-      process_per_day_change
-    end
-    if params[:newDelivery]
-      @job.delivery = params[:newDelivery]
-    end
-    if params[:status]
-      @job.status = params[:status]
-    end
-    if params[:quadrent]
-      @job.quadrent = params[:quadrent]
-    end
-    if params[:cut]
-      @job.cut = params[:cut]
-    end
-    if params[:weld]
-      @job.weld = params[:weld]
-    end
-    if params[:finish]
-      @job.finish = params[:finish]
-    end
+    process_hours_change if !params[:newHours].to_s.empty?
+    process_per_day_change if params[:newPerDay]
+    
+    @job.job_name = params[:newTitle] if !params[:newTitle].to_s.empty?
+    @job.delivery = params[:newDelivery] if params[:newDelivery]
+    @job.status = params[:status] if params[:status]
+    @job.quadrent = params[:quadrent] if params[:quadrent]
+    @job.cut = params[:cut] if params[:cut]
+    @job.weld = params[:weld] if params[:weld]
+    @job.finish = params[:finish] if params[:finish]
+    @job.cnc_parts = params[:cnc_parts] if params[:cnc_parts]
+    @job.quality_control = params[:quality_control] if params[:quality_control]
+    @job.product_tag = params[:product_tag] if params[:product_tag]
+    @job.hardware = params[:hardware] if params[:hardware]
+    @job.powder_coating = params[:powder_coating] if params[:powder_coating]
+
     @job.save
     render json: @job, include: :events, status: :created, location: @job
   end
@@ -189,6 +178,15 @@ class JobsController < ApplicationController
         :color,
         :start_time,
         :delivery,
+        :in_hand,
+        :cut,
+        :weld,
+        :finish,
+        :cnc_parts,
+        :quality_control,
+        :product_tag,
+        :hardware,
+        :powder_coating,
         :calendar
       )
       # Check if :calendar is null and set it to 0 if true
@@ -226,7 +224,7 @@ class JobsController < ApplicationController
       end
     end
 
-    def process_Hours_change
+    def process_hours_change
       # puts '*********************** HOURS Change ***********************'
       tempPerDay = 0
       tempRemaining = params[:newHours].to_i

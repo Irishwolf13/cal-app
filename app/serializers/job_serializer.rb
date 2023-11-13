@@ -8,11 +8,17 @@ class JobSerializer < ActiveModel::Serializer
   :color, 
   :start_time, 
   :delivery, 
+  :in_hand,
   :status, 
   :quadrent,
   :cut,
   :weld,
   :finish,
+  :cnc_parts,
+  :quality_control,
+  :product_tag,
+  :hardware,
+  :powder_coating,
   :events 
 
   def events

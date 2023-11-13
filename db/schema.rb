@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_10_160852) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_13_162352) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_160852) do
     t.string "cut", default: "notStarted"
     t.string "weld", default: "notStarted"
     t.string "finish", default: "notStarted"
+    t.date "in_hand"
+    t.boolean "cnc_parts", default: false
+    t.boolean "quality_control", default: false
+    t.boolean "product_tag", default: false
+    t.boolean "hardware", default: false
+    t.boolean "powder_coating", default: false
   end
 
 end
