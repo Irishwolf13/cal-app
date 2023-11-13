@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  resources :check_boxes
   resources :calendars
   resources :daily_maximums
   resources :events
   resources :jobs
+  resources :memo_boxes
+  resources :check_boxes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
