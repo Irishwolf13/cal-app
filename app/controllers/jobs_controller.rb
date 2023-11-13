@@ -186,8 +186,8 @@ class JobsController < ApplicationController
         :job_name,
         :inital_hours,
         :hours_per_day,
-        :start_time,
         :color,
+        :start_time,
         :delivery,
         :calendar
       )
