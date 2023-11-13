@@ -99,6 +99,9 @@
   margin-bottom: 20px;
   cursor: pointer;
 }
+.myDatePicker {
+  max-width: 70px;
+}
 
 .react-datepicker__input-container input {
   width: 125px;
@@ -137,6 +140,38 @@
   left: 100px;
   top: 1px;
   cursor: pointer;
+}
+
+/* ***************** TOGGLE SWITCH ***************** */
+.toggle-switch {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  width: 60px;
+  height: 25px;
+  background-color: #ccc; /* Default background color */
+  border-radius: 15px; /* Rounded corners */
+  border: solid 1px #000000;
+}
+
+.toggleOn {
+  background-color: rgb(0, 0, 125);
+}
+
+.ball {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  transform: translateX(0%);
+  border-radius: 50%;
+  background-color: white;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.toggleOn .ball {
+  transform: translateX(155%);
 }
 
 /* ***************** CHECKBOXES ***************** */

@@ -5,6 +5,7 @@ import PreShopBar from './PreShopBar';
 import InShopBar from './InShopBar';
 import CompletedBar from './CompletedBar';
 import DetailPanel from './DetailPanel';
+import CreateJobModal from "./CreateJobModal";
 
 export default function Matrix() {
   const [jobsPreShop, setJobsPreShop] = useState([]);
@@ -59,7 +60,7 @@ export default function Matrix() {
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
       <div className="mainContainer">
         <div className="matrixContainer">
-{/* PreShop */}
+          {/* PreShop */}
           <div className="preShopContainer">
             <div className='preShopMainTitle'> PreShop </div>
             <div className='preShopTitleBar'>
@@ -79,7 +80,7 @@ export default function Matrix() {
             </div>
             {mapJobs(jobsPreShop, PreShopBar)}
           </div>
-{/* In Shop */}
+          {/* In Shop */}
           <div className="inShopContainer">
             <h2 className='inShopMainTitle'>In Shop</h2>
             <div className='inShopTitleBar'>
@@ -103,11 +104,11 @@ export default function Matrix() {
             </div>
             {mapJobs(jobsInShop, InShopBar)}
           </div>
-{/* Expandable */}
+          {/* Expandable */}
           <div className="expandableContainer">
             <div className='expandable'>Expandable</div>
           </div>
-{/* Completed */}
+          {/* Completed */}
           <div className="completedContainer">
             <div className='CompletedMainTitle'>Completed</div>
             <CompletedBar />
@@ -115,6 +116,7 @@ export default function Matrix() {
         </div>
         <DetailPanel currentJob={currentJob}/>
       </div>
+      <CreateJobModal />
     </div>
   )
 }

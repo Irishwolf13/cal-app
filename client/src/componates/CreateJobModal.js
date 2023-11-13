@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
+import ToggleSwitch from './ToggleSwitch';
 
 export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null)
+  const [scheduleBox, setScheduleBox] = useState(true);
+  const [deliveryDate, setDeliveryDate] = useState(null)
+  const [inHandDate, setInHandDate] = useState(null)
 
   const [jobData, setJobData] = useState({
     hoursForJob: '',
@@ -42,8 +45,8 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     if (checkBox) {
       myCurrentDate = endSelected(jobData.hoursForJob, jobData.hoursPerDay)
     }
-    let tempDate = selectedDate
-    if (selectedDate != null) {
+    let tempDate = deliveryDate
+    if (deliveryDate != null) {
       tempDate.setDate(tempDate.getDate() + 1);
     }
     setCheckBox(false)
@@ -76,7 +79,8 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       nameOfJob: '',
       color: 'Blue'
     }));
-    setSelectedDate(null)
+    setDeliveryDate(null)
+    setInHandDate(null)
   };
 
   const handleColorDropdownChange = (e) => {
@@ -86,9 +90,13 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const handleCheckBox = (e) => {
     setCheckBox(prev => !prev)
   }
+  const handleScheduleChecked = (e) => {
+    setScheduleBox(prev => !prev)
+  }
 
   const handleModalClose = (e) => {
-    setSelectedDate(null)
+    setDeliveryDate(null)
+    setInHandDate(null)
     setModalCreateJob()
     setCheckBox(false);
   }
@@ -115,12 +123,19 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     return myDate;
   }
 
-  const handleDatePicker = (date) => {
+  const handleDeliveryPicker = (date) => {
     if (date !== null) {
       const selectedDate = date;
       selectedDate.setDate(selectedDate.getDate());
-      setSelectedDate(selectedDate);
-    }else {setSelectedDate(null)}
+      setDeliveryDate(selectedDate);
+    }else {setDeliveryDate(null)}
+  }
+  const handleInHandPicker = (date) => {
+    if (date !== null) {
+      const selectedDate = date;
+      selectedDate.setDate(selectedDate.getDate());
+      setInHandDate(selectedDate);
+    }else {setInHandDate(null)}
   }
 
   return (
@@ -136,13 +151,15 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
           {slotClickedOn && <p className="modalDate">{slotClickedOn.start.toLocaleDateString()}</p>}
           <label>
             <input 
-              className="myCheckBox" 
-              type="checkbox" 
-              id="accept" 
-              name="accept" 
-              value="yes"
+              className="myCheckBox" type="checkbox" id="accept" name="accept" value="yes"
               onChange={handleCheckBox}
-            />End Date 
+            />End Date
+          </label>
+          <label>
+            <input 
+              className="myCheckBox" type="checkbox" id="schedule" name="schedule" value="yes" defaultChecked
+              onChange={handleScheduleChecked}
+            />Scheduled 
           </label>
           <form className="createJobForm" onSubmit={handleSubmit}>
             <label htmlFor="nameOfJob">Name of Job</label>
@@ -173,23 +190,37 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               onChange={handleChange}
             />
             <br></br>
-            <select className="colorDropdown" onChange={handleColorDropdownChange}>
-              <option value="rgb(55, 55, 255)">Select Color</option>
-              <option value="rgb(55, 55, 255)">Blue</option>
-              <option value="rgb(172, 236, 253)">Light Blue</option>
-              <option value="rgb(0, 129, 0)">Green</option>
-              <option value="rgb(132, 0, 132)">Purple</option>
-              <option value="rgb(255, 63, 172)">Pink</option>
-              <option value="rgb(100, 100, 100)">Gray</option>
-              <option value="rgb(255, 255, 0)">Yellow</option>
-              <option value="rgba(255, 166, 0, 0.623)">Orange</option>
-            </select>
-            <DatePicker 
-              selected={selectedDate} 
-              onChange={date => handleDatePicker(date)} 
-              placeholderText="Select Delivery Date"
-            />
+            <div>
+              <select className="colorDropdown" onChange={handleColorDropdownChange}>
+                <option value="rgb(55, 55, 255)">Select Color</option>
+                <option value="rgb(55, 55, 255)">Blue</option>
+                <option value="rgb(172, 236, 253)">Light Blue</option>
+                <option value="rgb(0, 129, 0)">Green</option>
+                <option value="rgb(132, 0, 132)">Purple</option>
+                <option value="rgb(255, 63, 172)">Pink</option>
+                <option value="rgb(100, 100, 100)">Gray</option>
+                <option value="rgb(255, 255, 0)">Yellow</option>
+                <option value="rgba(255, 166, 0, 0.623)">Orange</option>
+              </select>
+              <div style={{ display: "inline-block" }}>
+                <DatePicker 
+                  selected={deliveryDate} 
+                  onChange={date => handleDeliveryPicker(date)} 
+                  placeholderText="Delivery"
+                  className="myDatePicker"
+                />
+              </div>
+              <div style={{ display: "inline-block" }}>
+                <DatePicker 
+                  selected={inHandDate} 
+                  onChange={date => handleInHandPicker(date)} 
+                  placeholderText="In-Hand"
+                  className="myDatePicker"
+                />
+              </div>
+            </div>
             <br></br>
+            <ToggleSwitch />
             <button type="submit">Submit</button>
           </form>
           <br></br>
