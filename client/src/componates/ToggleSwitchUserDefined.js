@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ToggleSwitchUserDefined({index, handleUserInputChange}) {
+function ToggleSwitchUserDefined({index, handleUserInputChange, removeUserCheckBoxes}) {
   const [inputValue, setInputValue] = useState('');
 
   // This is better way to track keystrokes
@@ -15,12 +15,12 @@ function ToggleSwitchUserDefined({index, handleUserInputChange}) {
 
   const handleRemoveClicked = (e) => {
     e.preventDefault();
-    console.log(index)
+    removeUserCheckBoxes(index)
   }
 
   return (
     <div className='toggle-container'>
-      <div className={`toggle-switch toggleOnLock`}>
+      <div className={`toggle-switch toggleOn`} onClick={handleRemoveClicked}>
         <div className="toggle-ball"></div>
       </div>
       <div className="toggle-title-user">
@@ -30,7 +30,7 @@ function ToggleSwitchUserDefined({index, handleUserInputChange}) {
           value={inputValue}
           onChange={handleInputChange}
         />
-        <div className='toggle-title-remove' onClick={handleRemoveClicked}><button>-</button></div>
+        {/* <div className='toggle-title-remove' onClick={handleRemoveClicked}><button>-</button></div> */}
       </div>
     </div>
   );

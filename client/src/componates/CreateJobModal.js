@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import ToggleSwitch from './ToggleSwitch';
 import ToggleSwitchUserDefined from './ToggleSwitchUserDefined';
+import MemoBox from './MemoBox';
 
 export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
@@ -11,6 +12,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([{title: ''}])
+  const [userMemoBoxes, setUserMemoBoxes] = useState(['First Memo Box'])
   const emptyJob = {
     hoursForJob: '',
     hoursPerDay: '',
@@ -46,6 +48,12 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       prevUserCheckBoxes.map((checkbox, i) =>
         i === index ? { ...checkbox, title: userInput } : checkbox
       )
+    );
+  };
+
+  const handleMemoChange = (index, memo) => {
+    setUserMemoBoxes((prevUserMemoBoxes) =>
+      prevUserMemoBoxes.map((item, i) => (i === index ? memo : item))
     );
   };
 
@@ -97,6 +105,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     // Reset the input value if needed
     setJobData(emptyJob);
     setUserCheckBoxes([{title: ''}])
+    setUserMemoBoxes([''])
     setDeliveryDate(null)
     setInHandDate(null)
   };
@@ -116,6 +125,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     setCheckBox(false);
     setJobData(emptyJob)
     setUserCheckBoxes([{title: ''}])
+    setUserMemoBoxes([''])
   }
 
   const endSelected = (jobHours, perDayHours) => {
@@ -162,6 +172,25 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       { title: '' }
     ]);
   };
+
+  const removeUserCheckBoxes = (index) => {
+    const updatedCheckBoxes = [...userCheckBoxes];  // Make a copy of the state array
+    updatedCheckBoxes.splice(index, 1);             // Remove the object at the specified index
+    setUserCheckBoxes(updatedCheckBoxes);           // Update the state with the modified array
+  }
+
+  const handleNewMemoBox = () => {
+    setUserMemoBoxes((userMemoBoxes) => [
+      ...userMemoBoxes,
+      ''
+    ]);
+  }
+
+  const removeMemoBox = (index) => {
+    const updatedMemoBoxes = [...userMemoBoxes];
+    updatedMemoBoxes.splice(index, 1);
+    setUserMemoBoxes(updatedMemoBoxes);
+  }
 
   return (
     <div>
@@ -249,15 +278,35 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
             <ToggleSwitch title={'Product Tags'} option={"productTag"} toggleChange={handleToggleChange}/>
             <ToggleSwitch title={'Hardware'} option={"hardware"} toggleChange={handleToggleChange}/>
             {userCheckBoxes.map((checkbox, index) => (
-              <ToggleSwitchUserDefined key={index} index={index} handleUserInputChange={handleUserInputChange} />
+              <ToggleSwitchUserDefined 
+                key={index} 
+                index={index} 
+                handleUserInputChange={handleUserInputChange}
+                removeUserCheckBoxes={removeUserCheckBoxes}
+              />
+            ))}
+            {userMemoBoxes.map((memo, index) => (
+              <MemoBox 
+                key={index} 
+                memo={memo} 
+                index={index} 
+                handleMemoChange={handleMemoChange}
+                removeMemoBox={removeMemoBox}
+              />
             ))}
             <br></br>
             <button type="submit">Submit</button>
           </form>
           <br></br>
-          <div>
-            <button onClick={handleNewCheck}>+</button>
-            User Defined Checks
+          <div className='user-plus-container'>
+            <div className='user-plus-boxes'>
+              <button className='user-plus-button' onClick={handleNewCheck}>+</button>
+              <div>User Defined Check</div>
+            </div>
+            <div className='user-plus-boxes'>
+              <button className='user-plus-button' onClick={handleNewMemoBox}>+</button>
+              <div>Memo Box</div>
+            </div>
           </div>
           {/* <button onClick={e => setModalCreateJob()}>Close</button> */}
         </div>

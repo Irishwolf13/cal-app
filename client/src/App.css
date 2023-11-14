@@ -218,6 +218,47 @@
   margin-bottom: 20px;
 }
 
+.user-plus-container {
+  display: flex;
+  flex-direction: column;
+}
+.user-plus-boxes {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.user-plus-button {
+  margin-right: 10px;
+}
+
+/* ***************** MemoBox ***************** */
+.memoBox-container {
+  /* background-color: aqua; */
+  position: relative;
+  justify-content: center; /* horizontally center */
+  align-items: center; /* vertically center */
+  height: 55px;
+}
+/* .toggle-memo-title {
+  position: absolute;
+  top: 0px;
+  left: 120px;
+} */
+.memoBox {
+  position: absolute;
+  top: 0px;
+  right: 25px;
+  font-size: small;
+  height: 45px;
+  min-width: 200px;
+  margin-left: auto;
+}
+.memoBox-Button {
+  position: absolute;
+  right: 3%;
+  bottom: 20px;
+}
+
 /* ***************** Matrix ***************** */
 .testing { background-color: rgb(0, 204, 255); }
 .activityCircle { width: 20px; }
@@ -459,4 +500,8 @@
   background-color: rgb(255, 255, 255);
   border: solid 1px black;
   padding: 5px;
+}
+
+textarea {
+  resize: none;
 }
