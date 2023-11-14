@@ -11,8 +11,8 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const [checkBox, setCheckBox] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
-  const [userCheckBoxes, setUserCheckBoxes] = useState([{title: ''}])
-  const [userMemoBoxes, setUserMemoBoxes] = useState(['First Memo Box'])
+  const [userCheckBoxes, setUserCheckBoxes] = useState([''])
+  const [userMemoBoxes, setUserMemoBoxes] = useState([''])
   const emptyJob = {
     hoursForJob: '',
     hoursPerDay: '',
@@ -24,6 +24,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     qaulityControl: false,
     productTag: false,
     hardware: false,
+    powderCoating: false,
     color: 'Blue'
   }
   const [jobData, setJobData] = useState(emptyJob);
@@ -46,7 +47,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const handleUserInputChange = (index, userInput) => {
     setUserCheckBoxes((prevUserCheckBoxes) =>
       prevUserCheckBoxes.map((checkbox, i) =>
-        i === index ? { ...checkbox, title: userInput } : checkbox
+        i === index ? userInput : checkbox
       )
     );
   };
@@ -104,7 +105,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     })
     // Reset the input value if needed
     setJobData(emptyJob);
-    setUserCheckBoxes([{title: ''}])
+    setUserCheckBoxes([''])
     setUserMemoBoxes([''])
     setDeliveryDate(null)
     setInHandDate(null)
@@ -124,7 +125,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     setModalCreateJob()
     setCheckBox(false);
     setJobData(emptyJob)
-    setUserCheckBoxes([{title: ''}])
+    setUserCheckBoxes([''])
     setUserMemoBoxes([''])
   }
 
@@ -169,7 +170,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const handleNewCheck = () => {
     setUserCheckBoxes((prevUserCheckBoxes) => [
       ...prevUserCheckBoxes,
-      { title: '' }
+      ''
     ]);
   };
 
@@ -277,6 +278,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
             <ToggleSwitch title={'Quality Control Tags'} option={"qaulityControl"} toggleChange={handleToggleChange}/>
             <ToggleSwitch title={'Product Tags'} option={"productTag"} toggleChange={handleToggleChange}/>
             <ToggleSwitch title={'Hardware'} option={"hardware"} toggleChange={handleToggleChange}/>
+            <ToggleSwitch title={'Powder Coating'} option={"powderCoating"} toggleChange={handleToggleChange}/>
             {userCheckBoxes.map((checkbox, index) => (
               <ToggleSwitchUserDefined 
                 key={index} 
