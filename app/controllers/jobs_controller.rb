@@ -13,9 +13,9 @@ class JobsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
-    puts "************************************* HERE *******************************"
-    puts job_params
-    puts params
+    # puts "************************************* HERE *******************************"
+    # puts job_params
+    # puts params
     @job.uuid = UUID.new.generate
     @job.save
 
@@ -41,6 +41,14 @@ class JobsController < ApplicationController
         hours_remaining -= my_hours_per_day
       end
       current_date += 1
+    end
+
+    params[:memo_boxes].each do |memo_box|
+      MemoBox.create(memo: memo_box, job_id: @job.id)
+    end
+
+    params[:check_boxes].each do |check_box|
+      CheckBox.create(title: check_box, job_id: @job.id, status: true)
     end
 
     if @job.save
@@ -111,6 +119,10 @@ class JobsController < ApplicationController
   def destroy
     @job = Job.find(params[:id])
     @job.destroy
+  end
+
+  def destroy_all
+    Job.delete_all
   end
 
   def add
@@ -190,15 +202,18 @@ class JobsController < ApplicationController
         :product_tag,
         :hardware,
         :powder_coating,
-        :memo_boxes,
         :check_boxes
       )
+      # Check if memo_boxes is present in the params and permit it
+      if params[:job][:memo_boxes]
+        parameters[:memo_boxes] = params[:job][:memo_boxes].permit!
+      end
       # Check if :calendar is null and set it to 0 if true
       parameters[:calendar] ||= 0
       # returns parameters after adjusting
       parameters
     end
-
+    
     def process_per_day_change
       # puts '*********************** PerDay Change ***********************'
       @foundEvent = false

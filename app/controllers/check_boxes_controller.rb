@@ -15,7 +15,7 @@ class CheckBoxesController < ApplicationController
   # POST /check_boxes
   # POST /check_boxes.json
   def create
-    @check_box = CheckBox.new(check_box_params)
+    @check_box = CheckBox.new(parms)
 
     if @check_box.save
       render :show, status: :created, location: @check_box

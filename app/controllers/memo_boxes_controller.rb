@@ -14,8 +14,7 @@ class MemoBoxesController < ApplicationController
 
   # POST /memo_boxes
   def create
-    @memo_box = MemoBox.new(memo_box_params)
-
+    @memo_box = MemoBox.new(params)
     if @memo_box.save
       render json: @memo_box, status: :created, location: @memo_box
     else
