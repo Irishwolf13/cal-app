@@ -173,12 +173,15 @@ class JobsController < ApplicationController
     def job_params
       parameters = params.require(:job).permit(
         :job_name,
+        :calendar,
         :inital_hours,
         :hours_per_day,
         :color,
         :start_time,
         :delivery,
         :in_hand,
+        :status,
+        :quadrent,
         :cut,
         :weld,
         :finish,
@@ -187,7 +190,8 @@ class JobsController < ApplicationController
         :product_tag,
         :hardware,
         :powder_coating,
-        :calendar
+        :memo_boxes,
+        :check_boxes
       )
       # Check if :calendar is null and set it to 0 if true
       parameters[:calendar] ||= 0
