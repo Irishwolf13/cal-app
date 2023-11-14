@@ -3,12 +3,14 @@ import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitchUserDefined from './ToggleSwitchUserDefined';
 
 export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
+  const [userCheckBoxes, setUserCheckBoxes] = useState([{title: ''}])
   const emptyJob = {
     hoursForJob: '',
     hoursPerDay: '',
@@ -37,7 +39,14 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       ...prevState,
       [toggleTitle]: !prevState[toggleTitle]
     }));
-    // console.log(jobData)
+  };
+
+  const handleUserInputChange = (index, userInput) => {
+    setUserCheckBoxes((prevUserCheckBoxes) =>
+      prevUserCheckBoxes.map((checkbox, i) =>
+        i === index ? { ...checkbox, title: userInput } : checkbox
+      )
+    );
   };
 
   const handleSubmit = (e) => {
@@ -87,6 +96,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     })
     // Reset the input value if needed
     setJobData(emptyJob);
+    setUserCheckBoxes([{title: ''}])
     setDeliveryDate(null)
     setInHandDate(null)
   };
@@ -105,6 +115,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     setModalCreateJob()
     setCheckBox(false);
     setJobData(emptyJob)
+    setUserCheckBoxes([{title: ''}])
   }
 
   const endSelected = (jobHours, perDayHours) => {
@@ -144,6 +155,13 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       setInHandDate(selectedDate);
     }else {setInHandDate(null)}
   }
+
+  const handleNewCheck = () => {
+    setUserCheckBoxes((prevUserCheckBoxes) => [
+      ...prevUserCheckBoxes,
+      { title: '' }
+    ]);
+  };
 
   return (
     <div>
@@ -230,10 +248,17 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
             <ToggleSwitch title={'Quality Control Tags'} option={"qaulityControl"} toggleChange={handleToggleChange}/>
             <ToggleSwitch title={'Product Tags'} option={"productTag"} toggleChange={handleToggleChange}/>
             <ToggleSwitch title={'Hardware'} option={"hardware"} toggleChange={handleToggleChange}/>
+            {userCheckBoxes.map((checkbox, index) => (
+              <ToggleSwitchUserDefined key={index} index={index} handleUserInputChange={handleUserInputChange} />
+            ))}
             <br></br>
             <button type="submit">Submit</button>
           </form>
           <br></br>
+          <div>
+            <button onClick={handleNewCheck}>+</button>
+            User Defined Checks
+          </div>
           {/* <button onClick={e => setModalCreateJob()}>Close</button> */}
         </div>
       </Modal>
