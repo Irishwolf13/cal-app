@@ -56,7 +56,7 @@ export default function Matrix() {
   }
 
   const handleUpdateJob = (myKey, myValue) => {
-    // console.log(myKey, myValue);
+    console.log('HERE '+ myKey, myValue);
     const updatedJob = { ...currentJob };
     updatedJob[myKey] = myValue;
     setCurrentJob(updatedJob);

@@ -203,9 +203,13 @@ class JobsController < ApplicationController
         :weld,
         :finish,
         :cnc_parts,
+        :cnc_done,
         :quality_control,
+        :quality_done,
         :product_tag,
+        :product_done,
         :hardware,
+        :hardware_done,
         :powder_coating,
         :check_boxes
       )

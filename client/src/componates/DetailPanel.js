@@ -4,16 +4,16 @@ import CheckMarkBar from './CheckMarkBar';
 export default function DetailPanel({ currentJob, handleUpdateJob}) {
   const deliveryDate = new Date(currentJob.delivery);
   const in_hand = new Date(currentJob.in_hand);
-  const [cncParts, setCncParts] = useState(false)
-  const [qualityControl, setQualityControl] = useState(false)
-  const [productTag, setProductTag] = useState(false)
-  const [hardware, setHardware] = useState(false)
+  const [cncPartsDone, setCncPartsDone] = useState(false)
+  const [qualityControlDone, setQualityControlDone] = useState(false)
+  const [productTagDone, setProductTagDone] = useState(false)
+  const [hardwareDone, setHardwareDone] = useState(false)
 
   useEffect(() => {
-    setCncParts(currentJob.cnc_parts)
-    setQualityControl(currentJob.quality_control)
-    setProductTag(currentJob.product_tag)
-    setHardware(currentJob.hardware)
+    setCncPartsDone(currentJob.cnc_done)
+    setQualityControlDone(currentJob.quality_done)
+    setProductTagDone(currentJob.product_done)
+    setHardwareDone(currentJob.hardware_done)
   },[currentJob])
 
   deliveryDate.setDate(deliveryDate.getDate());
@@ -31,10 +31,10 @@ export default function DetailPanel({ currentJob, handleUpdateJob}) {
       <div>Delivery Date: {deliveryDate.toDateString()}</div>
       <div>InHand Date: {in_hand.toDateString()}</div>
       <div>
-        <CheckMarkBar jobID={currentJob.id} title={`CnC parts`} status={cncParts} backendName={'cnc_parts'} handleUpdateJob={handleUpdateJob}/>
-        <CheckMarkBar jobID={currentJob.id} title={`Quality Control Tags`} status={qualityControl} backendName={'quality_control'} handleUpdateJob={handleUpdateJob}/>
-        <CheckMarkBar jobID={currentJob.id} title={`Product Tags`} status={productTag} backendName={'product_tag'} handleUpdateJob={handleUpdateJob}/>
-        <CheckMarkBar jobID={currentJob.id} title={`Hardware`} status={hardware} backendName={'hardware'} handleUpdateJob={handleUpdateJob}/>
+        {currentJob.cnc_parts && (<CheckMarkBar jobID={currentJob.id} title={`CnC parts`} status={cncPartsDone} backendName={'cnc_done'} handleUpdateJob={handleUpdateJob}/>)}
+        {currentJob.quality_control && (<CheckMarkBar jobID={currentJob.id} title={`Quality Control Tags`} status={qualityControlDone} backendName={'quality_done'} handleUpdateJob={handleUpdateJob}/>)}
+        {currentJob.product_tag && (<CheckMarkBar jobID={currentJob.id} title={`Product Tags`} status={productTagDone} backendName={'product_done'} handleUpdateJob={handleUpdateJob}/>)}
+        {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`HardwareDone`} status={hardwareDone} backendName={'hardware_done'} handleUpdateJob={handleUpdateJob}/>)}
       </div>
     </div>
   );
