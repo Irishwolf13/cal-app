@@ -7,7 +7,18 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   // This is clicked to populate the details panel
   const handleBarClick = () => {
     setCurrentlySelected(job.uuid);
-    setCurrentJob(job)
+    
+    fetch(`/jobs/${job.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setCurrentJob(data); // Set the value of _job using setCurrentJob
+      })
+      .catch(error => console.error(error));
   };
 
   const handleActivityClick = (color) => {
@@ -30,8 +41,8 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   const getDaysDifference = () => {
     const shipDate = new Date(job.delivery);
     const currentDate = new Date();
-    const timeDifference = shipDate.getTime() - currentDate.getTime();
-    const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
+    const timeDifference = Math.floor((shipDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60));
+    const dayDifference = Math.floor(timeDifference / 24);
   
     if (dayDifference < 0) {
       return { class: 'grey', label: 'x' };

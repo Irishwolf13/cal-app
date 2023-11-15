@@ -82,6 +82,10 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     if (deliveryDate != null) {
       _deliveryDate.setDate(_deliveryDate.getDate() + 1);
     }
+    let _inHandDate = inHandDate
+    if(inHandDate != null) {
+      _inHandDate.setDate(_inHandDate.getDate() + 1);
+    }
 
     if (jobData.scheduled === true) {
       jobData.status = 'active'
@@ -89,67 +93,67 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       jobData.status = 'noCalendar'
     }
     setCheckBox(false)
-// HERE
-    let frank = JSON.stringify({
-      job_name: jobData.nameOfJob,
-      calendar: 0,
-      inital_hours: jobData.hoursForJob,
-      hours_per_day: jobData.hoursPerDay,
-      color: jobData.color,
-      start_time: slotClickedOn.start,
-      delivery: _deliveryDate,
-      in_hand: jobData.inHand,
-      status: jobData.status,
-      quadrent: 'preShop',
-      cut: 'notStarted',
-      weld: 'notStarted',
-      finish: 'notStarted',
-      cnc_parts: jobData.cncParts,
-      quality_control: jobData.qualityControl,
-      product_tag: jobData.productTag,
-      hardware: jobData.hardware,
-      powderCoating: jobData.powderCoating,
-      memo_boxes: userMemoBoxes,
-      check_boxes: userCheckBoxes
+// // HERE
+//     let frank = JSON.stringify({
+//       job_name: jobData.nameOfJob,
+//       calendar: 0,
+//       inital_hours: jobData.hoursForJob,
+//       hours_per_day: jobData.hoursPerDay,
+//       color: jobData.color,
+//       start_time: slotClickedOn.start,
+//       delivery: _deliveryDate,
+//       in_hand: jobData.inHand,
+//       status: jobData.status,
+//       quadrent: 'preShop',
+//       cut: 'notStarted',
+//       weld: 'notStarted',
+//       finish: 'notStarted',
+//       cnc_parts: jobData.cncParts,
+//       quality_control: jobData.qualityControl,
+//       product_tag: jobData.productTag,
+//       hardware: jobData.hardware,
+//       powderCoating: jobData.powderCoating,
+//       memo_boxes: userMemoBoxes,
+//       check_boxes: userCheckBoxes
+//     })
+//     console.log(frank)
+// // HERE
+    // Fetch POST job
+    fetch(`/jobs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        job_name: jobData.nameOfJob,
+        calendar: 0,
+        inital_hours: jobData.hoursForJob,
+        hours_per_day: jobData.hoursPerDay,
+        color: jobData.color,
+        start_time: slotClickedOn.start,
+        delivery: _deliveryDate,
+        in_hand: _inHandDate,
+        status: jobData.status,
+        quadrent: 'preShop',
+        cut: 'notStarted',
+        weld: 'notStarted',
+        finish: 'notStarted',
+        cnc_parts: jobData.cncParts,
+        quality_control: jobData.qualityControl,
+        product_tag: jobData.productTag,
+        hardware: jobData.hardware,
+        powderCoating: jobData.powderCoating,
+        memo_boxes: userMemoBoxes,
+        check_boxes: userCheckBoxes
+      })
     })
-    console.log(frank)
-// HERE
-    // // Fetch POST job
-    // fetch(`/jobs`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     job_name: jobData.nameOfJob,
-    //     calendar: 0,
-    //     inital_hours: jobData.hoursForJob,
-    //     hours_per_day: jobData.hoursPerDay,
-    //     color: jobData.color,
-    //     start_time: slotClickedOn.start,
-    //     delivery: _deliveryDate,
-    //     in_hand: jobData.inHand,
-    //     status: jobData.status,
-    //     quadrent: 'preShop',
-    //     cut: 'notStarted',
-    //     weld: 'notStarted',
-    //     finish: 'notStarted',
-    //     cnc_parts: jobData.cncParts,
-    //     quality_control: jobData.qualityControl,
-    //     product_tag: jobData.productTag,
-    //     hardware: jobData.hardware,
-    //     powderCoating: jobData.powderCoating,
-    //     memo_boxes: userMemoBoxes,
-    //     check_boxes: userCheckBoxes
-    //   })
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   setModalCreateJob(!modalCreateJob)
-    //   setAllEvents([...allEvents, ...data.events])
-    //   setRefreshMe(prev => !prev)
-    // })
-    // // Reset the input value if needed
+    .then(response => response.json())
+    .then(data => {
+      setModalCreateJob(!modalCreateJob)
+      setAllEvents([...allEvents, ...data.events])
+      setRefreshMe(prev => !prev)
+    })
+    // Reset the input value if needed
     setJobData(emptyJob);
     setUserCheckBoxes([''])
     setUserMemoBoxes([''])
@@ -207,6 +211,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
 
   const handleInHandPicker = (date) => {
     if (date !== null) {
+      console.log(date)
       const selectedDate = date;
       selectedDate.setDate(selectedDate.getDate());
       setInHandDate(selectedDate);

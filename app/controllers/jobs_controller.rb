@@ -75,10 +75,15 @@ class JobsController < ApplicationController
     @job.weld = params[:weld] if params[:weld]
     @job.finish = params[:finish] if params[:finish]
     @job.cnc_parts = params[:cnc_parts] if params[:cnc_parts]
+    @job.cnc_done = params[:cnc_done] if params[:cnc_done]
     @job.quality_control = params[:quality_control] if params[:quality_control]
+    @job.quality_done = params[:quality_done] if params[:quality_done]
     @job.product_tag = params[:product_tag] if params[:product_tag]
+    @job.product_done = params[:product_done] if params[:product_done]
     @job.hardware = params[:hardware] if params[:hardware]
+    @job.hardware_done = params[:hardware_done] if params[:hardware_done]
     @job.powder_coating = params[:powder_coating] if params[:powder_coating]
+    @job.powder_done = params[:powder_done] if params[:powder_done]
 
     @job.save
     render json: @job, include: :events, status: :created, location: @job

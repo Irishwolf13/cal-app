@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_13_185257) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_15_204219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_13_185257) do
     t.boolean "product_tag", default: false
     t.boolean "hardware", default: false
     t.boolean "powder_coating", default: false
+    t.boolean "cnc_done"
+    t.boolean "quality_done"
+    t.boolean "product_done"
+    t.boolean "hardware_done"
+    t.boolean "powder_done"
   end
 
   create_table "memo_boxes", force: :cascade do |t|

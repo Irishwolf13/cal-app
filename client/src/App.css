@@ -505,3 +505,34 @@
 textarea {
   resize: none;
 }
+
+
+/* ***************** Details Panel ***************** */
+
+.checkMark-container {
+  position: relative;
+  /* background-color: aqua; */
+  min-width: 200px;
+  margin-bottom: 7px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.checkMark-circle {
+  width: 20px; 
+  height: 20px;
+  border-radius: 50%; /* This creates the circular shape */
+  border: solid 1px black;
+  cursor: pointer;
+  font-weight: bold;
+}
+.checkMark-check {
+  position: absolute;
+  top: -16px;
+  left: 5px;
+}
+.checkMark-label {
+  color: black;
+  position: absolute;
+  top: -16px;
+  left: 40px;
+}

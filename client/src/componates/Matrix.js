@@ -22,7 +22,7 @@ export default function Matrix() {
  
   useEffect(() => {
     fetchJobs()
-  }, []);
+  }, [currentJob]);
 
   const fetchJobs = () => {
     fetch(`/jobs`, {
@@ -54,6 +54,13 @@ export default function Matrix() {
       />
     ));
   }
+
+  const handleUpdateJob = (myKey, myValue) => {
+    // console.log(myKey, myValue);
+    const updatedJob = { ...currentJob };
+    updatedJob[myKey] = myValue;
+    setCurrentJob(updatedJob);
+  };
 
   return (
     <div>
@@ -114,7 +121,7 @@ export default function Matrix() {
             <CompletedBar />
           </div>
         </div>
-        <DetailPanel currentJob={currentJob}/>
+        <DetailPanel currentJob={currentJob} handleUpdateJob={handleUpdateJob}/>
       </div>
       <CreateJobModal />
     </div>
