@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-export default function ({ modalCompanyHours, handleCompanyButton, newComapnyHours, setNewCompanyHours}) {
+export default function ({ modalCompanyHours, handleCompanyButton, newCompanyHours, setNewCompanyHours}) {
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
     // Fetch POST Daily Maxium Hours
@@ -10,7 +10,7 @@ export default function ({ modalCompanyHours, handleCompanyButton, newComapnyHou
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({daily_max: newComapnyHours})
+      body: JSON.stringify({daily_max: newCompanyHours})
     })
     .then(response => response.json())
     .then(data => {
@@ -32,7 +32,7 @@ export default function ({ modalCompanyHours, handleCompanyButton, newComapnyHou
           type="number"
           id="companyHours"
           name="companyHours"
-          placeholder= {newComapnyHours}
+          placeholder= {newCompanyHours}
           onChange={(e) => setNewCompanyHours(e.target.value)}
           autoFocus
         />

@@ -23,7 +23,7 @@ export default function MyCalendar() {
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
-  const [newComapnyHours, setNewCompanyHours] = useState()
+  const [newCompanyHours, setNewCompanyHours] = useState()
 
   //allow navigation
   const navigate = useNavigate();
@@ -35,24 +35,27 @@ export default function MyCalendar() {
     fetch('/events')
       .then(response => response.json())
       .then(data => {
-        // console.log(data)
-        const tempArray = data.map(event => {
+        const filteredData = data.filter(event => event.job.status !== 'noCalendar');  
+        const tempArray = filteredData.map(event => {
           const tempObject = {
             title: `${event.job.job_name} -- ${event.hours_remaining} / ${event.hours_per_day}`,
             job_id: event.job_id,
             start: event.start_time,
             end: event.end_time,
-            color: event.color,
+            color: event.job.status === 'inActive' ? 'grey' : event.color,
             myID: event.id,
             perDay: event.hours_per_day,
             delivery: event.job.delivery,
             uuid: event.uuid,
-            calendar: event.job.calendar
-          }
-          return tempObject
-        })
-        sortJobAndStart(tempArray)
-        setAllEvents(tempArray)
+            calendar: event.job.calendar,
+            status: event.job.status
+          };
+          return tempObject;
+        });
+  
+        console.log(tempArray);
+        sortJobAndStart(tempArray);
+        setAllEvents(tempArray);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -172,16 +175,17 @@ export default function MyCalendar() {
     setslotClickedOn(event)
   }
 // READ THROUGH THIS CODE AT SOME POINT AND UNDERSTAND WHAT IS HAPPENING
-  const checkIfOverHours = (date) => {
-    const day = date.getUTCDate();
-    const month = date.getUTCMonth();
-  
-    let tempHours = 0;
-    allEvents.forEach(event => {
+const checkIfOverHours = (date) => {
+  const day = date.getUTCDate();
+  const month = date.getUTCMonth();
+
+  let tempHours = 0;
+  allEvents.forEach(event => {
+    if (event.status !== 'inActive') { // Check if event is not "inActive"
       let myDate = new Date(event.start);
       let eventDay = myDate.getUTCDate();
       let eventMonth = myDate.getUTCMonth();
-  
+
       // Check if the current date is the last day of the month
       if (day === getLastDayOfMonth(month) && month === eventMonth && eventDay === getLastDayOfMonth(eventMonth)) {
         tempHours += event.perDay;
@@ -190,14 +194,15 @@ export default function MyCalendar() {
       else if (day === eventDay && month === eventMonth && day !== getLastDayOfMonth(month) - 1) {
         tempHours += event.perDay;
       }
-    });
-  
-    if (tempHours > newComapnyHours) {
-      return { className: 'overWarning' };
     }
-  
-    return null;
-  };
+  });
+
+  if (tempHours > newCompanyHours) {
+    return { className: 'overWarning' };
+  }
+
+  return null;
+};
   // Helper function to get the last day of a specific month
   const getLastDayOfMonth = (month) => {
     const nextMonth = new Date(new Date().getUTCFullYear(), month + 1, 1);
@@ -223,7 +228,7 @@ export default function MyCalendar() {
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
-        newComapnyHours={newComapnyHours}
+        newCompanyHours={newCompanyHours}
         setNewCompanyHours={setNewCompanyHours}
       />
       <CreateJobModal
