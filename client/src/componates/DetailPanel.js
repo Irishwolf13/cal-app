@@ -10,6 +10,7 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
   const [qualityControlDone, setQualityControlDone] = useState(false)
   const [productTagDone, setProductTagDone] = useState(false)
   const [hardwareDone, setHardwareDone] = useState(false)
+  const [powderDone, setPowderDone] = useState(false)
 
   useEffect(() => {
     console.log('currentJob')
@@ -18,6 +19,7 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
     setQualityControlDone(currentJob.quality_done)
     setProductTagDone(currentJob.product_done)
     setHardwareDone(currentJob.hardware_done)
+    setPowderDone(currentJob.powder_done)
   }, [currentJob])
 
   deliveryDate.setDate(deliveryDate.getDate());
@@ -68,11 +70,11 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
 
   return (
     <div className="detailContainer">
-      <button id={'preShop'} onClick={changeQuadrent}>PreShop</button>
-      <button id={'inShop'} onClick={changeQuadrent}>In Shop</button>
-      <button id={'complete'} onClick={changeQuadrent}>Completed</button>
       <div>Details Panel</div>
-      <div>Job Name: {currentJob.job_name}</div>
+      <button className='details-button' id={'preShop'} onClick={changeQuadrent}>PreShop</button>
+      <button className='details-button' id={'inShop'} onClick={changeQuadrent}>In Shop</button>
+      <button className='details-button' id={'complete'} onClick={changeQuadrent}>Completed</button>
+      <div>{currentJob.job_name}</div>
       <div>Delivery Date: {deliveryDate.toDateString()}</div>
       <div>InHand Date: {in_hand.toDateString()}</div>
       <div>
@@ -80,7 +82,8 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
         {currentJob.cnc_parts && (<CheckMarkBar jobID={currentJob.id} title={`CnC parts`} status={cncPartsDone} backendName={'cnc_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.quality_control && (<CheckMarkBar jobID={currentJob.id} title={`Quality Control Tags`} status={qualityControlDone} backendName={'quality_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.product_tag && (<CheckMarkBar jobID={currentJob.id} title={`Product Tags`} status={productTagDone} backendName={'product_done'} handleUpdateJob={handleUpdateJob}/>)}
-        {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`HardwareDone`} status={hardwareDone} backendName={'hardware_done'} handleUpdateJob={handleUpdateJob}/>)}
+        {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`Hardware`} status={hardwareDone} backendName={'hardware_done'} handleUpdateJob={handleUpdateJob}/>)}
+        {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`Powder Coating`} status={powderDone} backendName={'powder_done'} handleUpdateJob={handleUpdateJob}/>)}
         {renderCheckMarkCustoms()}
         {renderMemoBoxes()}
       </div>
