@@ -1,3 +1,3 @@
 class CheckBoxSerializer < ActiveModel::Serializer
-  attributes :id, :title, :status
+  attributes :id, :title, :status, :done
 end

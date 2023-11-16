@@ -48,6 +48,6 @@ class CheckBoxesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def check_box_params
-      params.require(:check_box).permit(:job_id, :title, :status)
+      params.require(:check_box).permit(:job_id, :title, :status, :done)
     end
 end

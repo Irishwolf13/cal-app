@@ -56,9 +56,19 @@ export default function Matrix() {
   }
 
   const handleUpdateJob = (myKey, myValue) => {
-    console.log('HERE '+ myKey, myValue);
+    // console.log('HERE '+ myKey, myValue);
     const updatedJob = { ...currentJob };
     updatedJob[myKey] = myValue;
+    setCurrentJob(updatedJob);
+  };
+  const customCheckMarkUpdate = (id) => {
+    const updatedJob = { ...currentJob };
+    updatedJob.check_boxes = updatedJob.check_boxes.map((checkbox) => {
+      if (checkbox.id === id) {
+        checkbox.done = !checkbox.done;
+      }
+      return checkbox;
+    });
     setCurrentJob(updatedJob);
   };
 
@@ -121,7 +131,7 @@ export default function Matrix() {
             <CompletedBar />
           </div>
         </div>
-        <DetailPanel currentJob={currentJob} handleUpdateJob={handleUpdateJob}/>
+        <DetailPanel currentJob={currentJob} handleUpdateJob={handleUpdateJob} customCheckMarkUpdate={customCheckMarkUpdate}/>
       </div>
       <CreateJobModal />
     </div>
