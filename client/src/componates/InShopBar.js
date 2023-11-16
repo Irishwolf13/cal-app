@@ -90,7 +90,7 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   const { class: circleClass, label } = getDaysDifference();
 
   return (
-    <div className={`inShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'}`}>
+    <div className={`inShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'grey' : ''}`}>
       <div className='inShopBarActivity'>
         <button className={
           `circle ${

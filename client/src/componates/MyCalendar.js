@@ -52,8 +52,7 @@ export default function MyCalendar() {
           };
           return tempObject;
         });
-  
-        console.log(tempArray);
+        // console.log(tempArray);
         sortJobAndStart(tempArray);
         setAllEvents(tempArray);
       })
