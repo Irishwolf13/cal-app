@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CheckMarkBar from './CheckMarkBar';
 import CheckMarkCustom from './CheckMarkCustom';
 
-export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMarkUpdate }) {
+export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMarkUpdate, fetchJobs}) {
   const deliveryDate = new Date(currentJob.delivery);
   const in_hand = new Date(currentJob.in_hand);
   const [cncPartsDone, setCncPartsDone] = useState(false)
@@ -20,6 +20,23 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
 
   deliveryDate.setDate(deliveryDate.getDate());
   in_hand.setDate(in_hand.getDate());
+
+  const changeQuadrent = (e) => {
+    const requestBody = {};
+    requestBody["quadrent"] = `${e.target.id}`;
+  
+    // FETCH: UPDATE JOBS
+    fetch(`/jobs/${currentJob.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody)
+    })
+      .then(response => response.json())
+      .then(data => fetchJobs())
+      .catch(error => console.error(error));
+  }
 
   // Separate function to map check_boxes and create CheckMarkCustom elements
   const renderCheckMarkCustoms = () => {
@@ -39,6 +56,9 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
 
   return (
     <div className="detailContainer">
+      <button id={'preShop'} onClick={changeQuadrent}>PreShop</button>
+      <button id={'inShop'} onClick={changeQuadrent}>In Shop</button>
+      <button id={'complete'} onClick={changeQuadrent}>Completed</button>
       <div>Details Panel</div>
       <div>Job Name: {currentJob.job_name}</div>
       <div>Delivery Date: {deliveryDate.toDateString()}</div>

@@ -39,7 +39,6 @@ export default function Matrix() {
       setJobsPreShop(preShopJobs);
       setJobsInShop(inShopJobs);
       setJobsComplete(completeJobs);
-
     });
   };
 
@@ -131,7 +130,12 @@ export default function Matrix() {
             <CompletedBar />
           </div>
         </div>
-        <DetailPanel currentJob={currentJob} handleUpdateJob={handleUpdateJob} customCheckMarkUpdate={customCheckMarkUpdate}/>
+        <DetailPanel 
+          currentJob={currentJob}
+          fetchJobs={fetchJobs}
+          handleUpdateJob={handleUpdateJob} 
+          customCheckMarkUpdate={customCheckMarkUpdate}
+        />
       </div>
       <CreateJobModal />
     </div>
