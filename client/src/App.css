@@ -258,6 +258,30 @@
   right: 3%;
   bottom: 20px;
 }
+.memoBox-details-container {
+  /* background-color: aqua; */
+  position: relative;
+  justify-content: center; /* horizontally center */
+  align-items: center; /* vertically center */
+  height: 55px;
+  /* background-color: aqua; */
+  margin-bottom: 10px;
+}
+.memoBox-details {
+  position: absolute;
+  left: 70px;
+  /* top: 5px; */
+  font-size: medium;
+  height: 50px;
+  min-width: 200px;
+  margin-bottom: 10px;
+}
+.memoBox-button {
+  position: absolute;
+  left: 280px;
+  top: 5px;
+
+}
 
 /* ***************** Matrix ***************** */
 .testing { background-color: rgb(0, 204, 255); }

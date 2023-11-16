@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CheckMarkBar from './CheckMarkBar';
 import CheckMarkCustom from './CheckMarkCustom';
+import MemoBoxDetails from './MemoBoxDetails';
 
 export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMarkUpdate, fetchJobs}) {
   const deliveryDate = new Date(currentJob.delivery);
@@ -11,6 +12,7 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
   const [hardwareDone, setHardwareDone] = useState(false)
 
   useEffect(() => {
+    console.log('currentJob')
     console.log(currentJob)
     setCncPartsDone(currentJob.cnc_done)
     setQualityControlDone(currentJob.quality_done)
@@ -38,14 +40,24 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
       .catch(error => console.error(error));
   }
 
+  const renderMemoBoxes = () => {
+    if (currentJob.memo_boxes && Array.isArray(currentJob.memo_boxes)) {
+      return currentJob.memo_boxes.map((memo, index) => (
+        <MemoBoxDetails key={memo.id} id={memo.id} memo={memo.memo} />
+      ));
+    }
+    return null;
+  }
+
   // Separate function to map check_boxes and create CheckMarkCustom elements
   const renderCheckMarkCustoms = () => {
     if (currentJob.check_boxes && Array.isArray(currentJob.check_boxes)) {
-      return currentJob.check_boxes.map((checkbox, index) => (
-        <CheckMarkCustom key={index} id={checkbox.id} status={checkbox.done} title={checkbox.title} customCheckMarkUpdate={customCheckMarkUpdate}/>
-      ));
+      return currentJob.check_boxes
+        .filter(checkbox => checkbox.title !== '') // Filter out checkboxes with empty title
+        .map((checkbox, index) => (
+          <CheckMarkCustom key={index} id={checkbox.id} status={checkbox.done} title={checkbox.title} customCheckMarkUpdate={customCheckMarkUpdate}/>
+        ));
     }
-    
     return null;
   }
 
@@ -69,9 +81,8 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
         {currentJob.quality_control && (<CheckMarkBar jobID={currentJob.id} title={`Quality Control Tags`} status={qualityControlDone} backendName={'quality_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.product_tag && (<CheckMarkBar jobID={currentJob.id} title={`Product Tags`} status={productTagDone} backendName={'product_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`HardwareDone`} status={hardwareDone} backendName={'hardware_done'} handleUpdateJob={handleUpdateJob}/>)}
-        
-        {/* Call the renderCheckMarkCustoms function to create CheckMarkCustom elements */}
         {renderCheckMarkCustoms()}
+        {renderMemoBoxes()}
       </div>
     </div>
   );
