@@ -13,6 +13,7 @@ export default function Matrix() {
   const [jobsComplete, setJobsComplete] = useState([]);
   const [currentJob, setCurrentJob] = useState({});
   const [currentlySelected, setCurrentlySelected] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const [allEvents, setAllEvents] = useState([{}]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -30,9 +31,10 @@ export default function Matrix() {
  
   useEffect(() => {
     fetchJobs()
-  }, [currentJob, refreshMe]);
+  }, [currentJob, refreshMe, selectedOption]);
 
   const fetchJobs = () => {
+    console.log('fetch ran')
     fetch(`/jobs`, {
       method: 'GET',
       headers: {
@@ -41,7 +43,13 @@ export default function Matrix() {
     })
     .then(response => response.json())
     .then(data => {
-      const preShopJobs = data.filter(job => job.quadrent === "preShop").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+      const preShopJobs = data.filter(job => {
+        console.log(job.status)
+        if (selectedOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "preShop";}
+        if (selectedOption === "Scheduled") {return (job.status === "active" || job.status === "inActive") && job.quadrent === "preShop";}
+        if (selectedOption === "NoCalendar") {return (job.status === "noCalendar") && job.quadrent === "preShop";}
+      }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+  
       const inShopJobs = data.filter(job => job.quadrent === "inShop").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
       const completeJobs = data.filter(job => job.quadrent === "complete").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
       setJobsPreShop(preShopJobs);
@@ -58,6 +66,7 @@ export default function Matrix() {
         setCurrentlySelected={setCurrentlySelected}
         currentlySelected={currentlySelected}
         setCurrentJob={setCurrentJob}
+        setRefreshMe={setRefreshMe}
       />
     ));
   }
@@ -101,10 +110,11 @@ export default function Matrix() {
           <div className="preShopContainer">
             <h2 className='preShopMainTitle'> PreShop </h2>
               <div className='preShopTitleBar'>
-                <select className='activeDropDown'>  
-                  <option value="ascending">All</option>
-                  <option value="descending">Scheduled</option>
-                </select>
+              <select className='activeDropDown' value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+                <option value="All">All Jobs</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="NoCalendar">NoCalendar</option>
+              </select>
               </div>
             <div className='preShopMainInfo'>
               {mapJobs(jobsPreShop, PreShopBar)}

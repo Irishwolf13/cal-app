@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function PreShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
+export default function PreShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, setRefreshMe }) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
   
@@ -34,7 +34,7 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ status: color })
-    });
+    }).then(() => {setRefreshMe(prev => !prev);});
   };
 
   // This function gets the date difference for days remaining and set class for color of circle
