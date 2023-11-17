@@ -28,7 +28,9 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
   const changeQuadrent = (e) => {
     const requestBody = {};
     requestBody["quadrent"] = `${e.target.id}`;
-    requestBody["status"] = 'inActive';
+    if(e.target.id === 'complete') {
+      requestBody["status"] = 'inActive';
+    }
   
     // FETCH: UPDATE JOBS
     fetch(`/jobs/${currentJob.id}`, {

@@ -14,6 +14,14 @@ export default function Matrix() {
   const [currentJob, setCurrentJob] = useState({});
   const [currentlySelected, setCurrentlySelected] = useState(0);
 
+  const [allEvents, setAllEvents] = useState([{}]);
+  const [modalCreateJob, setModalCreateJob] = useState(false);
+  const [slotClickedOn, setSlotClickedOn] = useState({
+    start: new Date(new Date().getTime() - 12 * 60 * 60 * 1000),
+    end: new Date(new Date().getTime() - 12 * 60 * 60 * 1000),
+  });
+  const [refreshMe, setRefreshMe] = useState(false);
+
   //allow navigation
   const navigate = useNavigate();
   const handleNavigate = () => {
@@ -22,7 +30,7 @@ export default function Matrix() {
  
   useEffect(() => {
     fetchJobs()
-  }, [currentJob]);
+  }, [currentJob, refreshMe]);
 
   const fetchJobs = () => {
     fetch(`/jobs`, {
@@ -70,9 +78,22 @@ export default function Matrix() {
     });
     setCurrentJob(updatedJob);
   };
+  const createNewJob = () => {
+    console.log('iran')
+    setModalCreateJob(!modalCreateJob)
+  }
 
   return (
     <div>
+      <button onClick={createNewJob}>new Job</button>
+      <CreateJobModal
+        modalCreateJob={modalCreateJob}
+        setModalCreateJob={setModalCreateJob}
+        slotClickedOn={slotClickedOn}
+        setAllEvents={setAllEvents}
+        allEvents={allEvents}
+        setRefreshMe={setRefreshMe}
+      />
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
       <div className="mainContainer">
         <div className="matrixContainer">
@@ -137,7 +158,6 @@ export default function Matrix() {
           customCheckMarkUpdate={customCheckMarkUpdate}
         />
       </div>
-      <CreateJobModal />
     </div>
   )
 }

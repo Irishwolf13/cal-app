@@ -60,6 +60,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('iran submit')
 
     // Checks for information
     if (jobData.nameOfJob === '') {

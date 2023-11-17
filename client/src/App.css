@@ -330,7 +330,7 @@
 .completedMainInfo {
   margin-top: 1px;
   overflow: auto; /* Added overflow property */
-  max-height: 287px; /* Added max-height property */
+  height: 287px; /* Added max-height property */
   /* border: 1px solid rgb(0, 0, 0); */
 }
 

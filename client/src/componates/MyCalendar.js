@@ -171,6 +171,7 @@ export default function MyCalendar() {
 
   const handleSelectSlot = (event) => {
     setModalCreateJob(!modalCreateJob)
+    console.log(event)
     setslotClickedOn(event)
   }
 // READ THROUGH THIS CODE AT SOME POINT AND UNDERSTAND WHAT IS HAPPENING
