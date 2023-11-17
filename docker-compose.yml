@@ -14,7 +14,7 @@ services:
     depends_on:
       postgres-db:
         condition: service_healthy
-    image: cal-app:20230824
+    image: cal-app:20231117a
 
   postgres-db:
     image: postgres
