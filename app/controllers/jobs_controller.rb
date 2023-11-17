@@ -13,9 +13,9 @@ class JobsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
-    puts "************************************* HERE *******************************"
-    puts job_params
-    puts params
+    # puts "************************************* HERE *******************************"
+    # puts job_params
+    # puts params
     @job.uuid = UUID.new.generate
     @job.save
 
@@ -43,6 +43,14 @@ class JobsController < ApplicationController
       current_date += 1
     end
 
+    params[:memo_boxes].each do |memo_box|
+      MemoBox.create(memo: memo_box, job_id: @job.id)
+    end
+
+    params[:check_boxes].each do |check_box|
+      CheckBox.create(title: check_box, job_id: @job.id, status: true)
+    end
+
     if @job.save
       render json: @job, include: :events, status: :created, location: @job
     else
@@ -56,18 +64,28 @@ class JobsController < ApplicationController
       puts params[:newColor]
       process_color_change
     end
-    if !params[:newHours].to_s.empty?
-      process_Hours_change
-    end
-    if !params[:newTitle].to_s.empty?
-      process_title_change
-    end
-    if params[:newPerDay]
-      process_per_day_change
-    end
-    if params[:newDelivery]
-      process_delivery_change
-    end
+    process_hours_change if !params[:newHours].to_s.empty?
+    process_per_day_change if params[:newPerDay]
+    
+    @job.job_name = params[:newTitle] if !params[:newTitle].to_s.empty?
+    @job.delivery = params[:newDelivery] if params[:newDelivery]
+    @job.status = params[:status] if params[:status]
+    @job.quadrent = params[:quadrent] if params[:quadrent]
+    @job.cut = params[:cut] if params[:cut]
+    @job.weld = params[:weld] if params[:weld]
+    @job.finish = params[:finish] if params[:finish]
+    @job.cnc_parts = params[:cnc_parts] if params[:cnc_parts]
+    @job.cnc_done = params[:cnc_done] if params[:cnc_done]
+    @job.quality_control = params[:quality_control] if params[:quality_control]
+    @job.quality_done = params[:quality_done] if params[:quality_done]
+    @job.product_tag = params[:product_tag] if params[:product_tag]
+    @job.product_done = params[:product_done] if params[:product_done]
+    @job.hardware = params[:hardware] if params[:hardware]
+    @job.hardware_done = params[:hardware_done] if params[:hardware_done]
+    @job.powder_coating = params[:powder_coating] if params[:powder_coating]
+    @job.powder_done = params[:powder_done] if params[:powder_done]
+
+    @job.save
     render json: @job, include: :events, status: :created, location: @job
   end
 
@@ -106,6 +124,10 @@ class JobsController < ApplicationController
   def destroy
     @job = Job.find(params[:id])
     @job.destroy
+  end
+
+  def destroy_all
+    Job.delete_all
   end
 
   def add
@@ -168,19 +190,39 @@ class JobsController < ApplicationController
     def job_params
       parameters = params.require(:job).permit(
         :job_name,
+        :calendar,
         :inital_hours,
         :hours_per_day,
-        :start_time,
         :color,
+        :start_time,
         :delivery,
-        :calendar
+        :in_hand,
+        :status,
+        :quadrent,
+        :cut,
+        :weld,
+        :finish,
+        :cnc_parts,
+        :cnc_done,
+        :quality_control,
+        :quality_done,
+        :product_tag,
+        :product_done,
+        :hardware,
+        :hardware_done,
+        :powder_coating,
+        :check_boxes
       )
+      # Check if memo_boxes is present in the params and permit it
+      if params[:job][:memo_boxes]
+        parameters[:memo_boxes] = params[:job][:memo_boxes].permit!
+      end
       # Check if :calendar is null and set it to 0 if true
       parameters[:calendar] ||= 0
       # returns parameters after adjusting
       parameters
     end
-
+    
     def process_per_day_change
       # puts '*********************** PerDay Change ***********************'
       @foundEvent = false
@@ -210,19 +252,7 @@ class JobsController < ApplicationController
       end
     end
 
-    def process_title_change
-      # puts '*********************** TITLE Change ***********************'
-      @job.job_name = params[:newTitle]
-      @job.save
-    end
-
-    def process_delivery_change
-      # puts '*********************** TITLE Change ***********************'
-      @job.delivery = params[:newDelivery]
-      @job.save
-    end
-
-    def process_Hours_change
+    def process_hours_change
       # puts '*********************** HOURS Change ***********************'
       tempPerDay = 0
       tempRemaining = params[:newHours].to_i
