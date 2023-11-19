@@ -367,6 +367,23 @@
   background-color: rgb(255, 255, 255);
 }
 
+/* tooltip.css */
+.tooltip {
+  position: relative;
+}
+
+.tooltip:hover:after {
+  width: 100px;
+  content: attr(data-content);
+  position: absolute;
+  bottom: 2px; /* Adjust the positioning as desired */
+  left: -60px;
+  transform: translateX(-50%);
+  background-color: rgb(81, 81, 81); /* Adjust the background color */
+  color: white; /* Adjust the text color */
+  z-index: 1000;
+}
+
 /* ***************** PreShopTitleBar ***************** */
 
 .titleActivity { flex: 5%; }

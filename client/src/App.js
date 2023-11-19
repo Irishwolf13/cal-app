@@ -6,6 +6,13 @@ import Matrix from "./componates/Matrix.js";
 import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
+  const [myDate, setMyDate] = useState(new Date(2020, 6, 1))
+
+  const changeDate = (date) => {
+    const adjustDate = new Date(date)
+    adjustDate.setDate(adjustDate.getDate() + 1)
+    setMyDate(new Date(adjustDate))
+  }
 
   return (
     <div className="App">
@@ -13,11 +20,11 @@ function App() {
       <Routes>
           <Route
             path="/"
-            element={<MyCalendar />}
+            element={<MyCalendar myDate={myDate}/>}
           />
           <Route
             path="/matrix"
-            element={<Matrix />}
+            element={<Matrix changeDate={changeDate}/>}
           />
         </Routes>
     </div>

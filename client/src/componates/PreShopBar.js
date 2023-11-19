@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function PreShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, setRefreshMe }) {
+export default function PreShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, setRefreshMe, changeDate }) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
   
+  // This allows navigation
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    changeDate(job.events[0].start_time);
+    navigate('/');
+  }
   // This is clicked to populate the details panel
   const handleBarClick = () => {
+    console.log(job)
     setCurrentlySelected(job.uuid);
     
     fetch(`/jobs/${job.id}`, {
@@ -70,7 +78,11 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
       </div>
       <div className='preShopBarName' onClick={handleBarClick}> {job.job_name} </div>
       <div className='preShopBarDate'> 
-        <div className={`circle ${circleClass}`}>{label}</div>
+        <div 
+          className={`circle tooltip ${circleClass}`} 
+          onClick={handleNavigate} 
+          data-content={job.events[0].start_time}
+        >{label}</div>
       </div>
       <div className={`preShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
         <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>

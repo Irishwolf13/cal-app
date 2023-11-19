@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
+export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, changeDate }) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
   const [cutDropDownVisible, setCutDropDownVisible] = useState(false); // State for visibility
@@ -15,6 +16,13 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       finish: job.finish
     })
   }, [job]);
+
+    // This allows navigation
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+      changeDate(job.events[0].start_time);
+      navigate('/');
+    }
 
   // This is clicked to populate the details panel
   const handleBarClick = () => {
@@ -103,7 +111,11 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       </div>
       <div className='inShopBarName' onClick={handleBarClick}> {job.job_name} </div>
       <div className='inShopBarDate'>
-        <div className={`circle ${circleClass}`}>{label}</div>
+      <div 
+          className={`circle tooltip ${circleClass}`} 
+          onClick={handleNavigate} 
+          data-content={job.events[0].start_time}
+        >{label}</div>
       </div>
       <div className={`inShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
         <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>

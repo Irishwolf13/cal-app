@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
 
-export default function MyCalendar() {
+export default function MyCalendar({myDate}) {
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -267,6 +267,7 @@ const checkIfOverHours = (date) => {
           style={{ height: calSize, margin: "20px", zIndex: 1 }}
           dayPropGetter={checkIfOverHours}
           tooltipAccessor={tooltipContent}
+          defaultDate={myDate}
           eventPropGetter={(event) => {
             let style = {
               background: event.color,

@@ -7,13 +7,15 @@ import CompletedBar from './CompletedBar';
 import DetailPanel from './DetailPanel';
 import CreateJobModal from "./CreateJobModal";
 
-export default function Matrix() {
+export default function Matrix({ changeDate }) {
   const [jobsPreShop, setJobsPreShop] = useState([]);
   const [jobsInShop, setJobsInShop] = useState([]);
   const [jobsComplete, setJobsComplete] = useState([]);
   const [currentJob, setCurrentJob] = useState({});
   const [currentlySelected, setCurrentlySelected] = useState(0);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [preShopOption, setPreShopOption] = useState("All");
+  const [inShopOption, setInShopOption] = useState("All");
+  const [completedOption, setCompletedOption] = useState("All");
 
   const [allEvents, setAllEvents] = useState([{}]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -26,12 +28,13 @@ export default function Matrix() {
   //allow navigation
   const navigate = useNavigate();
   const handleNavigate = () => {
+    changeDate(new Date())
     navigate('/');
   }
- 
+
   useEffect(() => {
     fetchJobs()
-  }, [currentJob, refreshMe, selectedOption]);
+  }, [currentJob, refreshMe, preShopOption]);
 
   const fetchJobs = () => {
     console.log('fetch ran')
@@ -45,9 +48,9 @@ export default function Matrix() {
     .then(data => {
       const preShopJobs = data.filter(job => {
         console.log(job.status)
-        if (selectedOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "preShop";}
-        if (selectedOption === "Scheduled") {return (job.status === "active" || job.status === "inActive") && job.quadrent === "preShop";}
-        if (selectedOption === "NoCalendar") {return (job.status === "noCalendar") && job.quadrent === "preShop";}
+        if (preShopOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "preShop";}
+        if (preShopOption === "Scheduled") {return (job.status === "active" || job.status === "inActive") && job.quadrent === "preShop";}
+        if (preShopOption === "NoCalendar") {return (job.status === "noCalendar") && job.quadrent === "preShop";}
       }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
   
       const inShopJobs = data.filter(job => job.quadrent === "inShop").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
@@ -67,6 +70,7 @@ export default function Matrix() {
         currentlySelected={currentlySelected}
         setCurrentJob={setCurrentJob}
         setRefreshMe={setRefreshMe}
+        changeDate={changeDate}
       />
     ));
   }
@@ -95,6 +99,7 @@ export default function Matrix() {
   return (
     <div>
       <button onClick={createNewJob}>new Job</button>
+      <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
       <CreateJobModal
         modalCreateJob={modalCreateJob}
         setModalCreateJob={setModalCreateJob}
@@ -103,14 +108,13 @@ export default function Matrix() {
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
       />
-      <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
       <div className="mainContainer">
         <div className="matrixContainer">
           {/* PreShop */}
           <div className="preShopContainer">
             <h2 className='preShopMainTitle'> PreShop </h2>
               <div className='preShopTitleBar'>
-              <select className='activeDropDown' value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+              <select className='activeDropDown' value={preShopOption} onChange={(e) => setPreShopOption(e.target.value)}>
                 <option value="All">All Jobs</option>
                 <option value="Scheduled">Scheduled</option>
                 <option value="NoCalendar">NoCalendar</option>
@@ -125,9 +129,10 @@ export default function Matrix() {
             <h2 className='inShopMainTitle'>In Shop</h2>
             <div className='inShopTitleBar'>
               <div className='titleActivity'>
-                  <select className='activeDropDown'>  
+                  <select className='activeDropDown' value={inShopOption} onChange={(e) => setInShopOption(e.target.value)}>  
                     <option value="ascending">All</option>
                     <option value="descending">Active</option>
+                    <option value="descending">inActive</option>
                   </select>
               </div>
               <div className='inShopActivity'></div>
