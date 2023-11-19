@@ -304,12 +304,23 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
 }
+.matrixNewJob {
+  position: absolute;
+  top: -30px;
+  left: 0px;
+  height: 25px;
+  font-weight: bold;
+}
 
 .detailContainer {
   flex-basis: 30%;
   /* background-color: rgb(239, 141, 141); */
   border: 2px solid rgb(0, 0, 0);
   margin-left: 5px;
+}
+
+.preShopContainer {
+  position: relative;
 }
 
 .preShopContainer,
@@ -333,6 +344,7 @@
   height: 287px; /* Added max-height property */
   /* border: 1px solid rgb(0, 0, 0); */
 }
+
 
 .preShopTitleBar,
 .inShopTitleBar,
@@ -629,4 +641,10 @@ textarea {
   position: absolute;
   top: -16px;
   left: 40px;
+}
+
+/* This bit has to be last to override any other background colors */
+.selected {
+  background-color: rgb(0, 204, 255);
+  color: black
 }

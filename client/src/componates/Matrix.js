@@ -34,7 +34,7 @@ export default function Matrix({ changeDate }) {
 
   useEffect(() => {
     fetchJobs()
-  }, [currentJob, refreshMe, preShopOption]);
+  }, [currentJob, refreshMe, preShopOption, inShopOption, completedOption]);
 
   const fetchJobs = () => {
     console.log('fetch ran')
@@ -47,14 +47,25 @@ export default function Matrix({ changeDate }) {
     .then(response => response.json())
     .then(data => {
       const preShopJobs = data.filter(job => {
-        console.log(job.status)
+        // console.log(job.status)
         if (preShopOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "preShop";}
         if (preShopOption === "Scheduled") {return (job.status === "active" || job.status === "inActive") && job.quadrent === "preShop";}
         if (preShopOption === "NoCalendar") {return (job.status === "noCalendar") && job.quadrent === "preShop";}
       }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
-  
-      const inShopJobs = data.filter(job => job.quadrent === "inShop").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
-      const completeJobs = data.filter(job => job.quadrent === "complete").sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+
+      const inShopJobs = data.filter(job => {
+        if (inShopOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "inShop";}
+        if (inShopOption === "Active") {return (job.status === "active") && job.quadrent === "inShop";}
+        if (inShopOption === "inActive") {return (job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "inShop";}
+      }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+
+      const completeJobs = data.filter(job => {
+        console.log(job)
+        if (completedOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "complete";}
+        if (completedOption === "Warehouse") {return (job.status === "inActive") && job.quadrent === "complete";}
+        if (completedOption === "Shipped") {return (job.status === "noCalendar") && job.quadrent === "complete";}
+      }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+      
       setJobsPreShop(preShopJobs);
       setJobsInShop(inShopJobs);
       setJobsComplete(completeJobs);
@@ -98,7 +109,6 @@ export default function Matrix({ changeDate }) {
 
   return (
     <div>
-      <button onClick={createNewJob}>new Job</button>
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
       <CreateJobModal
         modalCreateJob={modalCreateJob}
@@ -112,8 +122,10 @@ export default function Matrix({ changeDate }) {
         <div className="matrixContainer">
           {/* PreShop */}
           <div className="preShopContainer">
+            <button className='matrixNewJob' onClick={createNewJob}>Create Job</button>
             <h2 className='preShopMainTitle'> PreShop </h2>
-              <div className='preShopTitleBar'>
+              <div className='preShopTitleBar'>          
+              
               <select className='activeDropDown' value={preShopOption} onChange={(e) => setPreShopOption(e.target.value)}>
                 <option value="All">All Jobs</option>
                 <option value="Scheduled">Scheduled</option>
@@ -130,9 +142,9 @@ export default function Matrix({ changeDate }) {
             <div className='inShopTitleBar'>
               <div className='titleActivity'>
                   <select className='activeDropDown' value={inShopOption} onChange={(e) => setInShopOption(e.target.value)}>  
-                    <option value="ascending">All</option>
-                    <option value="descending">Active</option>
-                    <option value="descending">inActive</option>
+                    <option value="All">All</option>
+                    <option value="Active">Active</option>
+                    <option value="inActive">inActive</option>
                   </select>
               </div>
               <div className='inShopActivity'></div>
@@ -154,10 +166,10 @@ export default function Matrix({ changeDate }) {
             <h2 className='CompletedMainTitle'>Completed</h2>
             <div className='inShopTitleBar'>
               <div className='titleActivity'>
-                  <select className='activeDropDown'>  
-                    <option value="ascending">All</option>
-                    <option value="descending">Inactive</option>
-                    <option value="descending">Shipped</option>
+                  <select className='activeDropDown' value={completedOption} onChange={(e) => setCompletedOption(e.target.value)}>  
+                    <option value="All">All</option>
+                    <option value="Warehouse">Warehouse</option>
+                    <option value="Shipped">Shipped</option>
                   </select>
               </div>
               <div className='inShopActivity'></div>
