@@ -162,6 +162,7 @@ export default function Matrix({ changeDate }) {
               </div>
               <div className='inShopActivity'></div>
               <div className='inShopTitleName'></div>
+              <div className='inShopTitleDate'>Ship Date</div>
             </div>
             {mapJobs(jobsComplete, CompletedBar)}
           </div>

@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function CompletedBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob }) {
+export default function CompletedBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, changeDate}) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
   
+      // This allows navigation
+      const navigate = useNavigate();
+      const handleNavigate = () => {
+        changeDate(job.events[0].start_time);
+        navigate('/');
+      }
+
   // This is clicked to populate the details panel
   const handleBarClick = () => {
     setCurrentlySelected(job.uuid);
@@ -53,7 +61,7 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
         <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
         <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
       </div>
-      <div className='completedDate'>{new Date(job.delivery).toLocaleDateString()}</div>
+      <div className='completedDate' onClick={handleNavigate}>{new Date(job.delivery).toLocaleDateString()}</div>
     </div>
   );
 }
