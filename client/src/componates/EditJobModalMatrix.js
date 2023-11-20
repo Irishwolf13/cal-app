@@ -6,13 +6,14 @@ import ToggleSwitch from './ToggleSwitch';
 import ToggleSwitchUserDefined from './ToggleSwitchUserDefined';
 import MemoBox from './MemoBox';
 
-export default function EditJobModalMatrix({ currentJob, modalEditJob, setModalEditJob, slotClickedOn, setRefreshMe }) {
+export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEditJob, setModalEditJob, slotClickedOn, setRefreshMe }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
+  const [checkBoxText, setCheckBoxText] = useState('Test')
   const [emptyJob, setEmptyJob] = useState({
     nameOfJob: currentJob.job_name, 
     delivery: currentJob.delivery,
@@ -54,7 +55,7 @@ export default function EditJobModalMatrix({ currentJob, modalEditJob, setModalE
     }
     if (toggleTitle === 'hardware') {
       if (typeof jobData[toggleTitle] === 'undefined') {
-        frank = !currentJob.harware;
+        frank = !currentJob.hardware;
       } else {
         frank = !jobData[toggleTitle];
       }
@@ -106,20 +107,20 @@ export default function EditJobModalMatrix({ currentJob, modalEditJob, setModalE
     console.log('current job');
     console.log(currentJob);
     
-    const pairedCheckBoxes = userCheckBoxes.map((checkbox, index) => {
-      if (index < currentJob.check_boxes.length && checkbox === '') {
-        return currentJob.check_boxes[index].title;
-      }
-      return checkbox;
-    });
-    console.log(userMemoBoxes)
-    console.log(currentJob.memo_boxes)
-    const pairedMemoBoxes = userMemoBoxes.map((memo, index) => {
-      if (index < currentJob.memo_boxes.length && memo === '') {
-        return currentJob.memo_boxes[index].memo;
-      }
-      return memo;
-    });
+    // const pairedCheckBoxes = userCheckBoxes.map((checkbox, index) => {
+    //   if (index < currentJob.check_boxes.length && checkbox === '') {
+    //     return currentJob.check_boxes[index].title;
+    //   }
+    //   return checkbox;
+    // });
+    // console.log(userMemoBoxes)
+    // console.log(currentJob.memo_boxes)
+    // const pairedMemoBoxes = userMemoBoxes.map((memo, index) => {
+    //   if (index < currentJob.memo_boxes.length && memo === '') {
+    //     return currentJob.memo_boxes[index].memo;
+    //   }
+    //   return memo;
+    // });
 
     if (userMemoBoxes.length < currentJob.memo_boxes.length) {
       // Get a new array starting from the length of userMemoBoxes
@@ -151,6 +152,53 @@ export default function EditJobModalMatrix({ currentJob, modalEditJob, setModalE
       }
     }
 
+    // SO hacky... sorry future John
+    // Looping through the currentJob.check_boxes I want to check the corresponding userCheckBoxes and if
+    // its string is '', do nothing.  Else send a fetch request to /check_boxes/`${id}` with {title:THE STRING}
+    // The userCheckBoxes array may be longer than currentJob.check_boxes
+    // Loop through the currentJob.check_boxes array
+    currentJob.check_boxes.forEach((checkbox, index) => {
+      // Check if the corresponding userCheckBoxes[index] is not an empty string
+      if (userCheckBoxes[index] !== '') {
+        // Send a fetch request to update the checkbox item
+        fetch(`/check_boxes/${checkbox.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title: userCheckBoxes[index] })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Checkbox successfully updated:', data);
+        })
+        .catch(error => {
+          console.error('Error updating checkbox:', error);
+        });
+      }
+      // If the userCheckBoxes[index] is an empty string, do nothing
+    });
+    console.log(currentJob.check_boxes)
+    console.log(userCheckBoxes)
+    
+    let tempMemoArray = [];
+    let tempCheckBoxArray = [];
+
+    if (currentJob.memo_boxes.length < userMemoBoxes.length) {
+      const numToAdd = userMemoBoxes.length - currentJob.memo_boxes.length;
+
+      for (let i = 0; i < numToAdd; i++) {
+        tempMemoArray.push('');
+      }
+    }
+    if (currentJob.check_boxes.length < userCheckBoxes.length) {
+      const numToAdd = userCheckBoxes.length - currentJob.check_boxes.length
+      let tempIndex = userCheckBoxes.length - numToAdd
+      for (let i = 0; i < numToAdd; i++) {
+        tempCheckBoxArray.push(userCheckBoxes[tempIndex]);
+      }
+    }
+
     const job_name = typeof jobData.nameOfJob !== 'undefined' ? jobData.nameOfJob : currentJob.job_name;
     const color = typeof jobData.color !== 'undefined' ? jobData.color : currentJob.color;
     const delivery = typeof jobData.delivery !== 'undefined' ? jobData.delivery : currentJob.delivery;
@@ -161,35 +209,37 @@ export default function EditJobModalMatrix({ currentJob, modalEditJob, setModalE
     const hardware = typeof jobData.hardware !== 'undefined' ? jobData.hardware : currentJob.hardware;
     const powderCoating = typeof jobData.powderCoating !== 'undefined' ? jobData.powderCoating : currentJob.powder_coating;
 
-    console.log('submit info')
-    console.log({
-      job_name,
-      color,
-      delivery,
-      in_hand,
-      cnc_parts,
-      quality_control,
-      product_tag,
-      hardware,
-      powderCoating,
-      memo_boxes: pairedMemoBoxes,
-      check_boxes: pairedCheckBoxes
-    })
-    console.log('stringy')
-    console.log(JSON.stringify({
-      job_name: job_name,
-      color: color,
-      start_time: currentJob.start_time,
-      delivery: delivery,
-      in_hand: in_hand,
-      cnc_parts: `${cnc_parts}`,
-      quality_control: `${quality_control}`,
-      product_tag: `${product_tag}`,
-      hardware: `${hardware}`,
-      powderCoating: `${powderCoating}`,
-      memo_boxes: pairedMemoBoxes,
-      check_boxes: pairedCheckBoxes
-    }))
+    // console.log('submit info')
+    // console.log(tempCheckBoxArray)
+    // console.log(tempMemoArray)
+    // console.log({
+    //   job_name,
+    //   color,
+    //   delivery,
+    //   in_hand,
+    //   cnc_parts,
+    //   quality_control,
+    //   product_tag,
+    //   hardware,
+    //   powderCoating,
+    //   memo_boxes: tempMemoArray,
+    //   check_boxes: tempCheckBoxArray
+    // })
+    // console.log('stringy')
+    // console.log(JSON.stringify({
+    //   job_name: job_name,
+    //   color: color,
+    //   start_time: currentJob.start_time,
+    //   delivery: delivery,
+    //   in_hand: in_hand,
+    //   cnc_parts: `${cnc_parts}`,
+    //   quality_control: `${quality_control}`,
+    //   product_tag: `${product_tag}`,
+    //   hardware: `${hardware}`,
+    //   powderCoating: `${powderCoating}`,
+    //   memo_boxes: tempMemoArray,
+    //   check_boxes: tempCheckBoxArray
+    // }))
     
     // Fetch POST job
     fetch(`/jobs/${currentJob.id}`, {
@@ -207,13 +257,16 @@ export default function EditJobModalMatrix({ currentJob, modalEditJob, setModalE
         quality_control: `${quality_control}`,
         product_tag: `${product_tag}`,
         hardware: `${hardware}`,
-        powderCoating: `${powderCoating}`,
-        memo_boxes: pairedMemoBoxes,
-        check_boxes: pairedCheckBoxes
+        powder_coating: `${powderCoating}`,
+        memo_boxes: tempMemoArray,
+        check_boxes: tempCheckBoxArray
       })
     })
     .then(response => response.json())
     .then(data => {
+      console.log('return')
+      console.log(data)
+      setCurrentJob(data)
       setModalEditJob(!modalEditJob)
       setRefreshMe(prev => !prev)
     })

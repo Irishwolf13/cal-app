@@ -86,7 +86,7 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
         {currentJob.quality_control && (<CheckMarkBar jobID={currentJob.id} title={`Quality Control Tags`} status={qualityControlDone} backendName={'quality_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.product_tag && (<CheckMarkBar jobID={currentJob.id} title={`Product Tags`} status={productTagDone} backendName={'product_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`Hardware`} status={hardwareDone} backendName={'hardware_done'} handleUpdateJob={handleUpdateJob}/>)}
-        {currentJob.hardware && (<CheckMarkBar jobID={currentJob.id} title={`Powder Coating`} status={powderDone} backendName={'powder_done'} handleUpdateJob={handleUpdateJob}/>)}
+        {currentJob.powder_coating && (<CheckMarkBar jobID={currentJob.id} title={`Powder Coating`} status={powderDone} backendName={'powder_done'} handleUpdateJob={handleUpdateJob}/>)}
         {renderCheckMarkCustoms()}
         {renderMemoBoxes()}
       </div>

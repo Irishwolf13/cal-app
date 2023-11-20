@@ -128,6 +128,7 @@ export default function Matrix({ changeDate }) {
         setModalEditJob={setModalEditJob}
         slotClickedOn={slotClickedOn}
         setRefreshMe={setRefreshMe}
+        setCurrentJob={setCurrentJob}
       />
       <div className="mainContainer">
         <div className="matrixContainer">

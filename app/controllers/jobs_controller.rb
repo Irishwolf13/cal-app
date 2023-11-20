@@ -84,6 +84,13 @@ class JobsController < ApplicationController
     @job.hardware_done = params[:hardware_done] if params[:hardware_done]
     @job.powder_coating = params[:powder_coating] if params[:powder_coating]
     @job.powder_done = params[:powder_done] if params[:powder_done]
+    params[:memo_boxes].each do |memo_box|
+      MemoBox.create(memo: memo_box, job_id: @job.id)
+    end
+
+    params[:check_boxes].each do |check_box|
+      CheckBox.create(title: check_box, job_id: @job.id, status: true)
+    end
 
     @job.save
     render json: @job, include: :events, status: :created, location: @job
