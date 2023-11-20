@@ -311,6 +311,13 @@
   height: 25px;
   font-weight: bold;
 }
+.matrixEditJob {
+  position: absolute;
+  top: -30px;
+  left: 90px;
+  height: 25px;
+  font-weight: bold;
+}
 
 .detailContainer {
   flex-basis: 30%;

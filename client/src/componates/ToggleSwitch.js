@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-function ToggleSwitch({title, toggleChange, option}) {
-  const [isSelected, setIsSelected] = useState(false);
+function ToggleSwitch({status, title, toggleChange, option}) {
+  const [isSelected, setIsSelected] = useState(status);
 
   const handleClicked = () => {
     setIsSelected(!isSelected)

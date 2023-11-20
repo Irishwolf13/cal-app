@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ToggleSwitchUserDefined({index, handleUserInputChange, removeUserCheckBoxes}) {
+function ToggleSwitchUserDefined({index, handleUserInputChange, removeUserCheckBoxes, title}) {
   const [inputValue, setInputValue] = useState('');
 
   // This is better way to track keystrokes
@@ -26,7 +26,7 @@ function ToggleSwitchUserDefined({index, handleUserInputChange, removeUserCheckB
       <div className="toggle-title-user">
         <input
           className='toggle-title-input'
-          placeholder={'User Defined'}
+          placeholder={title ? title : 'User Defined'}
           value={inputValue}
           onChange={handleInputChange}
         />

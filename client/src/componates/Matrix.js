@@ -6,6 +6,7 @@ import InShopBar from './InShopBar';
 import CompletedBar from './CompletedBar';
 import DetailPanel from './DetailPanel';
 import CreateJobModal from "./CreateJobModal";
+import EditJobModalMatrix from './EditJobModalMatrix';
 
 export default function Matrix({ changeDate }) {
   const [jobsPreShop, setJobsPreShop] = useState([]);
@@ -19,6 +20,7 @@ export default function Matrix({ changeDate }) {
 
   const [allEvents, setAllEvents] = useState([{}]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
+  const [modalEditJob, setModalEditJob] = useState(false);
   const [slotClickedOn, setSlotClickedOn] = useState({
     start: new Date(new Date().getTime() - 12 * 60 * 60 * 1000),
     end: new Date(new Date().getTime() - 12 * 60 * 60 * 1000),
@@ -103,8 +105,10 @@ export default function Matrix({ changeDate }) {
     setCurrentJob(updatedJob);
   };
   const createNewJob = () => {
-    console.log('iran')
     setModalCreateJob(!modalCreateJob)
+  }
+  const editJob = () => {
+    setModalEditJob(!modalEditJob)
   }
 
   return (
@@ -118,11 +122,19 @@ export default function Matrix({ changeDate }) {
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
       />
+      <EditJobModalMatrix
+        currentJob={currentJob}
+        modalEditJob={modalEditJob}
+        setModalEditJob={setModalEditJob}
+        slotClickedOn={slotClickedOn}
+        setRefreshMe={setRefreshMe}
+      />
       <div className="mainContainer">
         <div className="matrixContainer">
           {/* PreShop */}
           <div className="preShopContainer">
             <button className='matrixNewJob' onClick={createNewJob}>Create Job</button>
+            <button className='matrixEditJob' onClick={editJob}>Edit Job</button>
             <h2 className='preShopMainTitle'> PreShop </h2>
               <div className='preShopTitleBar'>          
               

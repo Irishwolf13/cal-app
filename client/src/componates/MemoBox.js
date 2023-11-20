@@ -28,7 +28,7 @@ export default function MemoBox({ memo, index, removeMemoBox, handleMemoChange }
       <textarea
         className='memoBox'
         value={inputValue}
-        placeholder={`MemoBox ${index + 1}`} 
+        placeholder={memo ? memo : `MemoBox ${index + 1}`}
         onChange={(e) => handleInputChange(e)}
       ></textarea>
     </div>
