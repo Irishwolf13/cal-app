@@ -49,7 +49,6 @@ export default function Matrix({ changeDate }) {
     .then(response => response.json())
     .then(data => {
       const preShopJobs = data.filter(job => {
-        // console.log(job.status)
         if (preShopOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "preShop";}
         if (preShopOption === "Scheduled") {return (job.status === "active" || job.status === "inActive") && job.quadrent === "preShop";}
         if (preShopOption === "NoCalendar") {return (job.status === "noCalendar") && job.quadrent === "preShop";}
@@ -62,7 +61,6 @@ export default function Matrix({ changeDate }) {
       }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
 
       const completeJobs = data.filter(job => {
-        console.log(job)
         if (completedOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "complete";}
         if (completedOption === "Warehouse") {return (job.status === "inActive") && job.quadrent === "complete";}
         if (completedOption === "Shipped") {return (job.status === "noCalendar") && job.quadrent === "complete";}
@@ -89,7 +87,6 @@ export default function Matrix({ changeDate }) {
   }
 
   const handleUpdateJob = (myKey, myValue) => {
-    // console.log('HERE '+ myKey, myValue);
     const updatedJob = { ...currentJob };
     updatedJob[myKey] = myValue;
     setCurrentJob(updatedJob);

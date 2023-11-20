@@ -52,13 +52,13 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   const cutWeldFinish = (type) => {
     switch (type) {
       case "notStarted":
-        return { buttonClass: "darkBlue", buttonText: "N" };
+        return { buttonClass: "red", buttonText: "N" };
       case "production":
-        return { buttonClass: "green", buttonText: "P" };
+        return { buttonClass: "yellow", buttonText: "P" };
       case "finish":
-        return { buttonClass: "darkGrey", buttonText: "F" };
+        return { buttonClass: "green", buttonText: "F" };
       default:
-        return { buttonClass: "darkBlue", buttonText: "N" };
+        return { buttonClass: "darkBlue", buttonText: "-" };
     }
   }
 
@@ -127,27 +127,27 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       <div className={`inShopBarCut ${cutWeldFinish(shopStatus.cut).buttonClass}`} onClick={() => handleJobStatusClicked(setCutDropDownVisible, cutDropDownVisible)}>
         {cutWeldFinish(shopStatus.cut).buttonText}
         <div className={`inShopBarSelectContainer ${cutDropDownVisible ? 'visible' : 'invisible'}`}>
-          <div className="inShopBarSelect darkBlue" onClick={() => cutWeldFinishStatus("cut", 'notStarted')}>N</div>
-          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("cut", 'production')}>P</div>
-          <div className="inShopBarSelect darkGrey" onClick={() => cutWeldFinishStatus("cut", 'finish')}>F</div>
+          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus("cut", 'notStarted')}>N</div>
+          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus("cut", 'production')}>P</div>
+          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("cut", 'finish')}>F</div>
         </div>
       </div>
 
       <div className={`inShopBarWeld ${cutWeldFinish(shopStatus.weld).buttonClass} `} onClick={() => handleJobStatusClicked(setWeldDropDownVisible, weldDropDownVisible)}>
         {cutWeldFinish(shopStatus.weld).buttonText}
         <div className={`inShopBarSelectContainer ${weldDropDownVisible ? 'visible' : 'invisible'}`}>
-          <div className="inShopBarSelect darkBlue" onClick={() => cutWeldFinishStatus("weld", 'notStarted')}>N</div>
-          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("weld", 'production')}>P</div>
-          <div className="inShopBarSelect darkGrey" onClick={() => cutWeldFinishStatus("weld", 'finish')}>F</div>
+          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus("weld", 'notStarted')}>N</div>
+          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus("weld", 'production')}>P</div>
+          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("weld", 'finish')}>F</div>
         </div>
       </div>
 
       <div className={`inShopBarFinish ${cutWeldFinish(shopStatus.finish).buttonClass}`} onClick={() => handleJobStatusClicked(setFinishDropDownVisible, finishDropDownVisible)}>
         {cutWeldFinish(shopStatus.finish).buttonText}
         <div className={`inShopBarSelectContainer ${finishDropDownVisible ? 'visible' : 'invisible'}`}>
-          <div className="inShopBarSelect darkBlue" onClick={() => cutWeldFinishStatus("finish", 'notStarted')}>N</div>
-          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("finish", 'production')}>P</div>
-          <div className="inShopBarSelect darkGrey" onClick={() => cutWeldFinishStatus("finish", 'finish')}>F</div>
+          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus("finish", 'notStarted')}>N</div>
+          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus("finish", 'production')}>P</div>
+          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("finish", 'finish')}>F</div>
         </div>
       </div>
 

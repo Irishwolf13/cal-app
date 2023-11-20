@@ -288,7 +288,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
                 <DatePicker 
                   selected={deliveryDate} 
                   onChange={date => handleDeliveryPicker(date)} 
-                  placeholderText="Delivery"
+                  placeholderText="Ship Date"
                   className="myDatePicker"
                 />
               </div>

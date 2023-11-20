@@ -13,8 +13,6 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
   const [powderDone, setPowderDone] = useState(false)
 
   useEffect(() => {
-    // console.log('currentJob')
-    // console.log(currentJob)
     setCncPartsDone(currentJob.cnc_done)
     setQualityControlDone(currentJob.quality_done)
     setProductTagDone(currentJob.product_done)

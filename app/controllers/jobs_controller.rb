@@ -69,6 +69,7 @@ class JobsController < ApplicationController
     
     @job.job_name = params[:newTitle] if !params[:newTitle].to_s.empty?
     @job.delivery = params[:newDelivery] if params[:newDelivery]
+    @job.in_hand = params[:in_hand] if params[:in_hand].present?
     @job.status = params[:status] if params[:status]
     @job.quadrent = params[:quadrent] if params[:quadrent]
     @job.cut = params[:cut] if params[:cut]
@@ -84,12 +85,16 @@ class JobsController < ApplicationController
     @job.hardware_done = params[:hardware_done] if params[:hardware_done]
     @job.powder_coating = params[:powder_coating] if params[:powder_coating]
     @job.powder_done = params[:powder_done] if params[:powder_done]
-    params[:memo_boxes].each do |memo_box|
-      MemoBox.create(memo: memo_box, job_id: @job.id)
+    if params[:memo_boxes]
+      params[:memo_boxes].each do |memo_box|
+        MemoBox.create(memo: memo_box, job_id: @job.id)
+      end
     end
 
-    params[:check_boxes].each do |check_box|
-      CheckBox.create(title: check_box, job_id: @job.id, status: true)
+    if params[:check_boxes]
+      params[:check_boxes].each do |check_box|
+        CheckBox.create(title: check_box, job_id: @job.id, status: true)
+      end
     end
 
     @job.save

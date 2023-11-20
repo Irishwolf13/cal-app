@@ -10,6 +10,8 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(null)
+  const [adjustedDate, setAdjustedDate] = useState(null)
+  const [adjustInHandDate, setAdjustInHandDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
@@ -45,7 +47,6 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
 
   const handleToggleChange = (toggleTitle) => {
     let frank = false
-    console.log(toggleTitle)
     if (toggleTitle === 'cncParts') {
       if (typeof jobData[toggleTitle] === 'undefined') {
         frank = !currentJob.cnc_parts;
@@ -81,7 +82,6 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         frank = !jobData[toggleTitle];
       }
     }
-    console.log(frank)
     setJobData(prevState => ({
       ...prevState,
       [toggleTitle]: frank
@@ -104,23 +104,6 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('current job');
-    console.log(currentJob);
-    
-    // const pairedCheckBoxes = userCheckBoxes.map((checkbox, index) => {
-    //   if (index < currentJob.check_boxes.length && checkbox === '') {
-    //     return currentJob.check_boxes[index].title;
-    //   }
-    //   return checkbox;
-    // });
-    // console.log(userMemoBoxes)
-    // console.log(currentJob.memo_boxes)
-    // const pairedMemoBoxes = userMemoBoxes.map((memo, index) => {
-    //   if (index < currentJob.memo_boxes.length && memo === '') {
-    //     return currentJob.memo_boxes[index].memo;
-    //   }
-    //   return memo;
-    // });
 
     if (userMemoBoxes.length < currentJob.memo_boxes.length) {
       // Get a new array starting from the length of userMemoBoxes
@@ -178,8 +161,6 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
       }
       // If the userCheckBoxes[index] is an empty string, do nothing
     });
-    console.log(currentJob.check_boxes)
-    console.log(userCheckBoxes)
     
     let tempMemoArray = [];
     let tempCheckBoxArray = [];
@@ -201,46 +182,18 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
 
     const job_name = typeof jobData.nameOfJob !== 'undefined' ? jobData.nameOfJob : currentJob.job_name;
     const color = typeof jobData.color !== 'undefined' ? jobData.color : currentJob.color;
-    const delivery = typeof jobData.delivery !== 'undefined' ? jobData.delivery : currentJob.delivery;
-    const in_hand = typeof jobData.inHand !== 'undefined' ? jobData.inHand : currentJob.in_hand;
+    const delivery = typeof deliveryDate !== null ? deliveryDate : currentJob.delivery;
+    const inHand = typeof inHandDate !== null ? inHandDate : currentJob.in_hand;
     const cnc_parts = typeof jobData.cncParts !== 'undefined' ? jobData.cncParts : currentJob.cnc_parts;
     const quality_control = typeof jobData.qualityControl !== 'undefined' ? jobData.qualityControl : currentJob.quality_control;
     const product_tag = typeof jobData.productTag !== 'undefined' ? jobData.productTag : currentJob.product_tag;
     const hardware = typeof jobData.hardware !== 'undefined' ? jobData.hardware : currentJob.hardware;
     const powderCoating = typeof jobData.powderCoating !== 'undefined' ? jobData.powderCoating : currentJob.powder_coating;
-
-    // console.log('submit info')
-    // console.log(tempCheckBoxArray)
-    // console.log(tempMemoArray)
-    // console.log({
-    //   job_name,
-    //   color,
-    //   delivery,
-    //   in_hand,
-    //   cnc_parts,
-    //   quality_control,
-    //   product_tag,
-    //   hardware,
-    //   powderCoating,
-    //   memo_boxes: tempMemoArray,
-    //   check_boxes: tempCheckBoxArray
-    // })
-    // console.log('stringy')
-    // console.log(JSON.stringify({
-    //   job_name: job_name,
-    //   color: color,
-    //   start_time: currentJob.start_time,
-    //   delivery: delivery,
-    //   in_hand: in_hand,
-    //   cnc_parts: `${cnc_parts}`,
-    //   quality_control: `${quality_control}`,
-    //   product_tag: `${product_tag}`,
-    //   hardware: `${hardware}`,
-    //   powderCoating: `${powderCoating}`,
-    //   memo_boxes: tempMemoArray,
-    //   check_boxes: tempCheckBoxArray
-    // }))
     
+    console.log('in Hand here')
+    console.log(inHand)
+    console.log(delivery)
+
     // Fetch POST job
     fetch(`/jobs/${currentJob.id}`, {
       method: 'PATCH',
@@ -251,8 +204,8 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         job_name: job_name,
         color: color,
         start_time: currentJob.start_time,
-        delivery: delivery,
-        in_hand: in_hand,
+        newDelivery: delivery,
+        in_hand: inHandDate,
         cnc_parts: `${cnc_parts}`,
         quality_control: `${quality_control}`,
         product_tag: `${product_tag}`,
@@ -272,10 +225,8 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
     })
     // Reset the input value if needed
     setJobData(emptyJob);
-    // setUserCheckBoxes([''])
-    // setUserMemoBoxes([''])
-    // setDeliveryDate(null)
-    // setInHandDate(null)
+    setAdjustedDate(null)
+    setAdjustInHandDate(null)
   };
 
   const handleColorDropdownChange = (e) => {
@@ -284,27 +235,28 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
 
   const handleModalClose = (e) => {
     setDeliveryDate(null)
+    setAdjustedDate(null)
+    setAdjustInHandDate(null)
     setInHandDate(null)
     setModalEditJob()
     setCheckBox(false);
     setJobData(emptyJob)
-    // setUserCheckBoxes([''])
-    // setUserMemoBoxes([''])
   }
 
   const handleDeliveryPicker = (date) => {
     if (date !== null) {
       const selectedDate = date;
-      selectedDate.setDate(selectedDate.getDate());
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      setAdjustedDate(selectedDate -1)
       setDeliveryDate(selectedDate);
     }else {setDeliveryDate(null)}
   }
 
   const handleInHandPicker = (date) => {
     if (date !== null) {
-      console.log(date)
       const selectedDate = date;
-      selectedDate.setDate(selectedDate.getDate());
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      setAdjustInHandDate(selectedDate -1)
       setInHandDate(selectedDate);
     }else {setInHandDate(null)}
   }
@@ -400,7 +352,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
               </select>
               <div style={{ display: "inline-block" }}>
                 <DatePicker 
-                  selected={deliveryDate} 
+                  selected={adjustedDate} 
                   onChange={date => handleDeliveryPicker(date)} 
                   placeholderText="Delivery"
                   className="myDatePicker"
@@ -408,7 +360,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
               </div>
               <div style={{ display: "inline-block" }}>
                 <DatePicker 
-                  selected={inHandDate} 
+                  selected={adjustInHandDate} 
                   onChange={date => handleInHandPicker(date)} 
                   placeholderText="In-Hand"
                   className="myDatePicker"
