@@ -19,7 +19,7 @@ export default function CheckMarkCustom({id, status, title, customCheckMarkUpdat
       body: JSON.stringify(requestBody)
     })
       .then(response => response.json())
-      .then(data => console.log(data))
+      // .then(data => console.log(data))
       .catch(error => console.error(error));
   }
 

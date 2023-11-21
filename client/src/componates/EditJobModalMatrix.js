@@ -151,9 +151,9 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
           body: JSON.stringify({ title: userCheckBoxes[index] })
         })
         .then(response => response.json())
-        .then(data => {
-          console.log('Checkbox successfully updated:', data);
-        })
+        // .then(data => {
+        //   console.log('Checkbox successfully updated:', data);
+        // })
         .catch(error => {
           console.error('Error updating checkbox:', error);
         });
@@ -188,10 +188,6 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
     const product_tag = typeof jobData.productTag !== 'undefined' ? jobData.productTag : currentJob.product_tag;
     const hardware = typeof jobData.hardware !== 'undefined' ? jobData.hardware : currentJob.hardware;
     const powderCoating = typeof jobData.powderCoating !== 'undefined' ? jobData.powderCoating : currentJob.powder_coating;
-    
-    console.log('in Hand here')
-    console.log(inHand)
-    console.log(delivery)
 
     // Fetch POST job
     fetch(`/jobs/${currentJob.id}`, {
@@ -216,8 +212,8 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
     })
     .then(response => response.json())
     .then(data => {
-      console.log('return')
-      console.log(data)
+      // console.log('return')
+      // console.log(data)
       setCurrentJob(data)
       setModalEditJob(!modalEditJob)
       setRefreshMe(prev => !prev)
@@ -324,7 +320,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         <div>
           {/* <button onClick={test}>Test</button> */}
           <h2 className="modalTitle" >{`EDIT JOB: ${currentJob.job_name}`}</h2>
-          {slotClickedOn && <p className="modalDate">Start Date: {slotClickedOn.start.toLocaleDateString()}</p>}
+          {currentJob.start_time && <p className="modalDate">Start Date: {currentJob.start_time}</p>}
           <form className="createJobForm" onSubmit={handleSubmit}>
             <label htmlFor="nameOfJob">Name of Job</label>
             <input

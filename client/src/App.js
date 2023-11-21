@@ -6,7 +6,7 @@ import Matrix from "./componates/Matrix.js";
 import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
-  const [myDate, setMyDate] = useState(new Date(2020, 6, 1))
+  const [myDate, setMyDate] = useState(new Date())
 
   const changeDate = (date) => {
     const adjustDate = new Date(date)

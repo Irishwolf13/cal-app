@@ -118,7 +118,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         quality_control: jobData.qualityControl,
         product_tag: jobData.productTag,
         hardware: jobData.hardware,
-        powderCoating: jobData.powderCoating,
+        powder_coating: jobData.powderCoating,
         memo_boxes: userMemoBoxes,
         check_boxes: userCheckBoxes
       })

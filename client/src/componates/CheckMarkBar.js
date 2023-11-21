@@ -19,7 +19,7 @@ export default function CheckMarkBar({handleUpdateJob, jobID, title, status, bac
       body: JSON.stringify(requestBody)
     })
       .then(response => response.json())
-      .then(data => console.log(data))
+      // .then(data => console.log(data))
       .catch(error => console.error(error));
   }
 
