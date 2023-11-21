@@ -105,8 +105,13 @@ export default function Matrix({ changeDate }) {
     setModalCreateJob(!modalCreateJob)
   }
   const editJob = () => {
-    setModalEditJob(!modalEditJob)
-  }
+    if (Object.keys(currentJob).length !== 0) {
+      console.log(currentJob);
+      setModalEditJob(!modalEditJob);
+    } else {
+      alert("Please select a Job");
+    }
+  };
 
   return (
     <div>
@@ -193,6 +198,7 @@ export default function Matrix({ changeDate }) {
         </div>
         <DetailPanel 
           currentJob={currentJob}
+          setCurrentJob={setCurrentJob}
           fetchJobs={fetchJobs}
           handleUpdateJob={handleUpdateJob} 
           customCheckMarkUpdate={customCheckMarkUpdate}

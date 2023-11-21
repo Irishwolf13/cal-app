@@ -3,7 +3,7 @@ import CheckMarkBar from './CheckMarkBar';
 import CheckMarkCustom from './CheckMarkCustom';
 import MemoBoxDetails from './MemoBoxDetails';
 
-export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMarkUpdate, fetchJobs}) {
+export default function DetailPanel({ currentJob, setCurrentJob, handleUpdateJob, customCheckMarkUpdate, fetchJobs}) {
   const deliveryDate = new Date(currentJob.delivery);
   const in_hand = new Date(currentJob.in_hand);
   const [cncPartsDone, setCncPartsDone] = useState(false)
@@ -22,6 +22,26 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
 
   deliveryDate.setDate(deliveryDate.getDate());
   in_hand.setDate(in_hand.getDate());
+
+  const handleDeleteJob = (job) => {
+    const confirmation = window.confirm(`Are you sure you want to delete ${currentJob.job_name}?`);
+    
+    if (confirmation) {
+      // console.log(currentJob);
+      // // FETCH: UPDATE JOBS
+      fetch(`/jobs/${currentJob.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify()
+      })
+      .then(data => {
+        setCurrentJob({})
+        fetchJobs()
+      })
+    }
+  }
 
   const changeQuadrent = (e) => {
     const requestBody = {};
@@ -66,18 +86,22 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
 
   // Conditional rendering
   if (!currentJob.job_name) {
-    return <div className="detailContainer"> Details Panel</div>
+    return <div className="detailContainer"> 
+            <div className='detail-text'>
+              Details Panel
+            </div>
+          </div>
   }
 
   return (
     <div className="detailContainer">
-      <div>Details Panel</div>
+      <div className='detail-text'>Details Panel</div>
       <button className='details-button' id={'preShop'} onClick={changeQuadrent}>PreShop</button>
       <button className='details-button' id={'inShop'} onClick={changeQuadrent}>In Shop</button>
       <button className='details-button' id={'complete'} onClick={changeQuadrent}>Completed</button>
-      <div>{currentJob.job_name}</div>
-      <div>Delivery Date: {deliveryDate.toDateString()}</div>
-      <div>InHand Date: {in_hand.toDateString()}</div>
+      <div className='detail-text1'>{currentJob.job_name}</div>
+      <div className='detail-text2'>Delivery Date: {deliveryDate.toDateString()}</div>
+      <div className='detail-text3'>InHand Date: {in_hand.toDateString()}</div>
       <div>
         {/* Render CheckMarkBar components as before */}
         {currentJob.cnc_parts && (<CheckMarkBar jobID={currentJob.id} title={`CnC parts`} status={cncPartsDone} backendName={'cnc_done'} handleUpdateJob={handleUpdateJob}/>)}
@@ -87,6 +111,7 @@ export default function DetailPanel({ currentJob, handleUpdateJob, customCheckMa
         {currentJob.powder_coating && (<CheckMarkBar jobID={currentJob.id} title={`Powder Coating`} status={powderDone} backendName={'powder_done'} handleUpdateJob={handleUpdateJob}/>)}
         {renderCheckMarkCustoms()}
         {renderMemoBoxes()}
+        <button className='details-delete-button' onClick={handleDeleteJob}>Delete Job</button>
       </div>
     </div>
   );
