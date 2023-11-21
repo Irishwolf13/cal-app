@@ -60,7 +60,6 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('iran submit')
 
     // Checks for information
     if (jobData.nameOfJob === '') {
@@ -188,7 +187,6 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
 
   const handleInHandPicker = (date) => {
     if (date !== null) {
-      console.log(date)
       const selectedDate = date;
       selectedDate.setDate(selectedDate.getDate());
       setInHandDate(selectedDate);

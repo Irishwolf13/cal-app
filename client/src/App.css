@@ -341,17 +341,15 @@
   border: 2px solid rgb(0, 0, 0);
 }
 
-
 .preShopMainInfo,
 .inShopMainInfo,
 .expandableMainInfo,
 .completedMainInfo {
   margin-top: 1px;
-  overflow: auto; /* Added overflow property */
-  height: 287px; /* Added max-height property */
+  overflow: auto;
+  height: 287px;
   /* border: 1px solid rgb(0, 0, 0); */
 }
-
 
 .preShopTitleBar,
 .inShopTitleBar,
@@ -397,6 +395,22 @@
   position: absolute;
   bottom: 2px; /* Adjust the positioning as desired */
   left: -60px;
+  transform: translateX(-50%);
+  background-color: rgb(81, 81, 81); /* Adjust the background color */
+  color: white; /* Adjust the text color */
+  z-index: 1000;
+}
+/* tooltip.css */
+.tooltip2 {
+  position: relative;
+}
+
+.tooltip2:hover:after {
+  /* width: 100px; */
+  content: attr(data-content);
+  position: absolute;
+  bottom: 15px; /* Adjust the positioning as desired */
+  left: 10px;
   transform: translateX(-50%);
   background-color: rgb(81, 81, 81); /* Adjust the background color */
   color: white; /* Adjust the text color */
@@ -654,4 +668,12 @@ textarea {
 .selected {
   background-color: rgb(0, 204, 255);
   color: black
+}
+
+.status-selection-container {
+  position: relative;
+}
+
+.flex {
+  display: flex;
 }

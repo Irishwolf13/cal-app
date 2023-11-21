@@ -42,7 +42,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
       setRefreshMe(prev => !prev)
       setModalEditJob(!modalEditJob)
     })
-    console.log('EventClickedON',eventClickedOn)
+    // console.log('EventClickedON',eventClickedOn)
   }
   const handleJobChangeSubmit = (e) => {
     e.preventDefault();
@@ -68,7 +68,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     .then(response => response.json())
     .then(data => {
-      // console.log('Data: ',data)
       autoAddEvents(e, data)
       autoSubEvents(e, data)
       setRefreshMe(prev => !prev)
@@ -131,10 +130,6 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
   const autoAddEvents = (e, data) => {
     let lastDay = data.events[data.events.length -1]
-    // console.log('lastDay: ', lastDay)
-    // console.log('lastDay.hours_remaining', lastDay.hours_remaining)
-    // console.log('lastDay.hours_per_day', lastDay.hours_per_day)
-    // console.log('data.hours_per_day', data.hours_per_day)
     if (lastDay.hours_remaining >= data.hours_per_day) {
       lastDay.hours_per_day = data.hours_per_day
     }else {

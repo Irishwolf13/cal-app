@@ -118,9 +118,23 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
         >{label}</div>
       </div>
       <div className={`inShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
-        <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
-        <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-        <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+      <div className='flex'>
+          <div 
+            className={`circle blue selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("active")}
+            data-content={'Active'}
+          ></div>
+          <div 
+            className={`circle grey selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("inActive")}
+            data-content={'InActive'}
+          ></div>
+          <div 
+            className={`circle darkGrey selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("noCalendar")}
+            data-content={'NoCalendar'}
+          ></div>
+        </div>
       </div>
 
       {/* These could be made into componates later if we wanted to add more items to the list. */}

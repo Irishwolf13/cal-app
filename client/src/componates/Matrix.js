@@ -39,7 +39,7 @@ export default function Matrix({ changeDate }) {
   }, [currentJob, refreshMe, preShopOption, inShopOption, completedOption]);
 
   const fetchJobs = () => {
-    console.log('fetch ran')
+    // console.log('fetch ran')
     fetch(`/jobs`, {
       method: 'GET',
       headers: {
@@ -186,7 +186,9 @@ export default function Matrix({ changeDate }) {
               <div className='inShopTitleName'></div>
               <div className='inShopTitleDate'>Ship Date</div>
             </div>
-            {mapJobs(jobsComplete, CompletedBar)}
+            <div className='completedMainInfo'>
+              {mapJobs(jobsComplete, CompletedBar)}
+            </div>
           </div>
         </div>
         <DetailPanel 

@@ -58,8 +58,18 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
       </div>
       <div className='completedName' onClick={handleBarClick}> {job.job_name} </div>
       <div className={`completedActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
-        <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-        <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+      <div className='flex'>
+          <div 
+            className={`circle grey selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("inActive")}
+            data-content={'InActive'}
+          ></div>
+          <div 
+            className={`circle darkGrey selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("noCalendar")}
+            data-content={'NoCalendar'}
+          ></div>
+        </div>
       </div>
       <div className='completedDate' onClick={handleNavigate}>{new Date(job.delivery).toLocaleDateString()}</div>
     </div>

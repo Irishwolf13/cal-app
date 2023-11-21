@@ -15,7 +15,6 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
-  const [checkBoxText, setCheckBoxText] = useState('Test')
   const [emptyJob, setEmptyJob] = useState({
     nameOfJob: currentJob.job_name, 
     delivery: currentJob.delivery,
@@ -46,45 +45,45 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
   };
 
   const handleToggleChange = (toggleTitle) => {
-    let frank = false
+    let toggleInfo = false
     if (toggleTitle === 'cncParts') {
       if (typeof jobData[toggleTitle] === 'undefined') {
-        frank = !currentJob.cnc_parts;
+        toggleInfo = !currentJob.cnc_parts;
       } else {
-        frank = !jobData[toggleTitle];
+        toggleInfo = !jobData[toggleTitle];
       }
     }
     if (toggleTitle === 'hardware') {
       if (typeof jobData[toggleTitle] === 'undefined') {
-        frank = !currentJob.hardware;
+        toggleInfo = !currentJob.hardware;
       } else {
-        frank = !jobData[toggleTitle];
+        toggleInfo = !jobData[toggleTitle];
       }
     }
     if (toggleTitle === 'qualityControl') {
       if (typeof jobData[toggleTitle] === 'undefined') {
-        frank = !currentJob.quality_control;
+        toggleInfo = !currentJob.quality_control;
       } else {
-        frank = !jobData[toggleTitle];
+        toggleInfo = !jobData[toggleTitle];
       }
     }
     if (toggleTitle === 'productTag') {
       if (typeof jobData[toggleTitle] === 'undefined') {
-        frank = !currentJob.product_tag;
+        toggleInfo = !currentJob.product_tag;
       } else {
-        frank = !jobData[toggleTitle];
+        toggleInfo = !jobData[toggleTitle];
       }
     }
     if (toggleTitle === 'powderCoating') {
       if (typeof jobData[toggleTitle] === 'undefined') {
-        frank = !currentJob.powder_coating;
+        toggleInfo = !currentJob.powder_coating;
       } else {
-        frank = !jobData[toggleTitle];
+        toggleInfo = !jobData[toggleTitle];
       }
     }
     setJobData(prevState => ({
       ...prevState,
-      [toggleTitle]: frank
+      [toggleTitle]: toggleInfo
     })); 
   };
 
@@ -287,9 +286,9 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
     setUserMemoBoxes(updatedMemoBoxes);
   }
 
-  const test = () => {
-    console.log(jobData)
-  }
+  // const test = () => {
+  //   // console.log(jobData)
+  // }
 
   const renderMemoBoxes = (userMemoBoxes, handleMemoChange, removeMemoBox) => (
     userMemoBoxes.map((memo, index) => (
@@ -323,7 +322,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         className="modalBasic"
       >
         <div>
-          <button onClick={test}>Test</button>
+          {/* <button onClick={test}>Test</button> */}
           <h2 className="modalTitle" >{`EDIT JOB: ${currentJob.job_name}`}</h2>
           {slotClickedOn && <p className="modalDate">Start Date: {slotClickedOn.start.toLocaleDateString()}</p>}
           <form className="createJobForm" onSubmit={handleSubmit}>

@@ -13,7 +13,7 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   }
   // This is clicked to populate the details panel
   const handleBarClick = () => {
-    console.log(job)
+    // console.log(job)
     setCurrentlySelected(job.uuid);
     
     fetch(`/jobs/${job.id}`, {
@@ -70,9 +70,9 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
         <button className={
           `circle ${
             activeStatus === 'inActive' ? 'grey' 
-          : activeStatus === 'active' ? 'blue' 
-          : activeStatus === 'noCalendar' ? 'darkGrey' 
-          : ''
+            : activeStatus === 'active' ? 'blue' 
+            : activeStatus === 'noCalendar' ? 'darkGrey' 
+            : ''
           }`
         } onClick={handleActivityClick}></button>
       </div>
@@ -85,9 +85,23 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
         >{label}</div>
       </div>
       <div className={`preShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
-        <button className="circle blue selection" onClick={() => handleActivitySelectionClicked("active")}></button>
-        <button className="circle grey selection" onClick={() => handleActivitySelectionClicked("inActive")}></button>
-        <button className="circle darkGrey selection" onClick={() => handleActivitySelectionClicked("noCalendar")}></button>
+        <div className='flex'>
+          <div 
+            className={`circle blue selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("active")}
+            data-content={'Active'}
+          ></div>
+          <div 
+            className={`circle grey selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("inActive")}
+            data-content={'InActive'}
+          ></div>
+          <div 
+            className={`circle darkGrey selection tooltip2`} 
+            onClick={() => handleActivitySelectionClicked("noCalendar")}
+            data-content={'NoCalendar'}
+          ></div>
+        </div>
       </div>
     </div>
   );

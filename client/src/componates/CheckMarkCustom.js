@@ -7,10 +7,6 @@ export default function CheckMarkCustom({id, status, title, customCheckMarkUpdat
   },[status])
 
   const patchJob = (id, _key, _value) => {
-    console.log('iran')
-    console.log(id)
-    console.log(_key)
-    console.log(_value)
     const requestBody = {};
     requestBody[_key] = `${_value}`;
   
