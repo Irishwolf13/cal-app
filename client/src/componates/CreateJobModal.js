@@ -120,7 +120,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         hardware: jobData.hardware,
         powder_coating: jobData.powderCoating,
         memo_boxes: userMemoBoxes,
-        check_boxes: userCheckBoxes
+        checks: userCheckBoxes
       })
     })
     .then(response => response.json())

@@ -72,10 +72,10 @@ export default function DetailPanel({ currentJob, setCurrentJob, handleUpdateJob
     return null;
   }
 
-  // Separate function to map check_boxes and create CheckMarkCustom elements
+  // Separate function to map checks and create CheckMarkCustom elements
   const renderCheckMarkCustoms = () => {
-    if (currentJob.check_boxes && Array.isArray(currentJob.check_boxes)) {
-      return currentJob.check_boxes
+    if (currentJob.checks && Array.isArray(currentJob.checks)) {
+      return currentJob.checks
         .filter(checkbox => checkbox.title !== '') // Filter out checkboxes with empty title
         .map((checkbox, index) => (
           <CheckMarkCustom key={index} id={checkbox.id} status={checkbox.done} title={checkbox.title} customCheckMarkUpdate={customCheckMarkUpdate}/>

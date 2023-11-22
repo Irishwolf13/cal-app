@@ -93,7 +93,7 @@ export default function Matrix({ changeDate }) {
   };
   const customCheckMarkUpdate = (id) => {
     const updatedJob = { ...currentJob };
-    updatedJob.check_boxes = updatedJob.check_boxes.map((checkbox) => {
+    updatedJob.checks = updatedJob.checks.map((checkbox) => {
       if (checkbox.id === id) {
         checkbox.done = !checkbox.done;
       }

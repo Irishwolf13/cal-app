@@ -9,9 +9,15 @@ export default function CheckMarkCustom({id, status, title, customCheckMarkUpdat
   const patchJob = (id, _key, _value) => {
     const requestBody = {};
     requestBody[_key] = `${_value}`;
-  
+    console.log('ID: ' + id)
+    console.log('Key: ' + _key)
+    console.log('Value: ' + _value)
+    console.log('Request Body')
+    console.log(requestBody);
+    console.log('stringify')
+    console.log(JSON.stringify(requestBody))
     // FETCH: UPDATE JOBS
-    fetch(`/check_boxes/${id}`, {
+    fetch(`/checks/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -19,7 +25,7 @@ export default function CheckMarkCustom({id, status, title, customCheckMarkUpdat
       body: JSON.stringify(requestBody)
     })
       .then(response => response.json())
-      // .then(data => console.log(data))
+      .then(data => console.log(data))
       .catch(error => console.error(error));
   }
 

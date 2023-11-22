@@ -26,7 +26,7 @@ class JobSerializer < ActiveModel::Serializer
   :powder_done,
   :powder_colors,
   :memo_boxes,
-  :check_boxes,
+  :checks,
   :events 
 
   def events

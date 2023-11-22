@@ -30,8 +30,8 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
 
   useEffect(() =>{
     setJobData(emptyJob)
-    if(currentJob.check_boxes){
-      setUserCheckBoxes(currentJob.check_boxes)
+    if(currentJob.checks){
+      setUserCheckBoxes(currentJob.checks)
       setUserMemoBoxes(currentJob.memo_boxes)
     }
   },[currentJob])
@@ -118,14 +118,14 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         });
       }
     }
-    if (userCheckBoxes.length < currentJob.check_boxes.length) {
+    if (userCheckBoxes.length < currentJob.checks.length) {
       // Get a new array starting from the length of userCheckBoxes
-      const slicedCheckBoxes = currentJob.check_boxes.slice(userCheckBoxes.length);
+      const slicedCheckBoxes = currentJob.checks.slice(userCheckBoxes.length);
       
       // Loop through the slicedCheckBoxes array
       for (let i = 0; i < slicedCheckBoxes.length; i++) {
         const id = slicedCheckBoxes[i].id;
-        fetch(`/check_boxes/${id}`, {
+        fetch(`/checks/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -135,15 +135,15 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
     }
 
     // SO hacky... sorry future John
-    // Looping through the currentJob.check_boxes I want to check the corresponding userCheckBoxes and if
-    // its string is '', do nothing.  Else send a fetch request to /check_boxes/`${id}` with {title:THE STRING}
-    // The userCheckBoxes array may be longer than currentJob.check_boxes
-    // Loop through the currentJob.check_boxes array
-    currentJob.check_boxes.forEach((checkbox, index) => {
+    // Looping through the currentJob.checks I want to check the corresponding userCheckBoxes and if
+    // its string is '', do nothing.  Else send a fetch request to /checks/`${id}` with {title:THE STRING}
+    // The userCheckBoxes array may be longer than currentJob.checks
+    // Loop through the currentJob.checks array
+    currentJob.checks.forEach((checkbox, index) => {
       // Check if the corresponding userCheckBoxes[index] is not an empty string
       if (userCheckBoxes[index] !== '') {
         // Send a fetch request to update the checkbox item
-        fetch(`/check_boxes/${checkbox.id}`, {
+        fetch(`/checks/${checkbox.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -171,8 +171,8 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         tempMemoArray.push('');
       }
     }
-    if (currentJob.check_boxes.length < userCheckBoxes.length) {
-      const numToAdd = userCheckBoxes.length - currentJob.check_boxes.length
+    if (currentJob.checks.length < userCheckBoxes.length) {
+      const numToAdd = userCheckBoxes.length - currentJob.checks.length
       let tempIndex = userCheckBoxes.length - numToAdd
       for (let i = 0; i < numToAdd; i++) {
         tempCheckBoxArray.push(userCheckBoxes[tempIndex]);
@@ -207,7 +207,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         hardware: `${hardware}`,
         powder_coating: `${powderCoating}`,
         memo_boxes: tempMemoArray,
-        check_boxes: tempCheckBoxArray
+        checks: tempCheckBoxArray
       })
     })
     .then(response => response.json())

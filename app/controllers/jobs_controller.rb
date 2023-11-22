@@ -47,8 +47,8 @@ class JobsController < ApplicationController
       MemoBox.create(memo: memo_box, job_id: @job.id)
     end
 
-    params[:check_boxes].each do |check_box|
-      CheckBox.create(title: check_box, job_id: @job.id, status: true)
+    params[:checks].each do |check_box|
+      Checks.create(title: check_box, job_id: @job.id, status: true)
     end
 
     if @job.save
@@ -91,9 +91,9 @@ class JobsController < ApplicationController
       end
     end
 
-    if params[:check_boxes]
-      params[:check_boxes].each do |check_box|
-        CheckBox.create(title: check_box, job_id: @job.id, status: true)
+    if params[:checks]
+      params[:checks].each do |check_box|
+        Check.create(title: check_box, job_id: @job.id, status: true)
       end
     end
 
@@ -223,7 +223,7 @@ class JobsController < ApplicationController
         :hardware,
         :hardware_done,
         :powder_coating,
-        :check_boxes
+        :checks
       )
       # Check if memo_boxes is present in the params and permit it
       if params[:job][:memo_boxes]
