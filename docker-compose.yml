@@ -14,10 +14,10 @@ services:
     depends_on:
       postgres-db:
         condition: service_healthy
-    image: cal-app:20231121
+    image: cal-app:20231122a
 
   postgres-db:
-    image: postgres:15
+    image: postgres:15.5
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password

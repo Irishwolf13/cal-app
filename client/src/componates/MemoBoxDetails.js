@@ -45,13 +45,16 @@ export default function MemoBoxDetails({ memo, id }) {
   }, [inputValue]); // Run effect whenever inputValue changes
 
   return (
-    <div className='memoBox-details-container'>
-      <textarea
-        className='memoBox-details'
-        value={inputValue}
-        placeholder={'MemoBox'}
-        onChange={handleInputChange}
-      ></textarea>
+    <div>
+      <div className='memoBox-details-title'>MemoBox</div>
+      <div className='memoBox-details-container'>
+        <textarea
+          className='memoBox-details'
+          value={inputValue}
+          placeholder={'MemoBox'}
+          onChange={handleInputChange}
+        ></textarea>
+      </div>
     </div>
   );
 }

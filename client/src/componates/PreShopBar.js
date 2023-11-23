@@ -65,13 +65,13 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   const { class: circleClass, label } = getDaysDifference();
 
   return (
-    <div className={`preShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'grey' : ''}`}>
+    <div className={`preShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'otherDarkGrey' : ''}`}>
       <div className='preShopBarActivity'>
         <button className={
           `circle ${
             activeStatus === 'inActive' ? 'grey' 
             : activeStatus === 'active' ? 'blue' 
-            : activeStatus === 'noCalendar' ? 'darkGrey' 
+            : activeStatus === 'noCalendar' ? 'circleWhiteBorder darkGrey' 
             : ''
           }`
         } onClick={handleActivityClick}></button>

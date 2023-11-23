@@ -278,7 +278,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
                 <option value="rgb(0, 129, 0)">Green</option>
                 <option value="rgb(132, 0, 132)">Purple</option>
                 <option value="rgb(255, 63, 172)">Pink</option>
-                <option value="rgb(100, 100, 100)">Gray</option>
+                {/* <option value="rgb(100, 100, 100)">Gray</option> */}
                 <option value="rgb(255, 255, 0)">Yellow</option>
                 <option value="rgba(255, 166, 0, 0.623)">Orange</option>
               </select>

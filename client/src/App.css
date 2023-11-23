@@ -263,23 +263,31 @@
   right: 3%;
   bottom: 20px;
 }
+.frank {
+  height: calc(100% - 200px);
+  /* background-color: aqua; */
+}
+.memoBox-details-title {
+  margin-bottom: 5px;
+}
 .memoBox-details-container {
   /* background-color: aqua; */
   position: relative;
+  display: flex; /* enable flexbox */
   justify-content: center; /* horizontally center */
   align-items: center; /* vertically center */
-  height: 55px;
-  /* background-color: aqua; */
+  /* background-color: rgb(255, 0, 0); */
   margin-bottom: 10px;
+  margin-left: 20px;
+  min-width: 450px;
+  height: 300px;
+  flex: 1;
 }
 .memoBox-details {
-  position: absolute;
-  left: 70px;
-  /* top: 5px; */
+  flex: 1; /* take up remaining horizontal space */
   font-size: medium;
-  height: 50px;
-  min-width: 200px;
-  margin-bottom: 10px;
+  height: 100%;
+  margin: 0 20px; /* add some margin to the sides */
 }
 .memoBox-button {
   position: absolute;
@@ -501,11 +509,15 @@
   border: solid 1px black;
   cursor: pointer;
 }
+.circleWhiteBorder {
+  border: solid 1px rgb(161, 161, 161);
+}
 .red {background-color: rgb(230, 0, 0); color: white;}
 .yellow {background-color: rgb(255, 255, 0); color: black;}
 .green {background-color: rgb(0, 191, 0); color: white;}
 .darkGrey {background-color: rgb(26, 26, 26); color: white;}
-.grey {background-color: rgb(81, 81, 81); color: white;}
+.otherDarkGrey {background-color: rgb(80, 80, 80); color: white;}
+.grey {background-color: rgb(160, 160, 160); color: white;}
 .lightGrey {background-color: rgb(180, 180, 180); color: rgb(0, 0, 0);}
 .blue {background-color: rgb(54, 151, 255); color: white;}
 .darkBlue {background-color: rgb(0, 0, 125); color: white;}

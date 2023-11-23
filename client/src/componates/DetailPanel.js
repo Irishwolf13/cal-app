@@ -102,7 +102,7 @@ export default function DetailPanel({ currentJob, setCurrentJob, handleUpdateJob
       <div className='detail-text1'>{currentJob.job_name}</div>
       <div className='detail-text2'>Delivery Date: {deliveryDate.toDateString()}</div>
       <div className='detail-text3'>InHand Date: {in_hand.toDateString()}</div>
-      <div>
+      <div className='frank'>
         {/* Render CheckMarkBar components as before */}
         {currentJob.cnc_parts && (<CheckMarkBar jobID={currentJob.id} title={`CnC parts`} status={cncPartsDone} backendName={'cnc_done'} handleUpdateJob={handleUpdateJob}/>)}
         {currentJob.quality_control && (<CheckMarkBar jobID={currentJob.id} title={`Quality Control Tags`} status={qualityControlDone} backendName={'quality_done'} handleUpdateJob={handleUpdateJob}/>)}
