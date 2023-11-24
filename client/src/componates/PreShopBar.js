@@ -76,15 +76,7 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
           }`
         } onClick={handleActivityClick}></button>
       </div>
-      <div className='preShopBarName' onClick={handleBarClick}> {job.job_name} </div>
-      <div className='preShopBarDate'> 
-        <div 
-          className={`circle tooltip ${circleClass}`} 
-          onClick={handleNavigate} 
-          data-content={job.events[0].start_time}
-        >{label}</div>
-      </div>
-      <div className={`preShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
+      <div className='preShopActivityDropdown'>
         <div className='flex'>
           <div 
             className={`circle blue selection tooltip2`} 
@@ -103,6 +95,15 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
           ></div>
         </div>
       </div>
+      <div className='preShopBarName' onClick={handleBarClick}> {job.job_name} </div>
+      <div className='preShopBarDate'> 
+        <div 
+          className={`circle tooltip ${circleClass}`} 
+          onClick={handleNavigate} 
+          data-content={job.events[0].start_time}
+        >{label}</div>
+      </div>
     </div>
   );
+  
 }

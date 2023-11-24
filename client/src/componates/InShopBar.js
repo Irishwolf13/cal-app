@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, changeDate }) {
+export default function InShopBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, changeDate,cutWeldFinishOpen }) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
   const [cutDropDownVisible, setCutDropDownVisible] = useState(false); // State for visibility
@@ -10,6 +10,9 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   const [shopStatus, setShopStatus] = useState({ cut: "notStarted", weld: "notStarted", finish: "notStarted" })
 
   useEffect(() => {
+    // HERE, passing in infor, so we can make it so the boxes close if the uuid doesn't match the last box clicked
+    console.log(cutWeldFinishOpen)
+    console.log(job.uuid)
     setShopStatus({
       cut: job.cut,
       weld: job.weld,
@@ -107,18 +110,10 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
                 : activeStatus === 'noCalendar' ? 'darkGrey'
                   : ''
             }`
-        } onClick={handleActivityClick}></button>
+        }></button>
       </div>
-      <div className='inShopBarName' onClick={handleBarClick}> {job.job_name} </div>
-      <div className='inShopBarDate'>
-      <div 
-          className={`circle tooltip ${circleClass}`} 
-          onClick={handleNavigate} 
-          data-content={job.events[0].start_time}
-        >{label}</div>
-      </div>
-      <div className={`inShopActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
-      <div className='flex'>
+      <div className='inShopActivityDropdown'>
+        <div className='flex'>
           <div 
             className={`circle blue selection tooltip2`} 
             onClick={() => handleActivitySelectionClicked("active")}
@@ -135,6 +130,15 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
             data-content={'NoCalendar'}
           ></div>
         </div>
+      </div>
+
+      <div className='inShopBarName' onClick={handleBarClick}> {job.job_name} </div>
+      <div className='inShopBarDate'>
+      <div 
+          className={`circle tooltip ${circleClass}`} 
+          onClick={handleNavigate} 
+          data-content={job.events[0].start_time}
+        >{label}</div>
       </div>
 
       {/* These could be made into componates later if we wanted to add more items to the list. */}

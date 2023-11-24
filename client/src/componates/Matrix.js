@@ -16,7 +16,8 @@ export default function Matrix({ changeDate }) {
   const [currentlySelected, setCurrentlySelected] = useState(0);
   const [preShopOption, setPreShopOption] = useState("All");
   const [inShopOption, setInShopOption] = useState("All");
-  const [completedOption, setCompletedOption] = useState("All");
+  const [completedOption, setCompletedOption] = useState("Warehouse");
+  const [cutWeldFinishOpen, setCutWeldFinishOpen] = useState('1');
 
   const [allEvents, setAllEvents] = useState([{}]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -82,6 +83,7 @@ export default function Matrix({ changeDate }) {
         setCurrentJob={setCurrentJob}
         setRefreshMe={setRefreshMe}
         changeDate={changeDate}
+        cutWeldFinishOpen={cutWeldFinishOpen}
       />
     ));
   }
