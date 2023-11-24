@@ -610,9 +610,10 @@
   border: solid 1px black;
   cursor: pointer;
 }
-.inShopBarSelectContainer{
+.inShopBarSelectContainer {
+  display: none; /* Hide by default */
   position: absolute;
-  top: 27px;
+  top: 25px;
   left: -2px;
   min-width: 30px;
   max-width: 30px;
@@ -629,6 +630,10 @@
   cursor: pointer;
   /* margin-bottom: 1px; */
   border: solid 1px white;
+}
+.inShopBarCut:hover .inShopBarSelectContainer,
+.inShopBarSelectContainer:hover {
+  display: block; /* Show on hover */
 }
 
 .inShopBarSelect:hover {
