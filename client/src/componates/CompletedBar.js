@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function CompletedBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, changeDate}) {
+export default function CompletedBar({ job, setCurrentlySelected, currentlySelected, setCurrentJob, changeDate, setRefreshMe}) {
   const [activeStatus, setActiveStatus] = useState(job.status);
   const [activityDropdownVisible, setActivityDropdownVisible] = useState(false); // State for visibility
   
@@ -28,10 +28,6 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
       })
       .catch(error => console.error(error));
   };
-
-  const handleActivityClick = (color) => {
-    setActivityDropdownVisible(!activityDropdownVisible); // Toggle visibility
-  };
   
   const handleActivitySelectionClicked = (color) => {
     setActiveStatus(color);
@@ -42,7 +38,10 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ status: color })
-    });
+      
+    })
+    .then(response => response.json())
+    .then(data => {setRefreshMe(prev => !prev);});
   };
   const renderActivityCircle = (colorClass, handleClick, status, dataContent) => (
     <div 
@@ -65,8 +64,8 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
       </div>
       <div className='completedActivityDropdown'>
         <div className='flex'>
-          {renderActivityCircle('grey', handleActivitySelectionClicked, 'inActive', 'InActive')}
-          {renderActivityCircle('darkGrey', handleActivitySelectionClicked, 'noCalendar', 'NoCalendar')}
+          {renderActivityCircle('grey', handleActivitySelectionClicked, 'inActive', 'Warehouse')}
+          {renderActivityCircle('darkGrey', handleActivitySelectionClicked, 'noCalendar', 'Archive')}
         </div>
       </div>
       <div className='completedName' onClick={handleBarClick}> {job.job_name} </div>

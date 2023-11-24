@@ -49,23 +49,9 @@ export default function Matrix({ changeDate }) {
     })
     .then(response => response.json())
     .then(data => {
-      const preShopJobs = data.filter(job => {
-        if (preShopOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "preShop";}
-        if (preShopOption === "Scheduled") {return (job.status === "active" || job.status === "inActive") && job.quadrent === "preShop";}
-        if (preShopOption === "NoCalendar") {return (job.status === "noCalendar") && job.quadrent === "preShop";}
-      }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
-
-      const inShopJobs = data.filter(job => {
-        if (inShopOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "inShop";}
-        if (inShopOption === "Active") {return (job.status === "active") && job.quadrent === "inShop";}
-        if (inShopOption === "inActive") {return (job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "inShop";}
-      }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
-
-      const completeJobs = data.filter(job => {
-        if (completedOption === "All") {return (job.status === "active" || job.status === "noCalendar" || job.status === "inActive") && job.quadrent === "complete";}
-        if (completedOption === "Warehouse") {return (job.status === "inActive") && job.quadrent === "complete";}
-        if (completedOption === "Shipped") {return (job.status === "noCalendar") && job.quadrent === "complete";}
-      }).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+      const preShopJobs = filterAndSortJobs(data, preShopOption, "preShop");
+      const inShopJobs = filterAndSortJobs(data, inShopOption, "inShop");
+      const completeJobs = filterAndSortJobs(data, completedOption, "complete");
       
       setJobsPreShop(preShopJobs);
       setJobsInShop(inShopJobs);
@@ -115,6 +101,34 @@ export default function Matrix({ changeDate }) {
     }
   };
 
+  const filterAndSortJobs = (data, option, quadrant) => {
+    let statuses = [];
+    switch (option) {
+      case "All":
+        statuses = ["active", "noCalendar", "inActive"];
+        break;
+      case "Scheduled":
+      case "Active":
+        statuses = ["active", "inActive"];
+        break;
+      case "NoCalendar":
+      case "Shipped":
+        statuses = ["noCalendar"];
+        break;
+      case "NoMatrix":
+      case "Warehouse":
+        statuses = ["noMatrix", "inActive"];
+        break;
+      default:
+        console.error('Invalid option provided:', option);
+        return [];
+    }
+  
+    return data.filter(job =>
+      statuses.includes(job.status) && job.quadrent === quadrant
+    ).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+  };
+
   return (
     <div>
       <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
@@ -147,6 +161,7 @@ export default function Matrix({ changeDate }) {
                 <option value="All">All Jobs</option>
                 <option value="Scheduled">Scheduled</option>
                 <option value="NoCalendar">NoCalendar</option>
+                <option value="NoMatrix">NoMatrix</option>
               </select>
               </div>
             <div className='preShopMainInfo'>
@@ -188,7 +203,7 @@ export default function Matrix({ changeDate }) {
                   <select className='activeDropDown' value={completedOption} onChange={(e) => setCompletedOption(e.target.value)}>  
                     <option value="All">All</option>
                     <option value="Warehouse">Warehouse</option>
-                    <option value="Shipped">Shipped</option>
+                    <option value="Shipped">Archived</option>
                   </select>
               </div>
               <div className='inShopActivity'></div>

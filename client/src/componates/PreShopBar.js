@@ -64,35 +64,35 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
   };
   const { class: circleClass, label } = getDaysDifference();
 
+  function renderCircle(colorClass, activityState, tooltipText) {
+    return (
+      <div 
+        className={`circle ${colorClass} selection tooltip2`} 
+        onClick={() => handleActivitySelectionClicked(activityState)}
+        data-content={tooltipText}
+      ></div>
+    );
+  }
+
   return (
-    <div className={`preShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'otherDarkGrey' : ''}`}>
+    <div className={`preShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'otherDarkGrey' : activeStatus === 'noMatrix' ? 'red' : ''}`}>
       <div className='preShopBarActivity'>
         <button className={
           `circle ${
             activeStatus === 'inActive' ? 'grey' 
             : activeStatus === 'active' ? 'blue' 
             : activeStatus === 'noCalendar' ? 'circleWhiteBorder darkGrey' 
+            : activeStatus === 'noMatrix' ? 'circleWhiteBorder red' 
             : ''
           }`
         } onClick={handleActivityClick}></button>
       </div>
       <div className='preShopActivityDropdown'>
         <div className='flex'>
-          <div 
-            className={`circle blue selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("active")}
-            data-content={'Active'}
-          ></div>
-          <div 
-            className={`circle grey selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("inActive")}
-            data-content={'InActive'}
-          ></div>
-          <div 
-            className={`circle darkGrey selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("noCalendar")}
-            data-content={'NoCalendar'}
-          ></div>
+        {renderCircle('blue', 'active', 'Active')}
+        {renderCircle('grey', 'inActive', 'InActive')}
+        {renderCircle('darkGrey', 'noCalendar', 'NoCalendar')}
+        {renderCircle('red', 'noMatrix', 'noMatrix')}
         </div>
       </div>
       <div className='preShopBarName' onClick={handleBarClick}> {job.job_name} </div>
