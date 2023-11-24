@@ -100,6 +100,32 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
   };
   const { class: circleClass, label } = getDaysDifference();
 
+  const renderShopBarCut = (type, shopStatus, setCutDropDownVisible, cutWeldFinishStatus) => {
+    const status = cutWeldFinish(shopStatus[type]);
+  
+    return (
+      <div className={`inShopBarCut ${status.buttonClass}`} 
+           onMouseEnter={() => setCutDropDownVisible(true)}
+           onMouseLeave={() => setCutDropDownVisible(false)}>
+        {status.buttonText}
+        <div className="inShopBarSelectContainer">
+          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus(type, 'notStarted')}>N</div>
+          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus(type, 'production')}>P</div>
+          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus(type, 'finish')}>F</div>
+        </div>
+      </div>
+    );
+  };
+  const renderActivityCircle = (color, status, handleActivitySelectionClicked, tooltipContent) => {
+    return (
+      <div 
+        className={`circle ${color} selection tooltip2`} 
+        onClick={() => handleActivitySelectionClicked(status)}
+        data-content={tooltipContent}
+      ></div>
+    );
+  };
+
   return (
     <div className={`inShopBar ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'grey' : ''}`}>
       <div className='inShopBarActivity'>
@@ -114,21 +140,9 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       </div>
       <div className='inShopActivityDropdown'>
         <div className='flex'>
-          <div 
-            className={`circle blue selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("active")}
-            data-content={'Active'}
-          ></div>
-          <div 
-            className={`circle grey selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("inActive")}
-            data-content={'InActive'}
-          ></div>
-          <div 
-            className={`circle darkGrey selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("noCalendar")}
-            data-content={'NoCalendar'}
-          ></div>
+          {renderActivityCircle("blue", "active", handleActivitySelectionClicked, "Active")}
+          {renderActivityCircle("grey", "inActive", handleActivitySelectionClicked, "InActive")}
+          {renderActivityCircle("darkGrey", "noCalendar", handleActivitySelectionClicked, "NoCalendar")}
         </div>
       </div>
 
@@ -137,43 +151,12 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
       <div 
           className={`circle tooltip ${circleClass}`} 
           onClick={handleNavigate} 
-          data-content={job.events[0].start_time}
+          data-content={`Start: ${job.events[0].start_time}`}
         >{label}</div>
       </div>
-
-      {/* These could be made into componates later if we wanted to add more items to the list. */}
-      <div className={`inShopBarCut ${cutWeldFinish(shopStatus.cut).buttonClass}`} 
-          onMouseEnter={() => setCutDropDownVisible(true)}
-          onMouseLeave={() => setCutDropDownVisible(false)}>
-        {cutWeldFinish(shopStatus.cut).buttonText}
-        <div className="inShopBarSelectContainer">
-          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus("cut", 'notStarted')}>N</div>
-          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus("cut", 'production')}>P</div>
-          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("cut", 'finish')}>F</div>
-        </div>
-      </div>
-
-      <div className={`inShopBarCut ${cutWeldFinish(shopStatus.weld).buttonClass}`} 
-          onMouseEnter={() => setCutDropDownVisible(true)}
-          onMouseLeave={() => setCutDropDownVisible(false)}>
-        {cutWeldFinish(shopStatus.weld).buttonText}
-        <div className="inShopBarSelectContainer">
-          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus("weld", 'notStarted')}>N</div>
-          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus("weld", 'production')}>P</div>
-          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("weld", 'finish')}>F</div>
-        </div>
-      </div>
-
-      <div className={`inShopBarCut ${cutWeldFinish(shopStatus.finish).buttonClass}`} 
-          onMouseEnter={() => setCutDropDownVisible(true)}
-          onMouseLeave={() => setCutDropDownVisible(false)}>
-        {cutWeldFinish(shopStatus.finish).buttonText}
-        <div className="inShopBarSelectContainer">
-          <div className="inShopBarSelect red" onClick={() => cutWeldFinishStatus("finish", 'notStarted')}>N</div>
-          <div className="inShopBarSelect yellow" onClick={() => cutWeldFinishStatus("finish", 'production')}>P</div>
-          <div className="inShopBarSelect green" onClick={() => cutWeldFinishStatus("finsh", 'finish')}>F</div>
-        </div>
-      </div>
+      {renderShopBarCut("cut", shopStatus, setCutDropDownVisible, cutWeldFinishStatus)}
+      {renderShopBarCut("weld", shopStatus, setCutDropDownVisible, cutWeldFinishStatus)}
+      {renderShopBarCut("finish", shopStatus, setCutDropDownVisible, cutWeldFinishStatus)}
     </div>
   );
 }

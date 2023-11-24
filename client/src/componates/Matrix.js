@@ -151,6 +151,7 @@ export default function Matrix({ changeDate }) {
               </div>
             <div className='preShopMainInfo'>
               {mapJobs(jobsPreShop, PreShopBar)}
+              <div className='matrix-spacer'></div>
             </div>
           </div>
           {/* In Shop */}
@@ -172,6 +173,7 @@ export default function Matrix({ changeDate }) {
             </div>
             <div className='inShopMainInfo'>
               {mapJobs(jobsInShop, InShopBar)}
+              <div className='matrix-spacer'></div>
             </div>
           </div>
           {/* Expandable */}
@@ -195,6 +197,7 @@ export default function Matrix({ changeDate }) {
             </div>
             <div className='completedMainInfo'>
               {mapJobs(jobsComplete, CompletedBar)}
+              <div className='matrix-spacer'></div>
             </div>
           </div>
         </div>

@@ -100,7 +100,7 @@ export default function PreShopBar({ job, setCurrentlySelected, currentlySelecte
         <div 
           className={`circle tooltip ${circleClass}`} 
           onClick={handleNavigate} 
-          data-content={job.events[0].start_time}
+          data-content={`Start: ${job.events[0].start_time}`}
         >{label}</div>
       </div>
     </div>

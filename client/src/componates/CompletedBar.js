@@ -44,6 +44,13 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
       body: JSON.stringify({ status: color })
     });
   };
+  const renderActivityCircle = (colorClass, handleClick, status, dataContent) => (
+    <div 
+      className={`circle ${colorClass} selection tooltip2`} 
+      onClick={() => handleClick(status)}
+      data-content={dataContent}
+    ></div>
+  );
 
   return (
     <div className={`completed ${job.uuid === currentlySelected ? 'selected' : 'notSelected'} ${activeStatus === 'inActive' ? 'lightGrey' : activeStatus === 'noCalendar' ? 'grey' : ''}`}>
@@ -54,24 +61,23 @@ export default function CompletedBar({ job, setCurrentlySelected, currentlySelec
           : activeStatus === 'noCalendar' ? 'darkGrey' 
           : ''
           }`
-        } onClick={handleActivityClick}></button>
+        }></button>
+      </div>
+      <div className='completedActivityDropdown'>
+        <div className='flex'>
+          {renderActivityCircle('grey', handleActivitySelectionClicked, 'inActive', 'InActive')}
+          {renderActivityCircle('darkGrey', handleActivitySelectionClicked, 'noCalendar', 'NoCalendar')}
+        </div>
       </div>
       <div className='completedName' onClick={handleBarClick}> {job.job_name} </div>
       <div className={`completedActivityDropdown ${activityDropdownVisible ? 'visible' : 'invisible'}`}>
-      <div className='flex'>
-          <div 
-            className={`circle grey selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("inActive")}
-            data-content={'InActive'}
-          ></div>
-          <div 
-            className={`circle darkGrey selection tooltip2`} 
-            onClick={() => handleActivitySelectionClicked("noCalendar")}
-            data-content={'NoCalendar'}
-          ></div>
-        </div>
       </div>
-      <div className='completedDate' onClick={handleNavigate}>{new Date(job.delivery).toLocaleDateString()}</div>
+      <div 
+        className='completedDate tooltip' 
+        onClick={handleNavigate}
+        data-content={`Start: ${job.events[0].start_time}`}
+        >{new Date(job.delivery).toLocaleDateString()}
+      </div>
     </div>
   );
 }
