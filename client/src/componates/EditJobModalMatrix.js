@@ -196,7 +196,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        job_name: job_name,
+        newTitle: job_name,
         color: color,
         start_time: currentJob.start_time,
         newDelivery: delivery,
@@ -283,7 +283,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
   }
 
   // const test = () => {
-  //   // console.log(jobData)
+  //  console.log(jobData)
   // }
 
   const renderMemoBoxes = (userMemoBoxes, handleMemoChange, removeMemoBox) => (

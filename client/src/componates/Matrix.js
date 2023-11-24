@@ -108,7 +108,7 @@ export default function Matrix({ changeDate }) {
   }
   const editJob = () => {
     if (Object.keys(currentJob).length !== 0) {
-      console.log(currentJob);
+      // console.log(currentJob);
       setModalEditJob(!modalEditJob);
     } else {
       alert("Please select a Job");

@@ -11,8 +11,8 @@ export default function InShopBar({ job, setCurrentlySelected, currentlySelected
 
   useEffect(() => {
     // HERE, passing in infor, so we can make it so the boxes close if the uuid doesn't match the last box clicked
-    console.log(cutWeldFinishOpen)
-    console.log(job.uuid)
+    // console.log(cutWeldFinishOpen)
+    // console.log(job.uuid)
     setShopStatus({
       cut: job.cut,
       weld: job.weld,
