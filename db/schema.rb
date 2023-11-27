@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_064553) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_27_162854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,7 +104,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_064553) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "check_boxes", "jobs"
   add_foreign_key "checks", "jobs"
   add_foreign_key "memo_boxes", "jobs"
 end

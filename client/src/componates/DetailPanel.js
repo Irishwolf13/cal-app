@@ -27,7 +27,7 @@ export default function DetailPanel({ currentJob, setCurrentJob, handleUpdateJob
     const confirmation = window.confirm(`Are you sure you want to delete ${currentJob.job_name}?`);
     
     if (confirmation) {
-      // console.log(currentJob);
+      console.log(currentJob)
       // // FETCH: UPDATE JOBS
       fetch(`/jobs/${currentJob.id}`, {
         method: 'DELETE',
