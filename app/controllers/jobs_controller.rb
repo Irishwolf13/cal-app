@@ -48,7 +48,9 @@ class JobsController < ApplicationController
     end
 
     params[:checks].each do |check_box|
-      Checks.create(title: check_box, job_id: @job.id, status: true)
+      next if check_box.blank?
+    
+      Check.create(title: check_box, job_id: @job.id, status: true, done: false)
     end
 
     if @job.save
