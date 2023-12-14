@@ -8,7 +8,7 @@ import DetailPanel from './DetailPanel';
 import CreateJobModal from "./CreateJobModal";
 import EditJobModalMatrix from './EditJobModalMatrix';
 
-export default function Matrix({ changeDate }) {
+export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar }) {
   const [jobsPreShop, setJobsPreShop] = useState([]);
   const [jobsInShop, setJobsInShop] = useState([]);
   const [jobsComplete, setJobsComplete] = useState([]);
@@ -49,9 +49,9 @@ export default function Matrix({ changeDate }) {
     })
     .then(response => response.json())
     .then(data => {
-      const preShopJobs = filterAndSortJobs(data, preShopOption, "preShop");
-      const inShopJobs = filterAndSortJobs(data, inShopOption, "inShop");
-      const completeJobs = filterAndSortJobs(data, completedOption, "complete");
+      const preShopJobs = filterAndSortJobs(data, preShopOption, "preShop", currentCalendar);
+      const inShopJobs = filterAndSortJobs(data, inShopOption, "inShop", currentCalendar);
+      const completeJobs = filterAndSortJobs(data, completedOption, "complete", currentCalendar);
       
       setJobsPreShop(preShopJobs);
       setJobsInShop(inShopJobs);
@@ -101,13 +101,16 @@ export default function Matrix({ changeDate }) {
     }
   };
 
-  const filterAndSortJobs = (data, option, quadrant) => {
+  const filterAndSortJobs = (data, option, quadrant, currentCalendar) => {
     let statuses = [];
     switch (option) {
       case "All":
         statuses = ["active", "noCalendar", "inActive"];
         break;
       case "Scheduled":
+        // For "Scheduled", we need to ensure the job has a calendar set to currentCalendar
+        statuses = ["active"];
+        break;
       case "Active":
         statuses = ["active", "inActive"];
         break;
@@ -125,13 +128,27 @@ export default function Matrix({ changeDate }) {
     }
   
     return data.filter(job =>
-      statuses.includes(job.status) && job.quadrent === quadrant
+      statuses.includes(job.status) &&
+      job.quadrent === quadrant && // Ensure you use the correct property name for quadrant. It might be a typo for 'quadrant'.
+      (option !== "Scheduled" && job.calendar === parseInt(currentCalendar)) // Additional condition for "Scheduled"
     ).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
   };
 
+  const handleCalendarDropdownChange = (e) => {
+    setCurrentCalendar(e.target.value)
+    setRefreshMe(prev => !prev)
+  }
   return (
     <div>
-      <button className="navigationButton"onClick={handleNavigate}>Calendar</button>
+        <label>Select Calendar: </label>
+        <select id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+          <option value="0">0 - Default</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <br></br>
+      <button className="navigationButton"onClick={handleNavigate}>Go to Calendar View</button>
       <CreateJobModal
         modalCreateJob={modalCreateJob}
         setModalCreateJob={setModalCreateJob}

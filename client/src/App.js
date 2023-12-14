@@ -7,6 +7,7 @@ import myImage from './images/reliable_design_logo2.jpg';
 
 function App() {
   const [myDate, setMyDate] = useState(new Date())
+  const [currentCalendar, setCurrentCalendar] = useState(0);
 
   const changeDate = (date) => {
     const adjustDate = new Date(date)
@@ -20,11 +21,11 @@ function App() {
       <Routes>
           <Route
             path="/"
-            element={<MyCalendar myDate={myDate}/>}
+            element={<MyCalendar myDate={myDate} currentCalendar={currentCalendar} setCurrentCalendar={setCurrentCalendar}/>}
           />
           <Route
             path="/matrix"
-            element={<Matrix changeDate={changeDate}/>}
+            element={<Matrix changeDate={changeDate}  currentCalendar={currentCalendar} setCurrentCalendar={setCurrentCalendar}/>}
           />
         </Routes>
     </div>

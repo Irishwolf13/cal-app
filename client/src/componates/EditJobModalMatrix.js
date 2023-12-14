@@ -15,7 +15,18 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
-  const [emptyJob, setEmptyJob] = useState({})
+  const [emptyJob, setEmptyJob] = useState({
+    nameOfJob: currentJob.job_name,
+    calendar: currentJob.calendar,
+    delivery: currentJob.delivery,
+    inHand: currentJob.in_hand,
+    cncParts: currentJob.cnc_parts,
+    qualityControl: currentJob.quality_control,
+    productTag: currentJob.product_tag,
+    hardware: currentJob.hardware,
+    powderCoating: currentJob.powder_coating,
+    color: currentJob.color
+  })
   const [jobData, setJobData] = useState(emptyJob);
 
   useEffect(() =>{

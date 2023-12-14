@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
 
-export default function MyCalendar({myDate}) {
+export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar}) {
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -24,12 +24,18 @@ export default function MyCalendar({myDate}) {
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
   const [newCompanyHours, setNewCompanyHours] = useState()
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
   //allow navigation
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate('/matrix');
   }
+
+  useEffect(() => {
+    const updatedFilteredEvents = allEvents.filter(event => event.calendar === parseInt(currentCalendar));
+    setFilteredEvents(updatedFilteredEvents);
+  }, [allEvents, currentCalendar]);
 
   const fetchData = () => {
     fetch('/events')
@@ -221,8 +227,21 @@ const checkIfOverHours = (date) => {
     return `${event.title}\nDelivery Date: ${formattedDeliveryDate}`;
   };
 
+  const handleCalendarDropdownChange = (e) => {
+    setCurrentCalendar(e.target.value)
+  }
+
   return (
     <div>
+      <div>
+        <label>Select Calendar: </label>
+        <select id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+          <option value="0">Default</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
       <button className="navigationButton"onClick={handleNavigate}>Matrix</button>
       <BasicModal
@@ -238,6 +257,7 @@ const checkIfOverHours = (date) => {
         setAllEvents={setAllEvents}
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
+        currentCalendar={currentCalendar}
       />
       <EditJobModal
         eventClickedOn={eventClickedOn}
@@ -253,7 +273,7 @@ const checkIfOverHours = (date) => {
         <DnDCalendar
           className="DnDCalendar"
           localizer={localizer}
-          events={allEvents}
+          events={filteredEvents}
           views={['month', 'agenda']}
           startAccessor="start"
           endAccessor="end"

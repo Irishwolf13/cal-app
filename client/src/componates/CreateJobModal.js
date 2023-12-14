@@ -6,7 +6,7 @@ import ToggleSwitch from './ToggleSwitch';
 import ToggleSwitchUserDefined from './ToggleSwitchUserDefined';
 import MemoBox from './MemoBox';
 
-export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe }) {
+export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe, currentCalendar }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(null)
