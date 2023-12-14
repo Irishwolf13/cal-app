@@ -25,7 +25,8 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     productTag: false,
     hardware: false,
     powderCoating: false,
-    color: 'Blue'
+    color: 'Blue',
+    calendar: '',
   }
   const [jobData, setJobData] = useState(emptyJob);
 
@@ -102,7 +103,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       },
       body: JSON.stringify({
         job_name: jobData.nameOfJob,
-        calendar: 0,
+        calendar: jobData.calendar,
         inital_hours: jobData.hoursForJob,
         hours_per_day: jobData.hoursPerDay,
         color: jobData.color,
@@ -219,6 +220,14 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     setUserMemoBoxes(updatedMemoBoxes);
   }
 
+  function handleCalendarChange(e) {
+    const updatedJobData = {
+        ...jobData,
+        calendar: e.target.value
+    };
+    setJobData(updatedJobData);
+}
+
   return (
     <div>
       <Modal
@@ -229,6 +238,13 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
       >
         <div>
           <h2 className="modalTitle" >Create New Job</h2>
+          <select id="calendar-dropdown" value={jobData.calendar} onChange={(e) => handleCalendarChange(e)}>
+            <option value="" disabled>Select calendar</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
           {slotClickedOn && <p className="modalDate">{slotClickedOn.start.toLocaleDateString()}</p>}
           <label>
             <input 

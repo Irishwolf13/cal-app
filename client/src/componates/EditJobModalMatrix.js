@@ -15,21 +15,22 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
-  const [emptyJob, setEmptyJob] = useState({
-    nameOfJob: currentJob.job_name, 
-    delivery: currentJob.delivery,
-    inHand: currentJob.in_hand,
-    cncParts: currentJob.cnc_parts,
-    qualityControl: currentJob.quality_control,
-    productTag: currentJob.product_tag,
-    hardware: currentJob.hardware,
-    powderCoating: currentJob.powder_coating,
-    color: currentJob.color
-  })
+  const [emptyJob, setEmptyJob] = useState({})
   const [jobData, setJobData] = useState(emptyJob);
 
   useEffect(() =>{
-    setJobData(emptyJob)
+    setJobData({
+      nameOfJob: currentJob.job_name,
+      calendar: currentJob.calendar,
+      delivery: currentJob.delivery,
+      inHand: currentJob.in_hand,
+      cncParts: currentJob.cnc_parts,
+      qualityControl: currentJob.quality_control,
+      productTag: currentJob.product_tag,
+      hardware: currentJob.hardware,
+      powderCoating: currentJob.powder_coating,
+      color: currentJob.color
+    })
     if(currentJob.checks){
       setUserCheckBoxes(currentJob.checks)
       setUserMemoBoxes(currentJob.memo_boxes)
@@ -179,6 +180,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
       }
     }
 
+    // This might be useless now that I put the jobData into the useEffect at the start like I should have from the start...
     const job_name = typeof jobData.nameOfJob !== 'undefined' ? jobData.nameOfJob : currentJob.job_name;
     const color = typeof jobData.color !== 'undefined' ? jobData.color : currentJob.color;
     const delivery = typeof deliveryDate !== null ? deliveryDate : currentJob.delivery;
@@ -198,6 +200,7 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
       body: JSON.stringify({
         newTitle: job_name,
         color: color,
+        newCalendar: jobData.calendar,
         start_time: currentJob.start_time,
         newDelivery: delivery,
         in_hand: inHandDate,
@@ -308,6 +311,15 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
       />
     ));
   }
+  const handleCalendarDropdownChange = (e) => {
+    const updatedJobData = {
+      ...jobData,
+      calendar: e.target.value
+  };
+
+  // Update the state to this new object
+  setJobData(updatedJobData);
+  }
 
   return (
     <div>
@@ -320,6 +332,14 @@ export default function EditJobModalMatrix({ currentJob, setCurrentJob, modalEdi
         <div>
           {/* <button onClick={test}>Test</button> */}
           <h2 className="modalTitle" >{`EDIT JOB: ${currentJob.job_name}`}</h2>
+          <label>Select Calendar: </label>
+          <select id="calendar-dropdown" value={jobData.calendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+            <option value="" disabled>Select calendar</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
           {currentJob.start_time && <p className="modalDate">Start Date: {currentJob.start_time}</p>}
           <form className="createJobForm" onSubmit={handleSubmit}>
             <label htmlFor="nameOfJob">Name of Job</label>

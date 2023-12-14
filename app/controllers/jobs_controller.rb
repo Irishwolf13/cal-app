@@ -71,6 +71,7 @@ class JobsController < ApplicationController
     
     @job.job_name = params[:newTitle] if !params[:newTitle].to_s.empty?
     @job.delivery = params[:newDelivery] if params[:newDelivery]
+    @job.calendar = params[:newCalendar] if params[:newCalendar]
     @job.in_hand = params[:in_hand] if params[:in_hand].present?
     @job.status = params[:status] if params[:status]
     @job.quadrent = params[:quadrent] if params[:quadrent]

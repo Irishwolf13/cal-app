@@ -9,6 +9,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [newPerDay, setNewPerDay] = useState('');
   const [options, setOptions] = useState(false);
   const [newColor, setNewColor] = useState('');
+  const [newCalendar, setNewCalendar] = useState('');
   const [newHours, setNewHours] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [isFirstDay, setIsFirstDay] = useState(false)
@@ -54,9 +55,9 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     if (selectedDate !== null) {
       selectedDate.setDate(selectedDate.getDate() + 1);
       setSelectedDate(selectedDate);
-      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newDelivery: selectedDate})
+      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newCalendar: newCalendar, newDelivery: selectedDate})
     }else {
-      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle})
+      infoToSend = JSON.stringify({eventClickedOn, newColor: newColor, newHours: newHours, newTitle: newTitle, newCalendar: newCalendar})
     }
     // Fetch POST job
     fetch(`/jobs/${eventClickedOn.job_id}`, {
@@ -75,6 +76,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     })
     setOptions(!options)
     setNewColor('')
+    setNewCalendar('')
     setNewHours('')
     setNewTitle('')
     setSelectedDate(null)
@@ -89,6 +91,9 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   }
   const handleColorDropdownChange = (e) => {
     setNewColor(e.target.value)
+  }
+  const handleCalendarDropdownChange = (e) => {
+    setNewCalendar(e.target.value)
   }
   const handleDeleteJob = () => {
     const userConfirmation = window.confirm("Delete this job forever?");
@@ -202,6 +207,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
 
   const handleModalClosed = (e) => {
     setNewColor('')
+    setNewCalendar('')
     setNewHours('')
     setNewTitle('')
     setSelectedDate(null)
@@ -289,6 +295,13 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 {/* <option value="rgb(100, 100, 100)">Gray</option> */}
                 <option value="rgb(255, 255, 0)">Yellow</option>
                 <option value="rgba(255, 166, 0, 0.623)">Orange</option>
+              </select>
+              <select id="calendar-dropdown" value={newCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+                <option value="" disabled>Select calendar</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </select>
               <br></br>
               <button className='editingButtons' type="submit">Submit</button>
