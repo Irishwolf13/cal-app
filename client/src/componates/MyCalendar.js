@@ -236,14 +236,14 @@ const checkIfOverHours = (date) => {
       <div>
         <label>Select Calendar: </label>
         <select id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">Default</option>
+          <option value="0">0 - Default</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
         </select>
       </div>
       <button className="basicButton" onClick={handleCompanyButton}>Daily Max</button>
-      <button className="navigationButton"onClick={handleNavigate}>Matrix</button>
+      <button className="navigationButton"onClick={handleNavigate}>Go to Matrix View</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
