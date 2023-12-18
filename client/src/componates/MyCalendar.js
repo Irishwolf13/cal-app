@@ -239,7 +239,7 @@ const checkIfOverHours = (date) => {
     <div>
       <div className="calendar-select">
         <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">Default Calendar 0</option>
+          <option value="0">Calendar 0</option>
           <option value="1">Calendar 1</option>
           <option value="2">Calendar 2</option>
           <option value="3">Calendar 3</option>
