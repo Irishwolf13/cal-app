@@ -9,6 +9,7 @@
 }
 .mainLogo {
   width: 70%;
+  min-width: 800px;
   max-height: 100px;
 }
 .overWarning{
@@ -130,10 +131,10 @@
   cursor: pointer;
 }
 
-.basicButton{
+.dailyMaxButton{
   position:absolute;
-  left: 1px;
-  top: 1px;
+  right: 10px;
+  top: 60px;
   cursor: pointer;
 }
 
@@ -279,7 +280,7 @@
   /* background-color: rgb(255, 0, 0); */
   margin-bottom: 10px;
   margin-left: 20px;
-  min-width: 450px;
+  min-width: 180px;
   height: 300px;
   flex: 1;
 }
@@ -339,6 +340,7 @@
   /* background-color: rgb(239, 141, 141); */
   border: 2px solid rgb(0, 0, 0);
   margin-left: 5px;
+  min-width: 250px;
 }
 .detail-text {
   font-size: larger;
@@ -748,4 +750,24 @@ textarea {
 }
 .matrix-spacer {
   min-height: 100px;
+}
+.logOut {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-align: right;
+}
+.calendar-select {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.navigationButton {
+  position: absolute;
+  left: 10px;
+  top: 40px;
+}
+.calendar-dropdown {
+  min-height: 20px;
+  min-width: 120px;
 }
