@@ -103,6 +103,10 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     }
     setCheckBox(false)
     
+    if (jobData.calendar === '4') {
+      jobData.calendar = '0'
+    }
+    
     // Fetch POST job
     fetch(`/jobs`, {
       method: 'POST',
