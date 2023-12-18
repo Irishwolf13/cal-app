@@ -33,8 +33,12 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar}
   }
 
   useEffect(() => {
-    const updatedFilteredEvents = allEvents.filter(event => event.calendar === parseInt(currentCalendar));
-    setFilteredEvents(updatedFilteredEvents);
+    if (currentCalendar !== `4`) {
+      const updatedFilteredEvents = allEvents.filter(event => event.calendar === parseInt(currentCalendar));
+      setFilteredEvents(updatedFilteredEvents);
+    } else {
+      setFilteredEvents(allEvents);
+    }
   }, [allEvents, currentCalendar]);
 
   const fetchData = () => {
@@ -235,10 +239,11 @@ const checkIfOverHours = (date) => {
     <div>
       <div className="calendar-select">
         <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">Calendar 0</option>
+          <option value="0">Default Calendar 0</option>
           <option value="1">Calendar 1</option>
           <option value="2">Calendar 2</option>
           <option value="3">Calendar 3</option>
+          <option value="4">All Calendars</option>
         </select>
       </div>
       <button className="dailyMaxButton" onClick={handleCompanyButton}>Daily Max</button>

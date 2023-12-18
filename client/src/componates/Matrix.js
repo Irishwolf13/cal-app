@@ -49,9 +49,19 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
     })
     .then(response => response.json())
     .then(data => {
-      const preShopJobs = filterAndSortJobs(data, preShopOption, "preShop", currentCalendar);
-      const inShopJobs = filterAndSortJobs(data, inShopOption, "inShop", currentCalendar);
-      const completeJobs = filterAndSortJobs(data, completedOption, "complete", currentCalendar);
+      let preShopJobs = {}
+      let inShopJobs = {}
+      let completeJobs = {}
+
+      if (currentCalendar !== '4'){
+        preShopJobs = filterAndSortJobs(data, preShopOption, "preShop", currentCalendar);
+        inShopJobs = filterAndSortJobs(data, inShopOption, "inShop", currentCalendar);
+        completeJobs = filterAndSortJobs(data, completedOption, "complete", currentCalendar);
+      } else {
+        preShopJobs = filterAndSortJobs2(data, preShopOption, "preShop");
+        inShopJobs = filterAndSortJobs2(data, inShopOption, "inShop");
+        completeJobs = filterAndSortJobs2(data, completedOption, "complete");
+      }
       
       setJobsPreShop(preShopJobs);
       setJobsInShop(inShopJobs);
@@ -108,7 +118,6 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
         statuses = ["active", "noCalendar", "inActive"];
         break;
       case "Scheduled":
-        // For "Scheduled", we need to ensure the job has a calendar set to currentCalendar
         statuses = ["active"];
         break;
       case "Active":
@@ -129,10 +138,42 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
   
     return data.filter(job =>
       statuses.includes(job.status) &&
-      job.quadrent === quadrant && // Ensure you use the correct property name for quadrant. It might be a typo for 'quadrant'.
-      (option !== "Scheduled" && job.calendar === parseInt(currentCalendar)) // Additional condition for "Scheduled"
+      job.quadrent === quadrant && 
+      (option !== "Scheduled" && job.calendar === parseInt(currentCalendar))
     ).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
   };
+
+  const filterAndSortJobs2 = (data, option, quadrant) => {
+    let statuses = [];
+    switch (option) {
+        case "All":
+            statuses = ["active", "noCalendar", "inActive"];
+            break;
+        case "Scheduled":
+            statuses = ["active"];
+            break;
+        case "Active":
+            statuses = ["active", "inActive"];
+            break;
+        case "NoCalendar":
+        case "Shipped":
+            statuses = ["noCalendar"];
+            break;
+        case "NoMatrix":
+        case "Warehouse":
+            statuses = ["noMatrix", "inActive"];
+            break;
+        default:
+            console.error('Invalid option provided:', option);
+            return [];
+    }
+  
+    return data.filter(job =>
+        statuses.includes(job.status) &&
+        job.quadrent === quadrant
+    ).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+};
+
 
   const handleCalendarDropdownChange = (e) => {
     setCurrentCalendar(e.target.value)
@@ -146,6 +187,7 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
           <option value="1">Calendar 1</option>
           <option value="2">Calendar 2</option>
           <option value="3">Calendar 3</option>
+          <option value="4">All Calendars</option>
           </select>
         </div>
       <button className="navigationButton"onClick={handleNavigate}>Go to Calendar View</button>
@@ -156,6 +198,7 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
         setAllEvents={setAllEvents}
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
+        currentCalendar={currentCalendar}
       />
       <EditJobModalMatrix
         currentJob={currentJob}

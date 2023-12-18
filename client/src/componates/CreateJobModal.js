@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
@@ -29,6 +29,14 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     calendar: '',
   }
   const [jobData, setJobData] = useState(emptyJob);
+
+  useEffect(() => {
+    const updatedJobData = {
+      ...jobData,
+      calendar: currentCalendar
+  };
+  setJobData(updatedJobData);
+  }, [currentCalendar]);
 
   const handleTextChange = (e) => {
     const { name, value } = e.target;
@@ -226,7 +234,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
         calendar: e.target.value
     };
     setJobData(updatedJobData);
-}
+  }
 
   return (
     <div>
@@ -240,10 +248,10 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
           <h2 className="modalTitle" >Create New Job</h2>
           <select id="calendar-dropdown" value={jobData.calendar} onChange={(e) => handleCalendarChange(e)}>
             <option value="" disabled>Select calendar</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="0">Calendar 0</option>
+            <option value="1">Calendar 1</option>
+            <option value="2">Calendar 2</option>
+            <option value="3">Calendar 3</option>
           </select>
           {slotClickedOn && <p className="modalDate">{slotClickedOn.start.toLocaleDateString()}</p>}
           <label>
