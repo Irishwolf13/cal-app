@@ -82,12 +82,12 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
     setSelectedDate(null)
   }
   const handleButtonClicked = (e) => {
-    // use this to find total job hours remaining
     let jobToFind = eventClickedOn.job_id
     let foundJobID = allEvents.find(job => job.job_id === jobToFind)
     setTempHoursRemaining(foundJobID.title.match(/--\s*(.*?)\s*\//)[1])
     setOptions(!options)
     checkFirstDay()
+    setNewCalendar(eventClickedOn.calendar)
   }
   const handleColorDropdownChange = (e) => {
     setNewColor(e.target.value)

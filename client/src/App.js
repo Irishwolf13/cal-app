@@ -60,7 +60,8 @@ function App() {
                 myDate={myDate} 
                 currentCalendar={currentCalendar} 
                 setCurrentCalendar={setCurrentCalendar}/> 
-              : <Auth />}
+              : <Auth />
+            }
           />
           <Route
             path="/matrix"
@@ -70,7 +71,8 @@ function App() {
                 changeDate={changeDate}  
                 currentCalendar={currentCalendar} 
                 setCurrentCalendar={setCurrentCalendar}/> 
-              : <Auth />}
+              : <Auth />
+            }
           />
         </Routes>
     </div>
