@@ -52,7 +52,7 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
       let preShopJobs = {}
       let inShopJobs = {}
       let completeJobs = {}
-
+      
       if (currentCalendar !== '4'){
         preShopJobs = filterAndSortJobs(data, preShopOption, "preShop", currentCalendar);
         inShopJobs = filterAndSortJobs(data, inShopOption, "inShop", currentCalendar);
@@ -118,16 +118,21 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
         statuses = ["active", "noCalendar", "inActive"];
         break;
       case "Scheduled":
-        statuses = ["active"];
+        statuses = ["active", "inActive"];
         break;
       case "Active":
-        statuses = ["active", "inActive"];
+        statuses = ["active"];
+        break;
+      case "inActive":
+        statuses = ["inActive"];
         break;
       case "NoCalendar":
       case "Shipped":
         statuses = ["noCalendar"];
         break;
       case "NoMatrix":
+        statuses = ["noMatrix"];
+        break
       case "Warehouse":
         statuses = ["noMatrix", "inActive"];
         break;
@@ -136,12 +141,13 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
         return [];
     }
   
-    return data.filter(job =>
-      statuses.includes(job.status) &&
-      job.quadrent === quadrant && 
-      (option !== "Scheduled" && job.calendar === parseInt(currentCalendar))
-    ).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
-  };
+  // Filter jobs by status, quadrant, and calendar.
+  return data.filter(job =>
+    statuses.includes(job.status) &&
+    job.quadrent === quadrant &&
+    job.calendar === parseInt(currentCalendar) // Check if job's calendar matches currentCalendar
+  ).sort((a, b) => new Date(a.delivery) - new Date(b.delivery));
+};
 
   const filterAndSortJobs2 = (data, option, quadrant) => {
     let statuses = [];
@@ -150,16 +156,21 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
             statuses = ["active", "noCalendar", "inActive"];
             break;
         case "Scheduled":
-            statuses = ["active"];
+          statuses = ["active", "inActive"];
             break;
         case "Active":
-            statuses = ["active", "inActive"];
+            statuses = ["active"];
             break;
+        case "inActive":
+          statuses = ["inActive"];
+          break;
         case "NoCalendar":
         case "Shipped":
             statuses = ["noCalendar"];
             break;
         case "NoMatrix":
+          statuses = ["noMatrix"];
+          break;
         case "Warehouse":
             statuses = ["noMatrix", "inActive"];
             break;
@@ -183,7 +194,7 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
     <div>
         <div className="calendar-select">
           <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">Calendar 0</option>
+          <option value="0">Main Calendar</option>
           <option value="1">Calendar 1</option>
           <option value="2">Calendar 2</option>
           <option value="3">Calendar 3</option>

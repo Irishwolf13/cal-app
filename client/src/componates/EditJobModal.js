@@ -298,7 +298,7 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
               </select>
               <select id="calendar-dropdown" value={newCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
                 <option value="" disabled>Select calendar</option>
-                <option value="0">0</option>
+                <option value="0">Main Calendar</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>

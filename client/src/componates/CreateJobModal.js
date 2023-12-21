@@ -13,6 +13,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
+  // Define the initial structure for a job object
   const emptyJob = {
     hoursForJob: '',
     hoursPerDay: '',
@@ -26,9 +27,18 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
     hardware: false,
     powderCoating: false,
     color: 'Blue',
-    calendar: '',
-  }
+    calendar: currentCalendar, // set initial value to currentCalendar
+  };
   const [jobData, setJobData] = useState(emptyJob);
+
+  useEffect(() => {
+    if (modalCreateJob) {
+      setJobData({
+        ...emptyJob, // spread the initialJobData to reset other fields
+        calendar: currentCalendar // update the calendar field with currentCalendar
+      });
+    }
+  }, [modalCreateJob, currentCalendar]);
 
   useEffect(() => {
     const updatedJobData = {
@@ -252,7 +262,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
           <h2 className="modalTitle" >Create New Job</h2>
           <select id="calendar-dropdown" value={jobData.calendar} onChange={(e) => handleCalendarChange(e)}>
             <option value="" disabled>Select calendar</option>
-            <option value="0">Calendar 0</option>
+            <option value="0">Main Calendar</option>
             <option value="1">Calendar 1</option>
             <option value="2">Calendar 2</option>
             <option value="3">Calendar 3</option>
