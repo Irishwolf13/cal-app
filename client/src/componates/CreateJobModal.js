@@ -6,13 +6,15 @@ import ToggleSwitch from './ToggleSwitch';
 import ToggleSwitchUserDefined from './ToggleSwitchUserDefined';
 import MemoBox from './MemoBox';
 
-export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe, currentCalendar }) {
+export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slotClickedOn, setAllEvents, allEvents, setRefreshMe, currentCalendar, calendarNames }) {
   Modal.setAppElement('#root');
   const [checkBox, setCheckBox] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [inHandDate, setInHandDate] = useState(null)
   const [userCheckBoxes, setUserCheckBoxes] = useState([''])
   const [userMemoBoxes, setUserMemoBoxes] = useState([''])
+  const [myCalNames, setMyCalNames] = useState([''])
+
   // Define the initial structure for a job object
   const emptyJob = {
     hoursForJob: '',
@@ -47,6 +49,11 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
   };
   setJobData(updatedJobData);
   }, [currentCalendar]);
+    
+  useEffect(() => {
+    const nameArray = calendarNames.map(item => item);
+    setMyCalNames(nameArray);
+  },[calendarNames])
 
   const handleTextChange = (e) => {
     const { name, value } = e.target;
@@ -262,10 +269,9 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
           <h2 className="modalTitle" >Create New Job</h2>
           <select id="calendar-dropdown" value={jobData.calendar} onChange={(e) => handleCalendarChange(e)}>
             <option value="" disabled>Select calendar</option>
-            <option value="0">Main Calendar</option>
-            <option value="1">Calendar 1</option>
-            <option value="2">Calendar 2</option>
-            <option value="3">Calendar 3</option>
+            {myCalNames.map((name, index) => (
+              <option key={index} value={index}>{name}</option>
+            ))}
           </select>
           {slotClickedOn && <p className="modalDate">{slotClickedOn.start.toLocaleDateString()}</p>}
           <label>
@@ -353,7 +359,7 @@ export default function CreateJobModal({ modalCreateJob, setModalCreateJob, slot
               <ToggleSwitchUserDefined 
                 key={index} 
                 index={index} 
-                handleUserInputChange={handleUserInputChange}
+                handleUserInputChange={handleUserInputChange} 
                 removeUserCheckBoxes={removeUserCheckBoxes}
               />
             ))}

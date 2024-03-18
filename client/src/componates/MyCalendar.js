@@ -298,7 +298,6 @@ const checkIfOverHours = (date) => {
       <button className="calendar-changeName" onClick={handleNameChangeButton}>Change Cal Name</button>
       <button className="navigationButton"onClick={handleNavigate}>Go to Matrix View</button>
       
-      
       {calendarNames.map((name, index) => (
         <label key={index}>
           <input
@@ -309,16 +308,6 @@ const checkIfOverHours = (date) => {
           {name}
         </label>
       ))}
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
@@ -342,6 +331,7 @@ const checkIfOverHours = (date) => {
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
         currentCalendar={currentCalendar}
+        calendarNames={calendarNames}
       />
       <EditJobModal
         eventClickedOn={eventClickedOn}
@@ -349,6 +339,7 @@ const checkIfOverHours = (date) => {
         setModalEditJob={setModalEditJob}
         setRefreshMe={setRefreshMe}
         allEvents={allEvents}
+        calendarNames={calendarNames}
         // setIsSelectable={setIsSelectable}
         // isSelectable={isSelectable}
       />
@@ -381,6 +372,10 @@ const checkIfOverHours = (date) => {
                 event.color === 'rgb(255, 166, 0)' ||
                 event.color === 'rgb(253, 163, 214)' ||
                 event.color === 'rgb(255, 189, 96)' ||
+                event.color === 'rgb(255, 255, 0)' ||
+                event.color === 'rgb(255, 63, 172)' ||
+                event.color === 'rgb(255, 149, 0)' ||
+                event.color === 'rgb(255, 60, 60)' ||
                 event.color === 'rgb(255, 255, 193)'
                   ? 'black'
                   : '',

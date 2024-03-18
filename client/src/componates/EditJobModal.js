@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 
-export default function EditJobModal({ modalEditJob, setModalEditJob, eventClickedOn, setRefreshMe, allEvents}) {
+export default function EditJobModal({ modalEditJob, setModalEditJob, eventClickedOn, setRefreshMe, allEvents, calendarNames }) {
   Modal.setAppElement('#root')
 
   const [newPerDay, setNewPerDay] = useState('');
@@ -15,6 +15,12 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
   const [isFirstDay, setIsFirstDay] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [tempHoursRemaining, setTempHoursRemaining] = useState(0)
+  const [myCalNames, setMyCalNames] = useState([''])
+
+  useEffect(() => {
+    const nameArray = calendarNames.map(item => item);
+    setMyCalNames(nameArray);
+  },[calendarNames])
 
   const handlePerDaySubmit = (e) => {
     e.preventDefault();
@@ -302,13 +308,14 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
                 <option value="rgb(121, 0, 0)">Red</option>
                 <option value="rgb(255, 60, 60)">Light Red</option>
               </select>
-              <select id="calendar-dropdown" value={newCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-                <option value="" disabled>Select calendar</option>
-                <option value="0">Main Calendar</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+                <div>
+                  <label>Calendar:</label>
+                  <select id="calendar-dropdown" value={newCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+                    {myCalNames.map((name, index) => (
+                      <option key={index} value={index}>{name}</option>
+                      ))}
+                  </select>    
+                </div>
               <br></br>
               <button className='editingButtons' type="submit">Submit</button>
               <br></br>
