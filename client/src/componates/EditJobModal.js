@@ -286,15 +286,21 @@ export default function EditJobModal({ modalEditJob, setModalEditJob, eventClick
               />
               <br></br>
               <select className="colorDropdown" onChange={handleColorDropdownChange}>
-                <option value="rgb(55, 55, 255)">New Color</option>
+                <option value="rgb(55, 55, 255)">Select Color</option>
                 <option value="rgb(55, 55, 255)">Blue</option>
                 <option value="rgb(172, 236, 253)">Light Blue</option>
                 <option value="rgb(0, 129, 0)">Green</option>
-                <option value="rgb(132, 0, 132)">Purple</option>
+                <option value="rgb(171, 255, 171)">Light Green</option>
+                <option value="rgb(100, 0, 100)">Purple</option>
+                <option value="rgb(155, 0, 155)">Light Purple</option>
                 <option value="rgb(255, 63, 172)">Pink</option>
-                {/* <option value="rgb(100, 100, 100)">Gray</option> */}
+                <option value="rgb(253, 163, 214)">Light Pink</option>
+                <option value="rgb(255, 149, 0)">Orange</option>
+                <option value="rgb(255, 189, 96)">Light Orange</option>
                 <option value="rgb(255, 255, 0)">Yellow</option>
-                <option value="rgba(255, 166, 0, 0.623)">Orange</option>
+                <option value="rgb(255, 255, 193)">Light Yellow</option>
+                <option value="rgb(121, 0, 0)">Red</option>
+                <option value="rgb(255, 60, 60)">Light Red</option>
               </select>
               <select id="calendar-dropdown" value={newCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
                 <option value="" disabled>Select calendar</option>
