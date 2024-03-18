@@ -27,6 +27,7 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar,
   const [calSize, setCalSize] = useState(900);
   const [newCompanyHours, setNewCompanyHours] = useState()
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [selections, setSelections] = useState([true, true, true, true]);
 
   //allow navigation
   const navigate = useNavigate();
@@ -35,13 +36,21 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar,
   }
 
   useEffect(() => {
-    if (currentCalendar !== `4`) {
+    if (currentCalendar !== `all`) {
       const updatedFilteredEvents = allEvents.filter(event => event.calendar === parseInt(currentCalendar));
       setFilteredEvents(updatedFilteredEvents);
     } else {
-      setFilteredEvents(allEvents);
+      const selectedIndexes = selections.reduce((indexes, isSelected, index) => {
+        if (isSelected) {
+          indexes.push(index);
+        }
+        return indexes;
+      }, []);
+  
+      const updatedFilteredEvents = allEvents.filter(event => selectedIndexes.includes(event.calendar));
+      setFilteredEvents(updatedFilteredEvents);
     }
-  }, [allEvents, currentCalendar]);
+  }, [allEvents, currentCalendar, selections]);
 
   const fetchData = () => {
     fetch('/events')
@@ -107,9 +116,9 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar,
       })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         const sortedData = data.sort((a, b) => a.number - b.number);
-        console.log(sortedData);
+        // console.log(sortedData);
         // Extract the name values from the objects
         const namesArray = sortedData.map(item => item.name);
         setCalendarNames(namesArray);
@@ -216,7 +225,7 @@ const checkIfOverHours = (date) => {
   const month = date.getUTCMonth();
 
   let tempHours = 0;
-  allEvents.forEach(event => {
+  filteredEvents.forEach(event => {
     if (event.status !== 'inActive') { // Check if event is not "inActive"
       let myDate = new Date(event.start);
       let eventDay = myDate.getUTCDate();
@@ -251,9 +260,12 @@ const checkIfOverHours = (date) => {
     setModalCompanyHours(prev => !prev)
   }
   const handleNameChangeButton = () => {
-    setModalNameChange(prev => !prev)
+    if (currentCalendar !== 'all') {
+      setModalNameChange(prev => !prev)
+    } else {
+      alert("You can't change the all calendar name. Sorry.")
+    }
   }
-  // modalNameChange
 
   const tooltipContent = (event) => {
     const deliveryDate = new Date(event.delivery);
@@ -264,6 +276,13 @@ const checkIfOverHours = (date) => {
   const handleCalendarDropdownChange = (e) => {
     setCurrentCalendar(e.target.value)
   }
+
+  const handleCheckboxChange = (index) => {
+    const newSelections = [...selections];
+    newSelections[index] = !newSelections[index];
+    setSelections(newSelections);
+    // console.log(selections)
+  };
 
   return (
     <div>
@@ -278,6 +297,29 @@ const checkIfOverHours = (date) => {
       <button className="dailyMaxButton" onClick={handleCompanyButton}>Daily Max</button>
       <button className="calendar-changeName" onClick={handleNameChangeButton}>Change Cal Name</button>
       <button className="navigationButton"onClick={handleNavigate}>Go to Matrix View</button>
+      
+      
+      {calendarNames.map((name, index) => (
+        <label key={index}>
+          <input
+            type="checkbox"
+            checked={selections[index]}
+            onChange={() => handleCheckboxChange(index)}
+          />
+          {name}
+        </label>
+      ))}
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
