@@ -11,6 +11,7 @@ import { signOut } from 'firebase/auth';
 function App() {
   const [myDate, setMyDate] = useState(new Date())
   const [currentCalendar, setCurrentCalendar] = useState(0);
+  const [calendarNames, setCalendarNames] = useState([]);
 
   const changeDate = (date) => {
     const adjustDate = new Date(date)
@@ -58,7 +59,9 @@ function App() {
               isAuthenticated ? 
               <MyCalendar 
                 myDate={myDate} 
-                currentCalendar={currentCalendar} 
+                currentCalendar={currentCalendar}
+                calendarNames={calendarNames}
+                setCalendarNames={setCalendarNames}
                 setCurrentCalendar={setCurrentCalendar}/> 
               : <Auth />
             }

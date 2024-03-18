@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 const DnDCalendar = withDragAndDrop(Calendar)
 
-export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar}) {
+export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar, calendarNames, setCalendarNames}) {
   const [isSelectable, setIsSelectable] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [modalCreateJob, setModalCreateJob] = useState(false);
@@ -27,7 +27,6 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar}
   const [calSize, setCalSize] = useState(900);
   const [newCompanyHours, setNewCompanyHours] = useState()
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [calendarNames, setCalendarNames] = useState(['Main', 'Cal1', 'Cal2', 'Cal3']);
 
   //allow navigation
   const navigate = useNavigate();
@@ -98,6 +97,30 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar}
       setNewCompanyHours(data.daily_max)
     })
   }, [])
+    // This use effect is to set up inital state of the calendar.
+    useEffect(() => {
+      fetch(`/calendar_names/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        const sortedData = data.sort((a, b) => a.number - b.number);
+        console.log(sortedData);
+        // Extract the name values from the objects
+        const namesArray = sortedData.map(item => item.name);
+        setCalendarNames(namesArray);
+      });
+    }, []);
+
+  const updateCalendarNames = (newName, indexToUpdate) => {
+    setCalendarNames(prevNames =>
+      prevNames.map((name, index) => (index === indexToUpdate ? newName : name))
+    );
+  };
 
   const handleEventClicked = (event) => {
     // console.log(event)
@@ -245,13 +268,12 @@ const checkIfOverHours = (date) => {
   return (
     <div>
       <div className="calendar-select">
-        <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">{calendarNames[0]}</option>
-          <option value="1">{calendarNames[1]}</option>
-          <option value="2">{calendarNames[2]}</option>
-          <option value="3">C{calendarNames[3]}</option>
-          <option value="4">All Calendars</option>
-        </select>
+      <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+        {calendarNames.map((name, index) => (
+          <option key={index} value={index}>{name}</option>
+        ))}
+        <option value="all">All Calendars</option>
+      </select>
       </div>
       <button className="dailyMaxButton" onClick={handleCompanyButton}>Daily Max</button>
       <button className="calendar-changeName" onClick={handleNameChangeButton}>Change Cal Name</button>
@@ -268,6 +290,7 @@ const checkIfOverHours = (date) => {
         currentCalendar={currentCalendar}
         setCurrentCalendar={setCurrentCalendar}
         calendarNames={calendarNames}
+        updateCalendarNames={updateCalendarNames}
       />
       <CreateJobModal
         modalCreateJob={modalCreateJob}
