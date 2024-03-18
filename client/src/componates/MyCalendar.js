@@ -377,9 +377,11 @@ const checkIfOverHours = (date) => {
               background: event.color,
               color:
                 event.color === 'rgb(172, 236, 253)' ||
-                event.color === 'rgb(255, 255, 0)' ||
-                event.color === 'rgba(255, 166, 0, 0.623)' ||
-                event.color === 'rgb(255, 63, 172)'
+                event.color === 'rgb(171, 255, 171)' ||
+                event.color === 'rgb(255, 166, 0)' ||
+                event.color === 'rgb(253, 163, 214)' ||
+                event.color === 'rgb(255, 189, 96)' ||
+                event.color === 'rgb(255, 255, 193)'
                   ? 'black'
                   : '',
             };
