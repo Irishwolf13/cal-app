@@ -99,6 +99,19 @@
   margin-bottom: 5px;
   cursor: pointer;
 }
+.changeNameForm {
+  width: 100%;
+}
+.changeNameForm label{
+  width: 100px;
+  margin-right: 10px;
+}
+.changeNameForm input{
+  width: 200px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
 .colorDropdown {
   cursor: pointer;
 }
@@ -761,6 +774,12 @@ textarea {
   position: absolute;
   top: 10px;
   left: 10px;
+}
+.calendar-changeName {
+  position:absolute;
+  right: 10px;
+  top: 85px;
+  cursor: pointer;
 }
 .navigationButton {
   position: absolute;

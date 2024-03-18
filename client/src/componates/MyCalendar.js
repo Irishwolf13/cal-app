@@ -7,6 +7,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import CreateJobModal from "./CreateJobModal";
 import EditJobModal from "./EditJobModal";
 import BasicModal from "./BasicModal";
+import NameChangeModal from "./NameChangeModal";
 import { useNavigate } from 'react-router-dom';
 // import SideBar from "./SideBar";
 
@@ -19,12 +20,14 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar}
   const [modalCreateJob, setModalCreateJob] = useState(false);
   const [modalEditJob, setModalEditJob] = useState(false);
   const [modalCompanyHours, setModalCompanyHours] = useState(false);
+  const [modalNameChange, setModalNameChange] = useState(false);
   const [slotClickedOn, setslotClickedOn] = useState();
   const [eventClickedOn, setEventClickedOn] = useState();
   const [refreshMe, setRefreshMe] = useState(false);
   const [calSize, setCalSize] = useState(900);
   const [newCompanyHours, setNewCompanyHours] = useState()
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [calendarNames, setCalendarNames] = useState(['Main', 'Cal1', 'Cal2', 'Cal3']);
 
   //allow navigation
   const navigate = useNavigate();
@@ -224,6 +227,10 @@ const checkIfOverHours = (date) => {
   const handleCompanyButton = () => {
     setModalCompanyHours(prev => !prev)
   }
+  const handleNameChangeButton = () => {
+    setModalNameChange(prev => !prev)
+  }
+  // modalNameChange
 
   const tooltipContent = (event) => {
     const deliveryDate = new Date(event.delivery);
@@ -239,20 +246,28 @@ const checkIfOverHours = (date) => {
     <div>
       <div className="calendar-select">
         <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">Main Calendar</option>
-          <option value="1">Calendar 1</option>
-          <option value="2">Calendar 2</option>
-          <option value="3">Calendar 3</option>
+          <option value="0">{calendarNames[0]}</option>
+          <option value="1">{calendarNames[1]}</option>
+          <option value="2">{calendarNames[2]}</option>
+          <option value="3">C{calendarNames[3]}</option>
           <option value="4">All Calendars</option>
         </select>
       </div>
       <button className="dailyMaxButton" onClick={handleCompanyButton}>Daily Max</button>
+      <button className="calendar-changeName" onClick={handleNameChangeButton}>Change Cal Name</button>
       <button className="navigationButton"onClick={handleNavigate}>Go to Matrix View</button>
       <BasicModal
         modalCompanyHours = {modalCompanyHours}
         handleCompanyButton = {handleCompanyButton}
         newCompanyHours={newCompanyHours}
         setNewCompanyHours={setNewCompanyHours}
+      />
+      <NameChangeModal
+        modalNameChange = {modalNameChange}
+        handleNameChangeButton = {handleNameChangeButton}
+        currentCalendar={currentCalendar}
+        setCurrentCalendar={setCurrentCalendar}
+        calendarNames={calendarNames}
       />
       <CreateJobModal
         modalCreateJob={modalCreateJob}
