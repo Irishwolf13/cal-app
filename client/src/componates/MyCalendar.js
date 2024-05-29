@@ -84,8 +84,9 @@ export default function MyCalendar({myDate, currentCalendar, setCurrentCalendar,
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
-    return () => clearInterval(interval);
+    // I took this out because it was causing a lot of delay for all the constant fetching.
+    // const interval = setInterval(fetchData, 5000); // Run fetchData every 5 seconds
+    // return () => clearInterval(interval);
   }, [refreshMe]);
 
   // Had to add this in to avoid some errors with slot section.

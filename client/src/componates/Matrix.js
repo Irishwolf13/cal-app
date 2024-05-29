@@ -8,7 +8,7 @@ import DetailPanel from './DetailPanel';
 import CreateJobModal from "./CreateJobModal";
 import EditJobModalMatrix from './EditJobModalMatrix';
 
-export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar }) {
+export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar, calendarNames, setCalendarNames }) {
   const [jobsPreShop, setJobsPreShop] = useState([]);
   const [jobsInShop, setJobsInShop] = useState([]);
   const [jobsComplete, setJobsComplete] = useState([]);
@@ -69,6 +69,25 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
     });
   };
 
+    // This use effect is to set up inital state of the calendar.
+    useEffect(() => {
+      fetch(`/calendar_names/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        // console.log(data)
+        const sortedData = data.sort((a, b) => a.number - b.number);
+        // console.log(sortedData);
+        // Extract the name values from the objects
+        const namesArray = sortedData.map(item => item.name);
+        setCalendarNames(namesArray);
+      });
+    }, []);
+  
   const mapJobs = (arrayToMap, Component) => {
     return arrayToMap.map(job => (
       <Component  
@@ -193,13 +212,12 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
   return (
     <div>
         <div className="calendar-select">
-          <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
-          <option value="0">Main Calendar</option>
-          <option value="1">Calendar 1</option>
-          <option value="2">Calendar 2</option>
-          <option value="3">Calendar 3</option>
-          <option value="4">All Calendars</option>
-          </select>
+        <select className='calendar-dropdown' id="calendar-dropdown" value={currentCalendar} onChange={(e) => handleCalendarDropdownChange(e)}>
+          {calendarNames.map((name, index) => (
+            <option key={index} value={index}>{name}</option>
+          ))}
+          <option value="all">All Calendars</option>
+        </select>
         </div>
       <button className="navigationButton"onClick={handleNavigate}>Go to Calendar View</button>
       <CreateJobModal
@@ -210,6 +228,7 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
         allEvents={allEvents}
         setRefreshMe={setRefreshMe}
         currentCalendar={currentCalendar}
+        calendarNames={calendarNames}
       />
       <EditJobModalMatrix
         currentJob={currentJob}
@@ -218,6 +237,7 @@ export default function Matrix({ changeDate, currentCalendar, setCurrentCalendar
         slotClickedOn={slotClickedOn}
         setRefreshMe={setRefreshMe}
         setCurrentJob={setCurrentJob}
+        calendarNames={calendarNames}
       />
       <div className="mainContainer">
         <div className="matrixContainer">

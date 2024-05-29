@@ -771,9 +771,9 @@ textarea {
   text-align: right;
 }
 .calendar-select {
-  position: absolute;
-  top: 10px;
+  /* position: absolute;
   left: 10px;
+  top: 40px; */
 }
 .calendar-changeName {
   position:absolute;
@@ -782,9 +782,9 @@ textarea {
   cursor: pointer;
 }
 .navigationButton {
-  position: absolute;
+  /* position: absolute;
   left: 10px;
-  top: 40px;
+  top: 40px; */
 }
 .calendar-dropdown {
   min-height: 20px;

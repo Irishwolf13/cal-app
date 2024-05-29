@@ -72,7 +72,9 @@ function App() {
               isAuthenticated ? 
               <Matrix 
                 changeDate={changeDate}  
-                currentCalendar={currentCalendar} 
+                currentCalendar={currentCalendar}
+                calendarNames={calendarNames}
+                setCalendarNames={setCalendarNames} 
                 setCurrentCalendar={setCurrentCalendar}/> 
               : <Auth />
             }
